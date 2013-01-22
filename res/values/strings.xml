@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">dosbcn-flashcards</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="help_title">Welcome,</string>
+    <string name="title_hint">title</string>
+    <string name="description_hint">description</string>
+    <string name="save_button_label">Save</string>
 
 </resources>
