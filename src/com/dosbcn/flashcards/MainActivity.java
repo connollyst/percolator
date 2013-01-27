@@ -31,11 +31,12 @@ import com.dosbcn.flashcards.events.SaveButtonClickListener;
 public class MainActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final ListItemClickListener clickListener = new ListItemClickListener();;
+	private final ListItemClickListener clickListener;
 
 	private final CardService service;
 
 	public MainActivity() {
+		clickListener = new ListItemClickListener();
 		service = new CardService(this);
 	}
 
