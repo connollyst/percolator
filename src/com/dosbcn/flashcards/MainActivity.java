@@ -8,7 +8,6 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -16,9 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.dosbcn.flashcards.CardViewAdapter.ViewHolder;
 import com.dosbcn.flashcards.data.Card;
-import com.dosbcn.flashcards.data.CardRepository;
+import com.dosbcn.flashcards.data.CardService;
+import com.dosbcn.flashcards.events.CardAddListener;
+import com.dosbcn.flashcards.events.ListItemClickListener;
+import com.dosbcn.flashcards.events.SaveButtonClickListener;
 
 /**
  * The main, and only, {@link Activity} in this application.<br/>
@@ -30,38 +31,42 @@ import com.dosbcn.flashcards.data.CardRepository;
 public class MainActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final String LOG_TAG = MainActivity.class.getSimpleName();
+	private static final ListItemClickListener clickListener = new ListItemClickListener();;
 
-	private final CardRepository cardRepository;
-	private final CardNotifier cardNotifier;
-	private final CardToaster cardToaster;
+	private final CardService service;
 
 	public MainActivity() {
-		cardRepository = new CardRepository(this);
-		cardNotifier = new CardNotifier(this);
-		cardToaster = new CardToaster(this);
+		service = new CardService(this);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		inflateHeader();
+		init();
+	}
 
-		// Define a new Adapter & assign it to the ListView
-		List<Card> cards = cardRepository.fetchAll();
+	private void init() {
+		inflateHeader();
+		CardViewAdapter adapter = initAdapter();
+		initServiceListeners(adapter);
+		initSaveButtonListener();
+		getLoaderManager().initLoader(0, null, this);
+	}
+
+	private CardViewAdapter initAdapter() {
+		List<Card> cards = service.getAll();
 		CardViewAdapter adapter = new CardViewAdapter(this, cards);
 		setListAdapter(adapter);
+		return adapter;
+	}
 
-		//
-		EditText titleField = getNewCardTitleField();
-		EditText descriptionField = getNewCardDescriptionField();
-		Button saveButton = getNewCardSaveButton();
-		saveButton.setOnClickListener(new SaveButtonListener(adapter,
-				cardRepository, cardToaster, titleField, descriptionField));
+	private void initSaveButtonListener() {
+		View.OnClickListener listener = new SaveButtonClickListener(this);
+		findSaveButton().setOnClickListener(listener);
+	}
 
-		// Prepare the loader.
-		// Either re-connect with an existing one, or start a new one.
-		getLoaderManager().initLoader(0, null, this);
+	private void initServiceListeners(final CardViewAdapter adapter) {
+		service.setOnAddListener(new CardAddListener(adapter));
 	}
 
 	@Override
@@ -78,44 +83,17 @@ public class MainActivity extends ListActivity implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		ViewHolder holder = (ViewHolder) view.getTag();
-		Log.i(LOG_TAG, "Item clicked: " + holder);
-		toggleVisibility(holder);
-		// Send notification for this card
-		Card card = (Card) listView.getItemAtPosition(position);
-		cardNotifier.sendNotification(card);
-	}
-
-	private void toggleVisibility(ViewHolder holder) {
-		View description = holder.description;
-		int oldVisibility = description.getVisibility();
-		int newVisibility;
-		switch (oldVisibility) {
-		case View.VISIBLE:
-			newVisibility = View.GONE;
-			break;
-		case View.GONE:
-			newVisibility = View.VISIBLE;
-			break;
-		default:
-			Log.e(LOG_TAG, "Cannot toggle visibility; unrecognized state: "
-					+ oldVisibility);
-			newVisibility = View.GONE;
-			break;
-		}
-		description.setVisibility(newVisibility);
+		clickListener.onClick(listView, view, position, id);
 	}
 
 	private void inflateHeader() {
@@ -124,15 +102,15 @@ public class MainActivity extends ListActivity implements
 		getListView().addHeaderView(headerView);
 	}
 
-	private EditText getNewCardTitleField() {
+	public EditText findTitleField() {
 		return (EditText) findViewById(R.id.title_input);
 	}
 
-	private EditText getNewCardDescriptionField() {
+	public EditText findDescriptionField() {
 		return (EditText) findViewById(R.id.description_input);
 	}
 
-	private Button getNewCardSaveButton() {
+	public Button findSaveButton() {
 		return (Button) findViewById(R.id.save_button);
 	}
 

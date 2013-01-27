@@ -19,7 +19,6 @@ public class Card {
 	private CardNotificationStage stage;
 
 	public Card() {
-
 	}
 
 	public Card(String title, String description, CardColor color) {
@@ -28,7 +27,6 @@ public class Card {
 
 	public Card(String title, String description, CardColor color,
 			CardNotificationStage stage) {
-		super();
 		this.title = title;
 		this.description = description;
 		this.color = color;
