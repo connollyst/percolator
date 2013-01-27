@@ -12,7 +12,7 @@ public class CardAddListener implements EventListener<Card> {
 	}
 
 	@Override
-	public void fireEvent(Card card) {
+	public void onEvent(Card card) {
 		adapter.add(card);
 	}
 

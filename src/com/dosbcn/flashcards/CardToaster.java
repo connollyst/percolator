@@ -15,7 +15,7 @@ public class CardToaster {
 		this.context = context;
 	}
 
-	public void testCardSaved() {
+	public void cardSaved() {
 		toast(SAVED_MESSAGE);
 	}
 
