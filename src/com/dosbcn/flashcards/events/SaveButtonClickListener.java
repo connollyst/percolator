@@ -3,17 +3,17 @@ package com.dosbcn.flashcards.events;
 import android.view.View;
 import android.widget.EditText;
 
-import com.dosbcn.flashcards.MainActivity;
+import com.dosbcn.flashcards.CardActivity;
 import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardColor;
 
 public class SaveButtonClickListener implements View.OnClickListener {
 
-	private final MainActivity activity;
+	private final CardActivity activity;
 	private final EditText titleField;
 	private final EditText descriptionField;
 
-	public SaveButtonClickListener(MainActivity activity) {
+	public SaveButtonClickListener(CardActivity activity) {
 		this.activity = activity;
 		this.titleField = activity.findTitleField();
 		this.descriptionField = activity.findDescriptionField();

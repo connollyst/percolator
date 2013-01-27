@@ -28,14 +28,14 @@ import com.dosbcn.flashcards.events.SaveButtonClickListener;
  * 
  * @author Sean Connolly
  */
-public class MainActivity extends ListActivity implements
+public class CardActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
 	private final ListItemClickListener clickListener;
 
 	private final CardService service;
 
-	public MainActivity() {
+	public CardActivity() {
 		clickListener = new ListItemClickListener();
 		service = new CardService(this);
 	}
