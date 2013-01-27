@@ -5,9 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 
-import com.dosbcn.flashcards.CardAlarm;
 import com.dosbcn.flashcards.CardAlarmQueue;
-import com.dosbcn.flashcards.CardNotifier;
 import com.dosbcn.flashcards.CardToaster;
 import com.dosbcn.flashcards.events.EventListener;
 
