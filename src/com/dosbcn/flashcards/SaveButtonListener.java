@@ -10,15 +10,17 @@ import com.dosbcn.flashcards.data.CardRepository;
 public class SaveButtonListener implements View.OnClickListener {
 
 	private final CardViewAdapter adapter;
-	private final CardRepository flashCardRepo;
+	private final CardRepository cardRepo;
+	private final CardToaster cardToaster;
 	private final EditText titleField;
 	private final EditText descriptionField;
 
 	public SaveButtonListener(CardViewAdapter adapter,
-			CardRepository flashCardRepo, EditText titleField,
-			EditText descriptionField) {
+			CardRepository flashCardRepo, CardToaster cardToaster,
+			EditText titleField, EditText descriptionField) {
 		this.adapter = adapter;
-		this.flashCardRepo = flashCardRepo;
+		this.cardRepo = flashCardRepo;
+		this.cardToaster = cardToaster;
 		this.titleField = titleField;
 		this.descriptionField = descriptionField;
 	}
@@ -27,12 +29,13 @@ public class SaveButtonListener implements View.OnClickListener {
 	public void onClick(View view) {
 		String title = titleField.getText().toString();
 		String description = descriptionField.getText().toString();
-		Card flashCard = new Card(title, description,
-				CardColor.WHITE);
-		flashCardRepo.create(flashCard);
+		Card flashCard = new Card(title, description, CardColor.WHITE);
+		cardRepo.create(flashCard);
 		// TODO can we just add the new card?
 		adapter.clear();
-		adapter.addAll(flashCardRepo.fetchAll());
+		adapter.addAll(cardRepo.fetchAll());
+		// Send a toast notification
+		cardToaster.testCardSaved();
 	}
 
 }

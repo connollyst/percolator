@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.dosbcn.flashcards.R;
 import com.dosbcn.flashcards.CardViewAdapter.ViewHolder;
 import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardRepository;
@@ -33,12 +32,14 @@ public class MainActivity extends ListActivity implements
 
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-	private final CardRepository flashCardRepo;
+	private final CardRepository cardRepository;
 	private final CardNotifier cardNotifier;
+	private final CardToaster cardToaster;
 
 	public MainActivity() {
-		flashCardRepo = new CardRepository(this);
+		cardRepository = new CardRepository(this);
 		cardNotifier = new CardNotifier(this);
+		cardToaster = new CardToaster(this);
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class MainActivity extends ListActivity implements
 		inflateHeader();
 
 		// Define a new Adapter & assign it to the ListView
-		List<Card> cards = flashCardRepo.fetchAll();
+		List<Card> cards = cardRepository.fetchAll();
 		CardViewAdapter adapter = new CardViewAdapter(this, cards);
 		setListAdapter(adapter);
 
@@ -56,7 +57,7 @@ public class MainActivity extends ListActivity implements
 		EditText descriptionField = getNewCardDescriptionField();
 		Button saveButton = getNewCardSaveButton();
 		saveButton.setOnClickListener(new SaveButtonListener(adapter,
-				flashCardRepo, titleField, descriptionField));
+				cardRepository, cardToaster, titleField, descriptionField));
 
 		// Prepare the loader.
 		// Either re-connect with an existing one, or start a new one.
