@@ -5,9 +5,9 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 
-import com.dosbcn.flashcards.CardAlarmQueue;
-import com.dosbcn.flashcards.CardToaster;
 import com.dosbcn.flashcards.events.EventListener;
+import com.dosbcn.flashcards.notifications.CardAlarmQueue;
+import com.dosbcn.flashcards.notifications.CardToaster;
 
 public class CardService {
 

@@ -1,4 +1,4 @@
-package com.dosbcn.flashcards;
+package com.dosbcn.flashcards.notifications;
 
 public enum CardNotificationStage {
 

@@ -3,7 +3,7 @@ package com.dosbcn.flashcards.data;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.dosbcn.flashcards.CardNotificationStage;
+import com.dosbcn.flashcards.notifications.CardNotificationStage;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 

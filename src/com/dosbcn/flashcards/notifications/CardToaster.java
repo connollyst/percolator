@@ -1,4 +1,4 @@
-package com.dosbcn.flashcards;
+package com.dosbcn.flashcards.notifications;
 
 import android.content.Context;
 import android.widget.Toast;

@@ -1,4 +1,4 @@
-package com.dosbcn.flashcards;
+package com.dosbcn.flashcards.notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.dosbcn.flashcards.R;
 import com.dosbcn.flashcards.data.Card;
 
 /**

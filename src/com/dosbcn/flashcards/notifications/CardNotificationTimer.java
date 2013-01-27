@@ -1,4 +1,4 @@
-package com.dosbcn.flashcards;
+package com.dosbcn.flashcards.notifications;
 
 import java.util.Calendar;
 import java.util.Date;
