@@ -10,12 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.dosbcn.flashcards.data.Card;
+import com.dosbcn.flashcards.events.CardSwipeListener;
 
 /**
  * 
  * @author Sean Connolly
  */
 public class CardViewAdapter extends ArrayAdapter<Card> {
+
+	private static final CardSwipeListener SWIPE_LISTENER = new CardSwipeListener();
 
 	private static final int CARD_VIEW = R.layout.card;
 
@@ -42,7 +45,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = initializeConvertView(convertView);
+			convertView = initializeNewConvertView(convertView);
 		}
 		CardView cardView = (CardView) convertView.getTag();
 		Card card = cards.get(position);
@@ -56,7 +59,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	 * @param convertView
 	 * @return
 	 */
-	private View initializeConvertView(View convertView) {
+	private View initializeNewConvertView(View convertView) {
 		convertView = inflator.inflate(CARD_VIEW, null);
 		TextView title = (TextView) convertView.findViewById(R.id.title);
 		TextView description = (TextView) convertView
@@ -65,6 +68,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		viewHolder.setTitleView(title);
 		viewHolder.setDescriptionView(description);
 		convertView.setTag(viewHolder);
+		convertView.setOnTouchListener(SWIPE_LISTENER);
 		return convertView;
 	}
 

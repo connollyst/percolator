@@ -6,9 +6,9 @@ import android.widget.ListView;
 
 import com.dosbcn.flashcards.CardView;
 
-public class ListItemClickListener {
+public class CardClickListener {
 
-	private static final String LOG_TAG = ListItemClickListener.class
+	private static final String LOG_TAG = CardClickListener.class
 			.getSimpleName();
 
 	public void onClick(ListView listView, View view, int position, long id) {

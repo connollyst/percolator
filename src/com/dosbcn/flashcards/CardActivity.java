@@ -18,7 +18,7 @@ import android.widget.ListView;
 import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardService;
 import com.dosbcn.flashcards.events.CardAddListener;
-import com.dosbcn.flashcards.events.ListItemClickListener;
+import com.dosbcn.flashcards.events.CardClickListener;
 import com.dosbcn.flashcards.events.SaveButtonClickListener;
 
 /**
@@ -31,12 +31,12 @@ import com.dosbcn.flashcards.events.SaveButtonClickListener;
 public class CardActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private final ListItemClickListener clickListener;
+	private final CardClickListener clickListener;
 
 	private final CardService service;
 
 	public CardActivity() {
-		clickListener = new ListItemClickListener();
+		clickListener = new CardClickListener();
 		service = new CardService(this);
 	}
 
