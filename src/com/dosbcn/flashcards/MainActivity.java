@@ -54,6 +54,12 @@ public class MainActivity extends ListActivity implements
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	private void inflateHeader() {
+		LayoutInflater inflator = LayoutInflater.from(getApplicationContext());
+		View headerView = inflator.inflate(R.layout.header, null);
+		getListView().addHeaderView(headerView);
+	}
+
 	private CardViewAdapter initAdapter() {
 		List<Card> cards = service.getAll();
 		CardViewAdapter adapter = new CardViewAdapter(this, cards);
@@ -62,8 +68,7 @@ public class MainActivity extends ListActivity implements
 	}
 
 	private void initSaveButtonListener() {
-		View.OnClickListener listener = new SaveButtonClickListener(this);
-		findSaveButton().setOnClickListener(listener);
+		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
 	}
 
 	private void initServiceListeners(final CardViewAdapter adapter) {
@@ -97,10 +102,8 @@ public class MainActivity extends ListActivity implements
 		clickListener.onClick(listView, view, position, id);
 	}
 
-	private void inflateHeader() {
-		LayoutInflater inflator = LayoutInflater.from(getApplicationContext());
-		View headerView = inflator.inflate(R.layout.header, null);
-		getListView().addHeaderView(headerView);
+	public CardService getService() {
+		return service;
 	}
 
 	public EditText findTitleField() {

@@ -9,12 +9,14 @@ import com.dosbcn.flashcards.data.CardColor;
 
 public class SaveButtonClickListener implements View.OnClickListener {
 
+	private final MainActivity activity;
 	private final EditText titleField;
 	private final EditText descriptionField;
 
 	public SaveButtonClickListener(MainActivity activity) {
-		titleField = activity.findTitleField();
-		descriptionField = activity.findDescriptionField();
+		this.activity = activity;
+		this.titleField = activity.findTitleField();
+		this.descriptionField = activity.findDescriptionField();
 	}
 
 	@Override
@@ -22,7 +24,7 @@ public class SaveButtonClickListener implements View.OnClickListener {
 		String title = titleField.getText().toString();
 		String description = descriptionField.getText().toString();
 		Card card = new Card(title, description, CardColor.WHITE);
-		// TODO add the card
+		activity.getService().save(card);
 	}
 
 }

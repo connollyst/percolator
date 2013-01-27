@@ -6,6 +6,8 @@ import java.util.Random;
 
 import android.util.Log;
 
+import com.dosbcn.flashcards.data.Card;
+
 /**
  * Generates times that notifications should be scheduled for in the future.<br/>
  * There are a couple of important factors here:
@@ -39,17 +41,29 @@ public class CardNotificationTimer {
 	private final RandomTime randomTimeGenerator = new RandomTime();
 
 	/**
+	 * Returns the next time that a notification should be sent for this
+	 * {@link Card}.<br/>
+	 * The time is guaranteed to be within the range of 'Ok times'.
+	 * 
+	 * @param card
+	 * @return
+	 */
+	public Date getNextNotificationTime(Card card) {
+		return getNotificationTime(card.getStage(), card.getStartDate());
+	}
+
+	/**
 	 * Generate a random time to send the notification, appropriate for the
 	 * given stage and origin date.
 	 */
-	public void getNotificationTime(CardNotificationStage stage, Date originDate) {
+	private Date getNotificationTime(CardNotificationStage stage,
+			Date originDate) {
 		switch (stage) {
 		case ONE_DAY:
-			getNotificationTimeOneDayAfterDate(originDate);
-			break;
+			return getNotificationTimeOneDayAfterDate(originDate);
 		default:
 			Log.e(LOG_TAG, BAD_STAGE_LOG + stage);
-			break;
+			return null;
 		}
 	}
 

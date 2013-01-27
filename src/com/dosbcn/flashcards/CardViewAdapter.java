@@ -42,7 +42,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			initializeConvertView(convertView);
+			convertView = initializeConvertView(convertView);
 		}
 		CardView cardView = (CardView) convertView.getTag();
 		Card card = cards.get(position);

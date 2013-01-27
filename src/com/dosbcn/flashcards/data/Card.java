@@ -1,5 +1,8 @@
 package com.dosbcn.flashcards.data;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.dosbcn.flashcards.CardNotificationStage;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -7,7 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "cards")
 public class Card {
 
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	private Integer id;
 	@DatabaseField
 	private String title;
@@ -17,20 +20,18 @@ public class Card {
 	private CardColor color;
 	@DatabaseField
 	private CardNotificationStage stage;
+	@DatabaseField
+	private Date startDate;
 
 	public Card() {
 	}
 
 	public Card(String title, String description, CardColor color) {
-		this(title, description, color, CardNotificationStage.ONE_DAY);
-	}
-
-	public Card(String title, String description, CardColor color,
-			CardNotificationStage stage) {
 		this.title = title;
 		this.description = description;
 		this.color = color;
-		this.stage = stage;
+		this.stage = CardNotificationStage.ONE_DAY;
+		this.startDate = Calendar.getInstance().getTime();
 	}
 
 	public Integer getId() {
@@ -71,6 +72,14 @@ public class Card {
 
 	public void setStage(CardNotificationStage stage) {
 		this.stage = stage;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	@Override

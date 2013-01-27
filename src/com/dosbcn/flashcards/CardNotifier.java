@@ -13,18 +13,12 @@ import com.dosbcn.flashcards.data.Card;
 public class CardNotifier {
 
 	private final Context context;
-	private final CardNotificationTimer timer;
 
 	public CardNotifier(Context context) {
 		this.context = context;
-		this.timer = new CardNotificationTimer();
 	}
 
-	public void queue(Card card) {
-		// TODO queue notifications
-	}
-
-	public void sendNotification(Card card) {
+	public void showNotification(Card card) {
 		Log.v(CardNotifier.class.getSimpleName(), "Sending notification for '"
 				+ card.getTitle() + "'.");
 		getNotificationManager().notify(card.getId(), buildNotification(card));

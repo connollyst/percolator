@@ -60,6 +60,14 @@ public class CardRepository extends OrmLiteSqliteOpenHelper {
 		}
 	}
 
+	public Card fetchById(int id) {
+		try {
+			return getFlashCardDAO().queryForId(id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private Dao<Card, Integer> getFlashCardDAO() throws SQLException {
 		return DaoManager.createDao(getConnectionSource(), Card.class);
 	}
