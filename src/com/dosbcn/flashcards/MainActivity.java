@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.dosbcn.flashcards.R;
 import com.dosbcn.flashcards.CardViewAdapter.ViewHolder;
 import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardRepository;
@@ -33,9 +34,11 @@ public class MainActivity extends ListActivity implements
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
 	private final CardRepository flashCardRepo;
+	private final CardNotifier cardNotifier;
 
 	public MainActivity() {
 		flashCardRepo = new CardRepository(this);
+		cardNotifier = new CardNotifier(this);
 	}
 
 	@Override
@@ -89,6 +92,9 @@ public class MainActivity extends ListActivity implements
 		ViewHolder holder = (ViewHolder) view.getTag();
 		Log.i(LOG_TAG, "Item clicked: " + holder);
 		toggleVisibility(holder);
+		// Send notification for this card
+		Card card = (Card) listView.getItemAtPosition(position);
+		cardNotifier.sendNotification(card);
 	}
 
 	private void toggleVisibility(ViewHolder holder) {
