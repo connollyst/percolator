@@ -8,15 +8,20 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.dosbcn.flashcards.R;
 import com.dosbcn.flashcards.data.Card;
 
 public class CardNotifier {
 
 	private final Context context;
+	private final CardNotificationTimer timer;
 
 	public CardNotifier(Context context) {
 		this.context = context;
+		this.timer = new CardNotificationTimer();
+	}
+
+	public void queue(Card card) {
+		// TODO queue notifications
 	}
 
 	public void sendNotification(Card card) {
