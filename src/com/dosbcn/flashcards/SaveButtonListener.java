@@ -3,19 +3,19 @@ package com.dosbcn.flashcards;
 import android.view.View;
 import android.widget.EditText;
 
-import com.dosbcn.flashcards.data.FlashCard;
-import com.dosbcn.flashcards.data.FlashCardColor;
-import com.dosbcn.flashcards.data.FlashCardRepository;
+import com.dosbcn.flashcards.data.Card;
+import com.dosbcn.flashcards.data.CardColor;
+import com.dosbcn.flashcards.data.CardRepository;
 
 public class SaveButtonListener implements View.OnClickListener {
 
-	private final FlashCardViewAdapter adapter;
-	private final FlashCardRepository flashCardRepo;
+	private final CardViewAdapter adapter;
+	private final CardRepository flashCardRepo;
 	private final EditText titleField;
 	private final EditText descriptionField;
 
-	public SaveButtonListener(FlashCardViewAdapter adapter,
-			FlashCardRepository flashCardRepo, EditText titleField,
+	public SaveButtonListener(CardViewAdapter adapter,
+			CardRepository flashCardRepo, EditText titleField,
 			EditText descriptionField) {
 		this.adapter = adapter;
 		this.flashCardRepo = flashCardRepo;
@@ -27,8 +27,8 @@ public class SaveButtonListener implements View.OnClickListener {
 	public void onClick(View view) {
 		String title = titleField.getText().toString();
 		String description = descriptionField.getText().toString();
-		FlashCard flashCard = new FlashCard(title, description,
-				FlashCardColor.WHITE);
+		Card flashCard = new Card(title, description,
+				CardColor.WHITE);
 		flashCardRepo.create(flashCard);
 		// TODO can we just add the new card?
 		adapter.clear();

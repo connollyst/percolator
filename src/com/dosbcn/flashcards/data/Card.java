@@ -3,8 +3,8 @@ package com.dosbcn.flashcards.data;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "accounts")
-public class FlashCard {
+@DatabaseTable(tableName = "cards")
+public class Card {
 
 	@DatabaseField(id = true)
 	private Integer id;
@@ -13,13 +13,13 @@ public class FlashCard {
 	@DatabaseField
 	private String description;
 	@DatabaseField
-	private FlashCardColor color;
+	private CardColor color;
 
-	public FlashCard() {
+	public Card() {
 
 	}
 
-	public FlashCard(String title, String description, FlashCardColor color) {
+	public Card(String title, String description, CardColor color) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -50,18 +50,18 @@ public class FlashCard {
 		this.description = description;
 	}
 
-	public FlashCardColor getColor() {
+	public CardColor getColor() {
 		return color;
 	}
 
-	public void setColor(FlashCardColor color) {
+	public void setColor(CardColor color) {
 		this.color = color;
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder(FlashCard.class.getSimpleName())
-				.append("(id=").append(id).append(", title='").append(title)
+		return new StringBuilder(Card.class.getSimpleName()).append("(id=")
+				.append(id).append(", title='").append(title)
 				.append("', description='").append(description).append("')")
 				.toString();
 	}

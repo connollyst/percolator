@@ -17,15 +17,14 @@ import com.j256.ormlite.table.TableUtils;
  * 
  * @author Sean Connolly
  */
-public class FlashCardRepository extends OrmLiteSqliteOpenHelper {
+public class CardRepository extends OrmLiteSqliteOpenHelper {
 
-	private static final String LOG_TAG = FlashCardRepository.class
-			.getSimpleName();
+	private static final String LOG_TAG = CardRepository.class.getSimpleName();
 
 	private static final int DB_VERSION = 1;
-	private static final String DB_NAME = "com.dosbcn.flashcard.sqlite";
+	private static final String DB_NAME = "com.dosbcn.flashcards.sqlite";
 
-	public FlashCardRepository(Context context) {
+	public CardRepository(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
 	}
 
@@ -33,7 +32,7 @@ public class FlashCardRepository extends OrmLiteSqliteOpenHelper {
 	public void onCreate(SQLiteDatabase database, ConnectionSource source) {
 		Log.i(LOG_TAG, "Creating database.");
 		try {
-			TableUtils.createTable(connectionSource, FlashCard.class);
+			TableUtils.createTable(connectionSource, Card.class);
 		} catch (SQLException e) {
 			Log.e(LOG_TAG, "Failed to create the database.", e);
 		}
@@ -45,7 +44,7 @@ public class FlashCardRepository extends OrmLiteSqliteOpenHelper {
 		// we have no versions yet
 	}
 
-	public void create(FlashCard flashCard) {
+	public void create(Card flashCard) {
 		try {
 			getFlashCardDAO().create(flashCard);
 		} catch (SQLException e) {
@@ -53,7 +52,7 @@ public class FlashCardRepository extends OrmLiteSqliteOpenHelper {
 		}
 	}
 
-	public List<FlashCard> fetchAll() {
+	public List<Card> fetchAll() {
 		try {
 			return getFlashCardDAO().queryForAll();
 		} catch (SQLException e) {
@@ -61,8 +60,8 @@ public class FlashCardRepository extends OrmLiteSqliteOpenHelper {
 		}
 	}
 
-	private Dao<FlashCard, Integer> getFlashCardDAO() throws SQLException {
-		return DaoManager.createDao(getConnectionSource(), FlashCard.class);
+	private Dao<Card, Integer> getFlashCardDAO() throws SQLException {
+		return DaoManager.createDao(getConnectionSource(), Card.class);
 	}
 
 }

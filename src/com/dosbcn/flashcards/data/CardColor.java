@@ -1,6 +1,6 @@
 package com.dosbcn.flashcards.data;
 
-public enum FlashCardColor {
+public enum CardColor {
 
 	WHITE, YELLOW, GREEN, RED, BLUE
 

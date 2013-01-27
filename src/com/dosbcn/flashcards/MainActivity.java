@@ -8,6 +8,7 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -15,8 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.dosbcn.flashcards.data.FlashCard;
-import com.dosbcn.flashcards.data.FlashCardRepository;
+import com.dosbcn.flashcards.CardViewAdapter.ViewHolder;
+import com.dosbcn.flashcards.data.Card;
+import com.dosbcn.flashcards.data.CardRepository;
 
 /**
  * The main, and only, {@link Activity} in this application.<br/>
@@ -28,10 +30,12 @@ import com.dosbcn.flashcards.data.FlashCardRepository;
 public class MainActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private final FlashCardRepository flashCardRepo;
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+	private final CardRepository flashCardRepo;
 
 	public MainActivity() {
-		flashCardRepo = new FlashCardRepository(this);
+		flashCardRepo = new CardRepository(this);
 	}
 
 	@Override
@@ -40,8 +44,8 @@ public class MainActivity extends ListActivity implements
 		inflateHeader();
 
 		// Define a new Adapter & assign it to the ListView
-		List<FlashCard> cards = flashCardRepo.fetchAll();
-		FlashCardViewAdapter adapter = new FlashCardViewAdapter(this, cards);
+		List<Card> cards = flashCardRepo.fetchAll();
+		CardViewAdapter adapter = new CardViewAdapter(this, cards);
 		setListAdapter(adapter);
 
 		//
@@ -77,6 +81,34 @@ public class MainActivity extends ListActivity implements
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onListItemClick(ListView listView, View view, int position,
+			long id) {
+		ViewHolder holder = (ViewHolder) view.getTag();
+		Log.i(LOG_TAG, "Item clicked: " + holder);
+		toggleVisibility(holder);
+	}
+
+	private void toggleVisibility(ViewHolder holder) {
+		View description = holder.description;
+		int oldVisibility = description.getVisibility();
+		int newVisibility;
+		switch (oldVisibility) {
+		case View.VISIBLE:
+			newVisibility = View.GONE;
+			break;
+		case View.GONE:
+			newVisibility = View.VISIBLE;
+			break;
+		default:
+			Log.e(LOG_TAG, "Cannot toggle visibility; unrecognized state: "
+					+ oldVisibility);
+			newVisibility = View.GONE;
+			break;
+		}
+		description.setVisibility(newVisibility);
 	}
 
 	private void inflateHeader() {
