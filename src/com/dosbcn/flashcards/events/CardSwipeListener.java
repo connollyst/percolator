@@ -16,32 +16,51 @@ public class CardSwipeListener implements View.OnTouchListener {
 		LEFT, RIGHT;
 	}
 
-	private float historicX = Float.NaN;
-	private float historicY = Float.NaN;
+	private float gestureStartX;
 
 	static final int TRIGGER_DELTA = 50;
 
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
-		Log.i("CardSwipe", "got touch");
-		// TODO I _hate_ depending on fall through switch statements..
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			Log.i("CardSwipe", "got down touch");
-			historicX = event.getX();
-			historicY = event.getY();
+			return onTouchDown(view, event);
 		case MotionEvent.ACTION_UP:
-			Log.i("CardSwipe", "got up touch");
-			if (event.getX() - historicX > -TRIGGER_DELTA) {
-				onSlideComplete(SwipeDirection.LEFT);
-				return true;
-			} else if (event.getX() - historicX > TRIGGER_DELTA) {
-				onSlideComplete(SwipeDirection.RIGHT);
-				return true;
-			}
+			return onTouchUp(view, event);
+		case MotionEvent.ACTION_MOVE:
+			return onTouchMove(view, event);
 		default:
+			// The event was not consumed..
 			return false;
 		}
+	}
+
+	private boolean onTouchDown(View view, MotionEvent event) {
+		Log.i("CardSwipe", "touch started");
+		gestureStartX = event.getX();
+		return true;
+	}
+
+	private boolean onTouchUp(View view, MotionEvent event) {
+		Log.i("CardSwipe", "touch ended");
+		float gestureEndX = event.getX();
+		float gestureDistanceX = gestureEndX - gestureStartX;
+		if (Math.abs(gestureDistanceX) > TRIGGER_DELTA) {
+			if (gestureDistanceX > 0) {
+				onSlideComplete(SwipeDirection.RIGHT);
+			} else {
+				onSlideComplete(SwipeDirection.LEFT);
+			}
+			return true;
+		} else {
+			view.performClick();
+			return false;
+		}
+	}
+
+	private boolean onTouchMove(View view, MotionEvent event) {
+		Log.i("CardSwipe", "touch moved");
+		return true;
 	}
 
 	public void onSlideComplete(SwipeDirection direction) {

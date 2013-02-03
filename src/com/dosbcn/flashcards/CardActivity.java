@@ -8,6 +8,7 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -34,12 +35,9 @@ import com.dosbcn.flashcards.events.SaveButtonClickListener;
 public class CardActivity extends ListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private final CardClickListener clickListener;
-
 	private final CardService service;
 
 	public CardActivity() {
-		clickListener = new CardClickListener();
 		service = new CardService(this);
 	}
 
@@ -63,9 +61,9 @@ public class CardActivity extends ListActivity implements
 		// Add a listener to resize the header to take up all the content
 		ViewTreeObserver observer = getListView().getViewTreeObserver();
 		if (observer.isAlive()) {
-			OnGlobalLayoutListener listener = new GlobalLayoutListener(
-					getApplicationContext(), getListView());
-			observer.addOnGlobalLayoutListener(listener);
+			// OnGlobalLayoutListener listener = new
+			// GlobalLayoutListener(getApplicationContext(), getListView());
+			// observer.addOnGlobalLayoutListener(listener);
 		}
 		getListView().addHeaderView(headerView);
 	}
@@ -104,12 +102,6 @@ public class CardActivity extends ListActivity implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onListItemClick(ListView listView, View view, int position,
-			long id) {
-		clickListener.onClick(listView, view, position, id);
 	}
 
 	public CardService getService() {

@@ -2,16 +2,17 @@ package com.dosbcn.flashcards.events;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 
 import com.dosbcn.flashcards.CardView;
 
-public class CardClickListener {
+public class CardClickListener implements View.OnClickListener {
 
 	private static final String LOG_TAG = CardClickListener.class
 			.getSimpleName();
 
-	public void onClick(ListView listView, View view, int position, long id) {
+	@Override
+	public void onClick(View view) {
+		Log.i(LOG_TAG, "onClick");
 		CardView holder = (CardView) view.getTag();
 		toggleDescriptionVisibility(holder);
 	}
