@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardService;
 import com.dosbcn.flashcards.events.CardAddListener;
 import com.dosbcn.flashcards.events.CardClickListener;
+import com.dosbcn.flashcards.events.GlobalLayoutListener;
 import com.dosbcn.flashcards.events.SaveButtonClickListener;
 
 /**
@@ -57,6 +60,13 @@ public class CardActivity extends ListActivity implements
 	private void inflateHeader() {
 		LayoutInflater inflator = LayoutInflater.from(getApplicationContext());
 		View headerView = inflator.inflate(R.layout.header, null);
+		// Add a listener to resize the header to take up all the content
+		ViewTreeObserver observer = getListView().getViewTreeObserver();
+		if (observer.isAlive()) {
+			OnGlobalLayoutListener listener = new GlobalLayoutListener(
+					getApplicationContext(), getListView());
+			observer.addOnGlobalLayoutListener(listener);
+		}
 		getListView().addHeaderView(headerView);
 	}
 
