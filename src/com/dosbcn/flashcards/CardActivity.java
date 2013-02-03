@@ -8,7 +8,6 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.ListView;
 import com.dosbcn.flashcards.data.Card;
 import com.dosbcn.flashcards.data.CardService;
 import com.dosbcn.flashcards.events.CardAddListener;
-import com.dosbcn.flashcards.events.CardClickListener;
 import com.dosbcn.flashcards.events.GlobalLayoutListener;
 import com.dosbcn.flashcards.events.SaveButtonClickListener;
 
@@ -61,9 +59,9 @@ public class CardActivity extends ListActivity implements
 		// Add a listener to resize the header to take up all the content
 		ViewTreeObserver observer = getListView().getViewTreeObserver();
 		if (observer.isAlive()) {
-			// OnGlobalLayoutListener listener = new
-			// GlobalLayoutListener(getApplicationContext(), getListView());
-			// observer.addOnGlobalLayoutListener(listener);
+			OnGlobalLayoutListener listener = new GlobalLayoutListener(
+					getApplicationContext(), getListView());
+			observer.addOnGlobalLayoutListener(listener);
 		}
 		getListView().addHeaderView(headerView);
 	}

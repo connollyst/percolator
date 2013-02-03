@@ -47,7 +47,10 @@ public class GlobalLayoutListener implements
 		if (Build.VERSION.SDK_INT >= 13) {
 			display.getSize(size);
 		} else {
+			// For backwards compatibility
+			@SuppressWarnings("deprecation")
 			int width = display.getWidth();
+			@SuppressWarnings("deprecation")
 			int height = display.getHeight();
 			size.x = width;
 			size.y = height;

@@ -36,8 +36,8 @@ public class CardSwipeListener implements View.OnTouchListener {
 	}
 
 	private boolean onTouchDown(View view, MotionEvent event) {
-		Log.i("CardSwipe", "touch started");
 		gestureStartX = event.getX();
+		Log.i("CardSwipe", "touch started @ " + gestureStartX);
 		return true;
 	}
 
@@ -59,12 +59,23 @@ public class CardSwipeListener implements View.OnTouchListener {
 	}
 
 	private boolean onTouchMove(View view, MotionEvent event) {
-		Log.i("CardSwipe", "touch moved");
+		float gestureEndX = event.getX();
+
+		// Slide with padding (buttery)
+		int gestureDistanceX = Math.max(0,
+				Float.valueOf(gestureEndX - gestureStartX).intValue());
+		view.setPadding(gestureDistanceX, 0, 0, 0);
+
+		// Slide with setX (janky)
+		// float gestureDistanceX = gestureEndX - gestureStartX;
+		// view.setX(gestureDistanceX);
+
+		Log.i("CardSwipe", "touch moved " + gestureDistanceX);
 		return true;
 	}
 
 	public void onSlideComplete(SwipeDirection direction) {
-		Log.i("CardSwipe", "got '" + direction + "' touch");
+		Log.i("CardSwipe", "swiped '" + direction + "'");
 	}
 
 }
