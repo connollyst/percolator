@@ -12,7 +12,7 @@ import com.dosbcn.flashcards.R;
 import com.dosbcn.flashcards.data.Card;
 
 /**
- * Means to send {@link Card} {@link Notification}s to the user's device.<br/>
+ * The means by which {@link Card} {@link Notification}s are sent to the device.<br/>
  * The type of notification (reminder, quiz, etc.) is determined, randomly, on
  * the fly based on the {@link Card's} current {@link CardNotificationStage}.
  * 

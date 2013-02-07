@@ -12,7 +12,7 @@ import com.dosbcn.flashcards.data.CardService;
 
 /**
  * The alarm, {@link BroadcastReceiver}, element of the app.<br/>
- * Receives boardcasts from {@link AlarmManager} managed alarms when it is time
+ * Receives boradcasts from {@link AlarmManager} managed alarms when it is time
  * to show a {@link Notification} for a {@link Card}.
  * 
  * @author Sean Connolly

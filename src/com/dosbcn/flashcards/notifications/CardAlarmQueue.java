@@ -27,7 +27,13 @@ public class CardAlarmQueue {
 		this.timer = new CardNotificationTimer();
 	}
 
-	public void add(Card card) {
+	public void setAlarms(Iterable<Card> cards) {
+		for (Card card : cards) {
+			setAlarm(card);
+		}
+	}
+
+	public void setAlarm(Card card) {
 		Date notificationTime = timer.getNextNotificationTime(card);
 		Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
 				+ DATE_FORMAT.format(notificationTime));

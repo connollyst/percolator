@@ -42,15 +42,20 @@ public class CardActivity extends ListActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		init();
+		initApplication();
+		// Make sure an alarm is queued for all active cards, the queue is smart
+		// enough to keep appropriate timing and avoid duplicates etc.
+		service.resetAllAlarms();
+		// TODO do this in another thread so the application starts quickly
+		// http://developer.android.com/guide/components/processes-and-threads.html
 	}
 
-	private void init() {
+	private void initApplication() {
 		inflateHeader();
 		CardViewAdapter adapter = initAdapter();
 		initServiceListeners(adapter);
 		initSaveButtonListener();
-		getLoaderManager().initLoader(0, null, this);
+		initLoadManager();
 	}
 
 	private void inflateHeader() {
@@ -73,33 +78,38 @@ public class CardActivity extends ListActivity implements
 		return adapter;
 	}
 
-	private void initSaveButtonListener() {
-		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
-	}
-
 	private void initServiceListeners(final CardViewAdapter adapter) {
 		service.setOnAddListener(new CardAddListener(adapter));
 	}
 
+	private void initSaveButtonListener() {
+		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
+	}
+
+	private void initLoadManager() {
+		getLoaderManager().initLoader(0, null, this);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		// do nothing
 		return true;
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		// TODO Auto-generated method stub
+		// do nothing
 		return null;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		// TODO Auto-generated method stub
+		// do nothing
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
+		// do nothing
 	}
 
 	public CardService getService() {

@@ -49,7 +49,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		if (convertView == null) {
 			convertView = initializeNewConvertView(convertView);
 		}
-		CardView cardView = (CardView) convertView.getTag();
+		CardViewHolder cardView = (CardViewHolder) convertView.getTag();
 		Card card = cards.get(position);
 		cardView.getTitleView().setText(card.getTitle());
 		cardView.getDescriptionView().setText(card.getDescription());
@@ -66,7 +66,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		TextView title = (TextView) convertView.findViewById(R.id.title);
 		TextView description = (TextView) convertView
 				.findViewById(R.id.description);
-		CardView viewHolder = new CardView();
+		CardViewHolder viewHolder = new CardViewHolder();
 		viewHolder.setTitleView(title);
 		viewHolder.setDescriptionView(description);
 		convertView.setTag(viewHolder);

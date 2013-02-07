@@ -3,7 +3,7 @@ package com.dosbcn.flashcards.events;
 import android.util.Log;
 import android.view.View;
 
-import com.dosbcn.flashcards.CardView;
+import com.dosbcn.flashcards.CardViewHolder;
 
 public class CardClickListener implements View.OnClickListener {
 
@@ -13,11 +13,11 @@ public class CardClickListener implements View.OnClickListener {
 	@Override
 	public void onClick(View view) {
 		Log.i(LOG_TAG, "onClick");
-		CardView holder = (CardView) view.getTag();
+		CardViewHolder holder = (CardViewHolder) view.getTag();
 		toggleDescriptionVisibility(holder);
 	}
 
-	private void toggleDescriptionVisibility(CardView holder) {
+	private void toggleDescriptionVisibility(CardViewHolder holder) {
 		View description = holder.getDescriptionView();
 		int oldVisibility = description.getVisibility();
 		int newVisibility;

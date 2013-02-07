@@ -1,8 +1,18 @@
 package com.dosbcn.flashcards;
 
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class CardView {
+/**
+ * An holder for a view as part of the "ViewHolder Pattern".<br/>
+ * The {@link ListView} recycles actual {@link View}s and the
+ * {@link CardViewHolder} allows us to easily access and modify the state of an
+ * actual view.
+ * 
+ * @author Sean Connolly
+ */
+public class CardViewHolder {
 
 	private TextView titleView;
 	private TextView descriptionView;

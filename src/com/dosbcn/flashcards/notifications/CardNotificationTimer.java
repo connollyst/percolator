@@ -2,11 +2,12 @@ package com.dosbcn.flashcards.notifications;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import android.util.Log;
 
 import com.dosbcn.flashcards.data.Card;
+import com.dosbcn.flashcards.notifications.time.RandomTimeGenerator;
+import com.dosbcn.flashcards.notifications.time.TimeAdjustor;
 
 /**
  * Generates times that notifications should be scheduled for in the future.<br/>
@@ -38,7 +39,7 @@ public class CardNotificationTimer {
 	private static final String BAD_STAGE_LOG = "Unexpected "
 			+ CardNotificationStage.class.getSimpleName() + ": ";
 
-	private final RandomTime randomTimeGenerator = new RandomTime();
+	private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
 	/**
 	 * Returns the next time that a notification should be sent for this
@@ -60,110 +61,83 @@ public class CardNotificationTimer {
 			Date originDate) {
 		switch (stage) {
 		case ONE_DAY:
-			return getNotificationTimeOneDayAfterDate(originDate);
+			return getOneDayNotification(originDate);
+		case ONE_WEEK:
+			return getOneWeekNotification(originDate);
+		case ONE_MONTH:
+			return getOneMonthNotification(originDate);
 		default:
 			Log.e(LOG_TAG, BAD_STAGE_LOG + stage);
 			return null;
 		}
 	}
 
-	/**
-	 * Generates a random time to send the notification, roughly one day from
-	 * the given origin date.<br/>
-	 * If that is not possible because the origin date is too far in the past, a
-	 * random time within the next day or two is returned.<br/>
-	 * Notification times are guaranteed to not clash with others already
-	 * scheduled.
-	 * 
-	 * @param originDate
-	 * @return
-	 */
-	private Date getNotificationTimeOneDayAfterDate(Date originDate) {
-		// First, check if the origin date is too far in the past
-		// The origin date is within limits, let's generate a random date
-		TimeAdjustment adjustment = new TimeAdjustment(Calendar.HOUR, 24);
-		Date tomorrow = addTime(originDate, adjustment);
-		Date notificationTime = getNotificationTimeOnDate(tomorrow);
-		return notificationTime;
-	}
-
-	/**
-	 * Returns an appropriate notification time on the date specified.
-	 * <p>
-	 * Note that all time information is stripped from the {@link Date} provided
-	 * prior to calculating a the notification time. Thus, this function may
-	 * return a time before, exactly equal to, or after the provided date.
-	 * </p>
-	 * 
-	 * @param date
-	 * @return
-	 */
-	private Date getNotificationTimeOnDate(Date date) {
-		// Generate a random time during the day
-		Date day = stripTimeFromDate(date);
-		int randomTimeMillis = randomTimeGenerator.nextTime();
-		TimeAdjustment adjustment = new TimeAdjustment(Calendar.MILLISECOND,
-				randomTimeMillis);
-		Date notificationTime = addTime(day, adjustment);
-		return notificationTime;
-	}
-
-	/**
-	 * Takes a {@link Date} and removes all time information from it, stripping
-	 * it down to just the day.
-	 * 
-	 * @param date
-	 *            the date object with or without time information
-	 * @return the date object, without time information
-	 */
-	private Date stripTimeFromDate(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return cal.getTime();
-	}
-
-	private Date addTime(Date date, TimeAdjustment... adjustments) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		for (TimeAdjustment adjustment : adjustments) {
-			cal.add(adjustment.field, adjustment.amount);
+	private Date getOneDayNotification(Date originDate) {
+		if (haveMissedOneDayNotification(originDate)) {
+			Log.i(LOG_TAG, "Missed one day notification, sending asap.");
+			return timeGenerator.getRandomTimeASAP();
+		} else {
+			return timeGenerator.getRandomTimeOneDayFromDate(originDate);
 		}
-		return cal.getTime();
 	}
 
-	private class TimeAdjustment {
-		public final int field;
-		public final int amount;
-
-		public TimeAdjustment(int field, int amount) {
-			super();
-			this.field = field;
-			this.amount = amount;
+	private Date getOneWeekNotification(Date originDate) {
+		if (haveMissedOneWeekNotification(originDate)) {
+			Log.i(LOG_TAG, "Missed one week notification, sending asap.");
+			return timeGenerator.getRandomTimeASAP();
+		} else {
+			return timeGenerator.getRandomTimeOneWeekFromDate(originDate);
 		}
-
 	}
 
-	private class RandomTime {
-
-		private static final int SECOND_MS = 1000;
-		private static final int MINUTE_MS = 60 * SECOND_MS;
-		private static final int HOUR_MS = 60 * MINUTE_MS;
-		// Don't notify anyone earlier than 11:00 or later than 21:00
-		// TODO make configurable
-		private static final int EARLIEST_NOTIFICATION_TIME_MS = 11 * HOUR_MS;
-		private static final int LATEST_NOTIFICATION_TIME_MS = 21 * HOUR_MS;
-
-		private final Random randomGenerator = new Random();
-
-		public int nextTime() {
-			return randomGenerator.nextInt(LATEST_NOTIFICATION_TIME_MS
-					- EARLIEST_NOTIFICATION_TIME_MS)
-					+ EARLIEST_NOTIFICATION_TIME_MS;
+	private Date getOneMonthNotification(Date originDate) {
+		if (haveMissedOneMonthNotification(originDate)) {
+			Log.i(LOG_TAG, "Missed one month notification, sending asap.");
+			return timeGenerator.getRandomTimeASAP();
+		} else {
+			return timeGenerator.getRandomTimeOneMonthFromDate(originDate);
 		}
-
 	}
+
+	private boolean haveMissedOneDayNotification(Date date) {
+		return haveMissedNotificationDate(TimeAdjustor.addDay(date));
+	}
+
+	private boolean haveMissedOneWeekNotification(Date date) {
+		return haveMissedNotificationDate(TimeAdjustor.addWeek(date));
+	}
+
+	private boolean haveMissedOneMonthNotification(Date date) {
+		return haveMissedNotificationDate(TimeAdjustor.addMonth(date));
+	}
+
+	private boolean haveMissedNotificationDate(Date date) {
+		Date notificationDate = date;
+		Date now = getNowNormalized();
+		return now.after(notificationDate);
+	}
+
+	private Date getNow() {
+		// TODO make this more efficient and easier to test
+		return Calendar.getInstance().getTime();
+	}
+
+	private Date getNowNormalized() {
+		return normalize(getNow());
+	}
+
+	private Date normalize(Date date) {
+		Date lowCutoff = timeGenerator.getEarliestNotificationTimeOnDate(date);
+		Date highCutoff = timeGenerator.getLatestNotificationTimeOnDate(date);
+		Date normalizedDate;
+		if (date.before(lowCutoff)) {
+			normalizedDate = lowCutoff;
+		} else if (date.after(highCutoff)) {
+			normalizedDate = highCutoff;
+		} else {
+			normalizedDate = date;
+		}
+		return normalizedDate;
+	}
+
 }
