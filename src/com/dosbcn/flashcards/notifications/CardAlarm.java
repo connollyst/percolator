@@ -40,7 +40,8 @@ public class CardAlarm extends BroadcastReceiver {
 	private int getCardIdExtra(Intent intent) {
 		int id = intent.getIntExtra(CARD_ID_EXTRA, -1);
 		if (id == -1) {
-			throw new RuntimeException("com.dosbcn.flashcards.card.id missing");
+			throw new RuntimeException(CARD_ID_EXTRA
+					+ " missing from notification");
 		}
 		return id;
 	}
