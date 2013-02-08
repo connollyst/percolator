@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.dosbcn.flashcards.CardAlarm" />
+        <receiver android:name="com.dosbcn.flashcards.notifications.CardAlarm" />
     </application>
 
 </manifest>
