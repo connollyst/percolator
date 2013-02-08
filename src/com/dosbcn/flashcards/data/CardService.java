@@ -8,6 +8,7 @@ import android.util.Log;
 import com.dosbcn.flashcards.CardActivity;
 import com.dosbcn.flashcards.events.EventListener;
 import com.dosbcn.flashcards.notifications.CardAlarmQueue;
+import com.dosbcn.flashcards.notifications.CardNotificationStage;
 import com.dosbcn.flashcards.notifications.CardToaster;
 
 /**
@@ -50,6 +51,14 @@ public class CardService {
 
 	public void resetAllAlarms() {
 		alarmQueue.setAlarms(getAll());
+	}
+
+	public void incrementCardStage(Card card) {
+		CardNotificationStage currentStage = card.getStage();
+		CardNotificationStage nextStage = CardNotificationStage
+				.nextStage(currentStage);
+		card.setStage(nextStage);
+		repository.update(card);
 	}
 
 	public void setOnAddListener(EventListener<Card> onAddListener) {

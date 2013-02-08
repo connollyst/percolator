@@ -23,21 +23,26 @@ public class CardAlarm extends BroadcastReceiver {
 
 	public static final String CARD_ID_EXTRA = "com.dosbcn.flashcards.card.id";
 
+	private CardService service;
+	private CardNotifier notifier;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(LOG_TAG, "Preparing notification alarm.");
-		Card card = getCardExtra(context, intent);
-		showNotification(context, card);
+		service = new CardService(context);
+		notifier = new CardNotifier(context);
+		Card card = getCardFromIntent(intent);
+		showNotification(card);
+		updateStage(card);
 	}
 
-	private Card getCardExtra(Context context, Intent intent) {
-		int id = getCardIdExtra(intent);
-		CardService service = new CardService(context);
+	private Card getCardFromIntent(Intent intent) {
+		int id = getCardIdFromIntent(intent);
 		Card card = service.get(id);
 		return card;
 	}
 
-	private int getCardIdExtra(Intent intent) {
+	private int getCardIdFromIntent(Intent intent) {
 		int id = intent.getIntExtra(CARD_ID_EXTRA, -1);
 		if (id == -1) {
 			throw new RuntimeException(CARD_ID_EXTRA
@@ -46,9 +51,11 @@ public class CardAlarm extends BroadcastReceiver {
 		return id;
 	}
 
-	private void showNotification(Context context, Card card) {
-		CardNotifier notifier = new CardNotifier(context);
+	private void showNotification(Card card) {
 		notifier.showNotification(card);
 	}
 
+	private void updateStage(Card card) {
+		service.incrementCardStage(card);
+	}
 }

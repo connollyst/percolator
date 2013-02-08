@@ -44,9 +44,17 @@ public class CardRepository extends OrmLiteSqliteOpenHelper {
 		// we have no versions yet
 	}
 
-	public void create(Card flashCard) {
+	public void create(Card card) {
 		try {
-			getFlashCardDAO().create(flashCard);
+			getFlashCardDAO().create(card);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void update(Card card) {
+		try {
+			getFlashCardDAO().update(card);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
