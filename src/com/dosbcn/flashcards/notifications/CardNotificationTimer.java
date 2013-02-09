@@ -100,21 +100,30 @@ public class CardNotificationTimer {
 	}
 
 	private boolean haveMissedOneDayNotification(Date date) {
-		return haveMissedNotificationDate(TimeAdjustor.addDay(date));
+		return havePassedNotificationPeriodOnDate(TimeAdjustor.addDay(date));
 	}
 
 	private boolean haveMissedOneWeekNotification(Date date) {
-		return haveMissedNotificationDate(TimeAdjustor.addWeek(date));
+		return havePassedNotificationPeriodOnDate(TimeAdjustor.addWeek(date));
 	}
 
 	private boolean haveMissedOneMonthNotification(Date date) {
-		return haveMissedNotificationDate(TimeAdjustor.addMonth(date));
+		return havePassedNotificationPeriodOnDate(TimeAdjustor.addMonth(date));
 	}
 
-	private boolean haveMissedNotificationDate(Date date) {
-		Date notificationDate = date;
+	/**
+	 * Check if we have missed the specified date, taking into account the
+	 * cutoff periods in morning and night.<br/>
+	 * For example, if the latest a notification can be sent is 8pm and it is
+	 * currently 10pm on given date, we have passed the notification period on
+	 * the date.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	private boolean havePassedNotificationPeriodOnDate(Date date) {
 		Date now = getNowNormalized();
-		return now.after(notificationDate);
+		return now.after(date);
 	}
 
 	private Date getNow() {
