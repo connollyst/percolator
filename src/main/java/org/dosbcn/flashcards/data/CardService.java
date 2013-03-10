@@ -38,6 +38,14 @@ public class CardService {
 		toaster = new CardToaster(context);
 	}
 
+	CardService(CardRepository repository, CardNotificationTimer timer,
+			CardAlarmQueue alarmQueue, CardToaster toaster) {
+		this.repository = repository;
+		this.timer = timer;
+		this.alarmQueue = alarmQueue;
+		this.toaster = toaster;
+	}
+
 	/**
 	 * Return all {@link Card}s in the database.
 	 * 
