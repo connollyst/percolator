@@ -38,8 +38,7 @@ public class CardAlarm extends BroadcastReceiver {
 
 	private Card getCardFromIntent(Intent intent) {
 		int id = getCardIdFromIntent(intent);
-		Card card = service.get(id);
-		return card;
+		return service.get(id);
 	}
 
 	private int getCardIdFromIntent(Intent intent) {

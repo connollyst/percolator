@@ -6,6 +6,8 @@ import android.view.View;
 
 public class CardSwipeListener implements View.OnTouchListener {
 
+	private static final String LOG_TAG = "CardSwipe";
+
 	// TODO
 	// ALL OF THIS CODE SUCKS
 	// NOBODY KNOWS HOW TO CODE..
@@ -37,12 +39,12 @@ public class CardSwipeListener implements View.OnTouchListener {
 
 	private boolean onTouchDown(View view, MotionEvent event) {
 		gestureStartX = event.getX();
-		Log.i("CardSwipe", "touch started @ " + gestureStartX);
+		Log.i(LOG_TAG, "touch started @ " + gestureStartX);
 		return true;
 	}
 
 	private boolean onTouchUp(View view, MotionEvent event) {
-		Log.i("CardSwipe", "touch ended");
+		Log.i(LOG_TAG, "touch ended");
 		float gestureEndX = event.getX();
 		float gestureDistanceX = gestureEndX - gestureStartX;
 		if (Math.abs(gestureDistanceX) > TRIGGER_DELTA) {
@@ -70,12 +72,12 @@ public class CardSwipeListener implements View.OnTouchListener {
 		// float gestureDistanceX = gestureEndX - gestureStartX;
 		// view.setX(gestureDistanceX);
 
-		Log.i("CardSwipe", "touch moved " + gestureDistanceX);
+		Log.i(LOG_TAG, "touch moved " + gestureDistanceX);
 		return true;
 	}
 
 	public void onSlideComplete(SwipeDirection direction) {
-		Log.i("CardSwipe", "swiped '" + direction + "'");
+		Log.i(LOG_TAG, "swiped '" + direction + "'");
 	}
 
 }

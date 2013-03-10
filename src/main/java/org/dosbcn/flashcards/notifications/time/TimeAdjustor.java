@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class TimeAdjustor {
 
+	private TimeAdjustor() {
+		// hide utility class constructor
+	}
+
 	public static Date addDay(Date date) {
 		return addDays(date, 1);
 	}
