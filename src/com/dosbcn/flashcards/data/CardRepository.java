@@ -14,6 +14,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 /**
+ * A repository providing read and write access for {@link Card} objects.
  * 
  * @author Sean Connolly
  */
