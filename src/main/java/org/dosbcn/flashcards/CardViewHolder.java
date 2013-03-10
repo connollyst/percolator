@@ -16,6 +16,7 @@ public class CardViewHolder {
 
 	private TextView titleView;
 	private TextView descriptionView;
+	private TextView timeView;
 
 	public TextView getTitleView() {
 		return titleView;
@@ -31,6 +32,14 @@ public class CardViewHolder {
 
 	public void setDescriptionView(TextView descriptionView) {
 		this.descriptionView = descriptionView;
+	}
+
+	public TextView getTimeView() {
+		return timeView;
+	}
+
+	public void setTimeView(TextView timeView) {
+		this.timeView = timeView;
 	}
 
 }

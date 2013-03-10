@@ -1,9 +1,9 @@
 package org.dosbcn.flashcards.events;
 
+import org.dosbcn.flashcards.CardViewHolder;
+
 import android.util.Log;
 import android.view.View;
-
-import org.dosbcn.flashcards.CardViewHolder;
 
 public class CardClickListener implements View.OnClickListener {
 
@@ -15,11 +15,19 @@ public class CardClickListener implements View.OnClickListener {
 		Log.i(LOG_TAG, "onClick");
 		CardViewHolder holder = (CardViewHolder) view.getTag();
 		toggleDescriptionVisibility(holder);
+		toggleTimeVisibility(holder);
 	}
 
 	private void toggleDescriptionVisibility(CardViewHolder holder) {
-		View description = holder.getDescriptionView();
-		int oldVisibility = description.getVisibility();
+		toggleVisibility(holder.getDescriptionView());
+	}
+
+	private void toggleTimeVisibility(CardViewHolder holder) {
+		toggleVisibility(holder.getTimeView());
+	}
+
+	private void toggleVisibility(View view) {
+		int oldVisibility = view.getVisibility();
 		int newVisibility;
 		switch (oldVisibility) {
 		case View.VISIBLE:
@@ -34,7 +42,7 @@ public class CardClickListener implements View.OnClickListener {
 			newVisibility = View.GONE;
 			break;
 		}
-		description.setVisibility(newVisibility);
+		view.setVisibility(newVisibility);
 	}
 
 }

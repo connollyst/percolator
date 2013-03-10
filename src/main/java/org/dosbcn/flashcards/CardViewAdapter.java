@@ -1,6 +1,12 @@
 package org.dosbcn.flashcards;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import org.dosbcn.flashcards.data.Card;
+import org.dosbcn.flashcards.events.CardClickListener;
+import org.dosbcn.flashcards.events.CardSwipeListener;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,15 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.dosbcn.flashcards.data.Card;
-import org.dosbcn.flashcards.events.CardClickListener;
-import org.dosbcn.flashcards.events.CardSwipeListener;
-
 /**
  * 
  * @author Sean Connolly
  */
 public class CardViewAdapter extends ArrayAdapter<Card> {
+
+	private static final DateFormat DATE_FORMAT = SimpleDateFormat
+			.getDateTimeInstance();
 
 	private static final CardSwipeListener SWIPE_LISTENER = new CardSwipeListener();
 	private static final CardClickListener CLICK_LISTENER = new CardClickListener();
@@ -53,6 +58,8 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		Card card = cards.get(position);
 		cardView.getTitleView().setText(card.getTitle());
 		cardView.getDescriptionView().setText(card.getDescription());
+		cardView.getTimeView().setText(
+				DATE_FORMAT.format(card.getNextNotificationDate()));
 		return convertView;
 	}
 
@@ -63,16 +70,29 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	 */
 	private View initializeNewConvertView(View convertView) {
 		convertView = inflator.inflate(CARD_VIEW, null);
-		TextView title = (TextView) convertView.findViewById(R.id.title);
-		TextView description = (TextView) convertView
-				.findViewById(R.id.description);
+		TextView title = getTitleTextView(convertView);
+		TextView description = getDescriptionTextView(convertView);
+		TextView time = getTimeTextView(convertView);
 		CardViewHolder viewHolder = new CardViewHolder();
 		viewHolder.setTitleView(title);
 		viewHolder.setDescriptionView(description);
+		viewHolder.setTimeView(time);
 		convertView.setTag(viewHolder);
 		convertView.setOnTouchListener(SWIPE_LISTENER);
 		convertView.setOnClickListener(CLICK_LISTENER);
 		return convertView;
+	}
+
+	private TextView getTitleTextView(View convertView) {
+		return (TextView) convertView.findViewById(R.id.title);
+	}
+
+	private TextView getDescriptionTextView(View convertView) {
+		return (TextView) convertView.findViewById(R.id.description);
+	}
+
+	private TextView getTimeTextView(View convertView) {
+		return (TextView) convertView.findViewById(R.id.time);
 	}
 
 }
