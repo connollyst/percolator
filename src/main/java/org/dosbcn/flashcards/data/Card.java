@@ -7,6 +7,17 @@ import org.dosbcn.flashcards.notifications.CardNotificationStage;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * A card is our single model object. It simply represents a pair or words; here
+ * referred to, generically, as a {@code title} and {@code description}. What
+ * the words are exactly, depends on what the user wants to be reminded of. For
+ * example, the {@code title} may be a word in another language and the
+ * {@code description} it's translation in English. Or, perhaps the
+ * {@code title} is a big word in English and the {@code description} is it's
+ * definition.
+ * 
+ * @author Sean Connolly
+ */
 @DatabaseTable(tableName = "cards")
 public class Card {
 
