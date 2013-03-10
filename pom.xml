@@ -11,7 +11,8 @@
 	<properties>
 		<platform.version>2.3.3</platform.version>
 		<ormlite.version>4.42</ormlite.version>
-		<junit.version>4.11</junit.version>
+		<robolectric.version>1.2</robolectric.version>
+		<junit.version>4.8.2</junit.version>
 	</properties>
 
 	<build>
@@ -69,13 +70,20 @@
 			<artifactId>ormlite-android</artifactId>
 			<version>${ormlite.version}</version>
 		</dependency>
-	</dependencies>
 
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>${junit.version}</version>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>com.pivotallabs</groupId>
+			<artifactId>robolectric</artifactId>
+			<version>${robolectric.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>
