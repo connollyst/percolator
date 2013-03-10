@@ -22,6 +22,8 @@ public class Card {
 	private CardNotificationStage stage;
 	@DatabaseField
 	private Date startDate;
+	@DatabaseField
+	private Date nextNotificationDate;
 
 	public Card() {
 	}
@@ -80,6 +82,14 @@ public class Card {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+
+	public Date getNextNotificationDate() {
+		return nextNotificationDate;
+	}
+
+	public void setNextNotificationDate(Date nextNotificationDate) {
+		this.nextNotificationDate = nextNotificationDate;
 	}
 
 	@Override
