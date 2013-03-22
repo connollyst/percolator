@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.dosbcn.flashcards.data.Card;
 import org.dosbcn.flashcards.data.CardService;
+import org.dosbcn.flashcards.data.CardServiceImpl;
 import org.dosbcn.flashcards.events.CardAddListener;
 import org.dosbcn.flashcards.events.GlobalLayoutListener;
 import org.dosbcn.flashcards.events.SaveButtonClickListener;
@@ -37,7 +38,7 @@ public class CardActivity extends FragmentActivity implements
 	private final CardService service;
 
 	public CardActivity() {
-		service = new CardService(this);
+		service = new CardServiceImpl(this);
 	}
 
 	@Override

@@ -1,14 +1,15 @@
 package org.dosbcn.flashcards.notifications;
 
+import org.dosbcn.flashcards.data.Card;
+import org.dosbcn.flashcards.data.CardService;
+import org.dosbcn.flashcards.data.CardServiceImpl;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
-import org.dosbcn.flashcards.data.Card;
-import org.dosbcn.flashcards.data.CardService;
 
 /**
  * The alarm, {@link BroadcastReceiver}, element of the app.<br/>
@@ -29,8 +30,8 @@ public class CardAlarm extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(LOG_TAG, "Preparing notification alarm.");
-		service = new CardService(context);
-		notifier = new CardNotifier(context);
+		service = new CardServiceImpl(context);
+		notifier = new CardNotifierImpl(context);
 		Card card = getCardFromIntent(intent);
 		showNotification(card);
 		updateStage(card);

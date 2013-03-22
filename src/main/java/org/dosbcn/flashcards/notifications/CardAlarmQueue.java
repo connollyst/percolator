@@ -4,13 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.dosbcn.flashcards.data.Card;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
-import org.dosbcn.flashcards.data.Card;
 
 public class CardAlarmQueue {
 
@@ -24,7 +24,7 @@ public class CardAlarmQueue {
 
 	public CardAlarmQueue(Context context) {
 		this.context = context;
-		this.timer = new CardNotificationTimer();
+		this.timer = new CardNotificationTimerImpl();
 	}
 
 	public void setAlarms(Iterable<Card> cards) {
