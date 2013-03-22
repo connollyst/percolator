@@ -36,9 +36,6 @@ public class Card {
 	@DatabaseField
 	private Date nextNotificationDate;
 
-	public Card() {
-	}
-
 	public Card(String title, String description, CardColor color) {
 		this.title = title;
 		this.description = description;

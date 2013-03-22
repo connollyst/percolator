@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import org.dosbcn.flashcards.notifications.CardAlarmQueue;
-import org.dosbcn.flashcards.notifications.CardNotificationTimer;
+import org.dosbcn.flashcards.notifications.CardNotificationTimerImpl;
 import org.dosbcn.flashcards.notifications.CardToaster;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,14 +56,15 @@ public class TestCardService {
 
 	private CardService mockCardService() {
 		return new CardServiceImpl(new MockCardRepository(),
-				mock(CardNotificationTimer.class), mock(CardAlarmQueue.class),
+				new CardNotificationTimerImpl(), mock(CardAlarmQueue.class),
 				mock(CardToaster.class));
 	}
 
 	private Card mockCard() {
-		Card card = new Card();
-		card.setTitle("MockTitle");
-		card.setDescription("MockDescription");
+		String title = "MockTitle";
+		String description = "MockDescription";
+		CardColor color = CardColor.WHITE;
+		Card card = new Card(title, description, color);
 		return card;
 	}
 

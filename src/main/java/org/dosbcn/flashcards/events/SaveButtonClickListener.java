@@ -1,11 +1,11 @@
 package org.dosbcn.flashcards.events;
 
-import android.view.View;
-import android.widget.EditText;
-
 import org.dosbcn.flashcards.CardActivity;
 import org.dosbcn.flashcards.data.Card;
 import org.dosbcn.flashcards.data.CardColor;
+
+import android.view.View;
+import android.widget.EditText;
 
 public class SaveButtonClickListener implements View.OnClickListener {
 
