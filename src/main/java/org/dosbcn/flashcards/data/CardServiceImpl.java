@@ -6,6 +6,7 @@ import java.util.List;
 import org.dosbcn.flashcards.CardActivity;
 import org.dosbcn.flashcards.events.EventListener;
 import org.dosbcn.flashcards.notifications.CardAlarmQueue;
+import org.dosbcn.flashcards.notifications.CardAlarmQueueImpl;
 import org.dosbcn.flashcards.notifications.CardNotificationStage;
 import org.dosbcn.flashcards.notifications.CardNotificationTimer;
 import org.dosbcn.flashcards.notifications.CardNotificationTimerImpl;
@@ -36,7 +37,7 @@ public class CardServiceImpl implements CardService {
 	public CardServiceImpl(Context context) {
 		repository = new CardRepositoryImpl(context);
 		timer = new CardNotificationTimerImpl();
-		alarmQueue = new CardAlarmQueue(context);
+		alarmQueue = new CardAlarmQueueImpl(context);
 		toaster = new CardToasterImpl(context);
 	}
 
