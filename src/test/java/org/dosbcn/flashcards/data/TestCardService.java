@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
-import org.dosbcn.flashcards.notifications.CardAlarmQueue;
 import org.dosbcn.flashcards.notifications.CardNotificationTimerImpl;
 import org.dosbcn.flashcards.notifications.CardToaster;
+import org.dosbcn.flashcards.notifications.time.MockCardAlarmQueue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,7 +41,11 @@ public class TestCardService {
 
 	@Test
 	public void testAlarmSetOnSave() {
-		fail("Test not implemented.");
+		CardService service = mockCardService();
+		Card card = mockCard();
+		service.save(card);
+		card = refreshCardFromService(card, service);
+
 	}
 
 	@Test
@@ -56,7 +60,7 @@ public class TestCardService {
 
 	private CardService mockCardService() {
 		return new CardServiceImpl(new MockCardRepository(),
-				new CardNotificationTimerImpl(), mock(CardAlarmQueue.class),
+				new CardNotificationTimerImpl(), new MockCardAlarmQueue(),
 				mock(CardToaster.class));
 	}
 

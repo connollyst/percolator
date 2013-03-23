@@ -12,7 +12,7 @@ public interface CardService {
 	 * 
 	 * @return all cards
 	 */
-	public List<Card> getAll();
+	List<Card> getAll();
 
 	/**
 	 * Return the stored {@link Card} with the given id.
@@ -21,19 +21,19 @@ public interface CardService {
 	 *            a valid card id
 	 * @return the card for the id
 	 */
-	public Card get(int id);
+	Card get(int id);
 
 	/**
 	 * Save a new card to the database.
 	 * 
 	 * @param card
 	 */
-	public void save(Card card);
+	void save(Card card);
 
 	/**
 	 * Queues all active alarms, replacing any existing alarms for those cards.
 	 */
-	public void resetAllAlarms();
+	void resetAllAlarms();
 
 	/**
 	 * Increment the card's {@link CardNotificationStage} to the next
@@ -43,7 +43,7 @@ public interface CardService {
 	 * @param card
 	 *            the card to update
 	 */
-	public void incrementCardStage(Card card);
+	void incrementCardStage(Card card);
 
 	/**
 	 * Registers an {@link EventListener} for the onAdd event.
@@ -51,6 +51,6 @@ public interface CardService {
 	 * @param onAddListener
 	 *            the onAdd event listener
 	 */
-	public void setOnAddListener(EventListener<Card> onAddListener);
+	void setOnAddListener(EventListener<Card> onAddListener);
 
 }

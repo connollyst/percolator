@@ -1,11 +1,15 @@
 package org.dosbcn.flashcards.notifications;
 
+import java.util.Date;
+
 import org.dosbcn.flashcards.data.Card;
 
 public interface CardAlarmQueue {
 
-	public void setAlarms(Iterable<Card> cards);
+	Date getAlarm(Card card);
 
-	public void setAlarm(Card card);
+	void setAlarms(Iterable<Card> cards);
+
+	void setAlarm(Card card);
 
 }

@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.SparseArray;
 
 public class CardAlarmQueueImpl implements CardAlarmQueue {
 
@@ -21,10 +22,16 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 
 	private final Context context;
 	private final CardNotificationTimer timer;
+	private final SparseArray<Date> alarms;
 
 	public CardAlarmQueueImpl(Context context) {
 		this.context = context;
 		this.timer = new CardNotificationTimerImpl();
+		this.alarms = new SparseArray<Date>();
+	}
+
+	public Date getAlarm(Card card) {
+		return alarms.get(card.getId());
 	}
 
 	public void setAlarms(Iterable<Card> cards) {
@@ -56,6 +63,7 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getTime(),
 				PendingIntent.getBroadcast(context, cardId, intent,
 						PendingIntent.FLAG_CANCEL_CURRENT));
+
 	}
 
 	private AlarmManager getAlarmManager() {
