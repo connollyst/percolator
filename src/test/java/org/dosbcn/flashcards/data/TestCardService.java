@@ -4,13 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
+import org.dosbcn.flashcards.events.MockCardEventListener;
 import org.dosbcn.flashcards.notifications.CardNotificationTimerImpl;
-import org.dosbcn.flashcards.notifications.CardToaster;
 import org.dosbcn.flashcards.notifications.MockCardAlarmQueue;
 import org.dosbcn.flashcards.notifications.MockCardToaster;
 import org.junit.Before;
@@ -75,7 +73,10 @@ public class TestCardService {
 
 	@Test
 	public void testEventFiredOnSave() {
-		fail("Test not implemented.");
+		MockCardEventListener listener = new MockCardEventListener();
+		cardService.setOnAddListener(listener);
+		cardService.save(mockCard());
+		assertTrue("onAdd event was not fired.", listener.isEventFired());
 	}
 
 	private Card mockCard() {
