@@ -1,4 +1,4 @@
-package org.dosbcn.flashcards.notifications;
+package org.dosbcn.flashcards.data;
 
 import android.util.Log;
 
@@ -9,22 +9,22 @@ import android.util.Log;
  * 
  * @author Sean Connolly
  */
-public enum CardNotificationStage {
+public enum CardStage {
 
 	ONE_DAY, ONE_WEEK, ONE_MONTH, COMPLETE;
 
-	private static final String LOG_TAG = CardNotificationStage.class
+	private static final String LOG_TAG = CardStage.class
 			.getSimpleName();
 
 	/**
-	 * Returns the {@link CardNotificationStage} that should follow the one
+	 * Returns the {@link CardStage} that should follow the one
 	 * provided.
 	 * 
 	 * @param stage
 	 *            the 'current' stage
 	 * @return the 'next' stage
 	 */
-	public static CardNotificationStage nextStage(CardNotificationStage stage) {
+	public static CardStage nextStage(CardStage stage) {
 		switch (stage) {
 		case ONE_DAY:
 			return ONE_WEEK;

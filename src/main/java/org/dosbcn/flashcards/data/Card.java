@@ -3,7 +3,6 @@ package org.dosbcn.flashcards.data;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.dosbcn.flashcards.notifications.CardNotificationStage;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -30,17 +29,23 @@ public class Card {
 	@DatabaseField
 	private CardColor color;
 	@DatabaseField
-	private CardNotificationStage stage;
+	private CardStage stage;
 	@DatabaseField
 	private Date startDate;
 	@DatabaseField
 	private Date nextNotificationDate;
 
+	@SuppressWarnings("unused")
+	private Card() {
+		// A no-arg constructor provide for the DB layer,
+		// but private so it can't be accessed without reflection.
+	}
+
 	public Card(String title, String description, CardColor color) {
 		this.title = title;
 		this.description = description;
 		this.color = color;
-		this.stage = CardNotificationStage.ONE_DAY;
+		this.stage = CardStage.ONE_DAY;
 		this.startDate = Calendar.getInstance().getTime();
 	}
 
@@ -76,11 +81,11 @@ public class Card {
 		this.color = color;
 	}
 
-	public CardNotificationStage getStage() {
+	public CardStage getStage() {
 		return stage;
 	}
 
-	public void setStage(CardNotificationStage stage) {
+	public void setStage(CardStage stage) {
 		this.stage = stage;
 	}
 

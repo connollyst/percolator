@@ -21,6 +21,10 @@ public class SaveButtonClickListener implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
+		onClick();
+	}
+
+	public void onClick() {
 		String title = titleField.getText().toString();
 		String description = descriptionField.getText().toString();
 		Card card = new Card(title, description, CardColor.WHITE);

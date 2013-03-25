@@ -41,6 +41,10 @@ public class CardActivity extends FragmentActivity implements
 		service = new CardServiceImpl(this);
 	}
 
+	protected CardActivity(CardService service) {
+		this.service = service;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,7 +93,8 @@ public class CardActivity extends FragmentActivity implements
 		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
 	}
 
-	private void initLoadManager() {
+	protected void initLoadManager() {
+		// TODO do we need all this LoadManger crap?
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
 

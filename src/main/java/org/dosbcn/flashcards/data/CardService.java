@@ -3,7 +3,6 @@ package org.dosbcn.flashcards.data;
 import java.util.List;
 
 import org.dosbcn.flashcards.events.EventListener;
-import org.dosbcn.flashcards.notifications.CardNotificationStage;
 
 public interface CardService {
 
@@ -36,7 +35,7 @@ public interface CardService {
 	void resetAllAlarms();
 
 	/**
-	 * Increment the card's {@link CardNotificationStage} to the next
+	 * Increment the card's {@link CardStage} to the next
 	 * appropriate. For example, if it is currently at the second stage, it will
 	 * be updated to the third. Changes are saved to the database.
 	 * 

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.dosbcn.flashcards.data.Card;
+import org.dosbcn.flashcards.data.CardStage;
 import org.dosbcn.flashcards.notifications.time.RandomTimeGenerator;
 import org.dosbcn.flashcards.notifications.time.TimeAdjustor;
 
@@ -27,7 +28,7 @@ import android.util.Log;
  * </ol>
  * 
  * @see {@link CardNofifier}
- * @see {@link CardNotificationStage}
+ * @see {@link CardStage}
  * 
  * @author Sean Connolly
  */
@@ -37,7 +38,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 			.getSimpleName();
 
 	private static final String BAD_STAGE_LOG = "Unexpected "
-			+ CardNotificationStage.class.getSimpleName() + ": ";
+			+ CardStage.class.getSimpleName() + ": ";
 
 	private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
@@ -57,7 +58,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	 * Generate a random time to send the notification, appropriate for the
 	 * given stage and origin date.
 	 */
-	private Date getNotificationTime(CardNotificationStage stage,
+	private Date getNotificationTime(CardStage stage,
 			Date originDate) {
 		switch (stage) {
 		case ONE_DAY:

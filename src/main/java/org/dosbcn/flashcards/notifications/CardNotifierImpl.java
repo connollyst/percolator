@@ -2,6 +2,7 @@ package org.dosbcn.flashcards.notifications;
 
 import org.dosbcn.flashcards.R;
 import org.dosbcn.flashcards.data.Card;
+import org.dosbcn.flashcards.data.CardStage;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,7 +15,7 @@ import android.util.Log;
 /**
  * The means by which {@link Card} {@link Notification}s are sent to the device.<br/>
  * The type of notification (reminder, quiz, etc.) is determined, randomly, on
- * the fly based on the {@link Card's} current {@link CardNotificationStage}.
+ * the fly based on the {@link Card's} current {@link CardStage}.
  * 
  * @author Sean Connolly
  */

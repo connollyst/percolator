@@ -7,7 +7,6 @@ import org.dosbcn.flashcards.CardActivity;
 import org.dosbcn.flashcards.events.EventListener;
 import org.dosbcn.flashcards.notifications.CardAlarmQueue;
 import org.dosbcn.flashcards.notifications.CardAlarmQueueImpl;
-import org.dosbcn.flashcards.notifications.CardNotificationStage;
 import org.dosbcn.flashcards.notifications.CardNotificationTimer;
 import org.dosbcn.flashcards.notifications.CardNotificationTimerImpl;
 import org.dosbcn.flashcards.notifications.CardToaster;
@@ -91,17 +90,16 @@ public class CardServiceImpl implements CardService {
 	}
 
 	/**
-	 * Increment the card's {@link CardNotificationStage} to the next
-	 * appropriate. For example, if it is currently at the second stage, it will
-	 * be updated to the third. Changes are saved to the database.
+	 * Increment the card's {@link CardStage} to the next appropriate. For
+	 * example, if it is currently at the second stage, it will be updated to
+	 * the third. Changes are saved to the database.
 	 * 
 	 * @param card
 	 *            the card to update
 	 */
 	public void incrementCardStage(Card card) {
-		CardNotificationStage currentStage = card.getStage();
-		CardNotificationStage nextStage = CardNotificationStage
-				.nextStage(currentStage);
+		CardStage currentStage = card.getStage();
+		CardStage nextStage = CardStage.nextStage(currentStage);
 		card.setStage(nextStage);
 		repository.update(card);
 	}
@@ -129,4 +127,21 @@ public class CardServiceImpl implements CardService {
 			Log.w(LOG_TAG, "No onAdd listener registered!");
 		}
 	}
+
+	protected CardRepository getCardRepository() {
+		return repository;
+	}
+
+	protected CardNotificationTimer getCardNotificationTimer() {
+		return timer;
+	}
+
+	protected CardAlarmQueue getCardAlarmQueue() {
+		return alarmQueue;
+	}
+
+	protected CardToaster getCardToaster() {
+		return toaster;
+	}
+
 }
