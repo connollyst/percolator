@@ -29,7 +29,7 @@ public class TimeAdjustor {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		for (TimeAdjustment adjustment : adjustments) {
-			cal.add(adjustment.field, adjustment.amount);
+			cal.add(adjustment.getField(), adjustment.getAmount());
 		}
 		return cal.getTime();
 	}
