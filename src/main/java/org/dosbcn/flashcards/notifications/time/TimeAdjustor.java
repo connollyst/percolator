@@ -3,7 +3,7 @@ package org.dosbcn.flashcards.notifications.time;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TimeAdjustor {
+public final class TimeAdjustor {
 
 	private TimeAdjustor() {
 		// hide utility class constructor
