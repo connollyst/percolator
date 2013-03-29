@@ -1,6 +1,6 @@
 package org.dosbcn.flashcards.events;
 
-import org.dosbcn.flashcards.CardViewHolder;
+import org.dosbcn.flashcards.view.CardViewHolder;
 
 import android.util.Log;
 import android.view.View;

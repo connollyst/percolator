@@ -1,4 +1,4 @@
-package org.dosbcn.flashcards;
+package org.dosbcn.flashcards.view;
 
 import android.view.View;
 import android.widget.ListView;

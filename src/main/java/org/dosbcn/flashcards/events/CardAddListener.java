@@ -1,7 +1,7 @@
 package org.dosbcn.flashcards.events;
 
-import org.dosbcn.flashcards.CardViewAdapter;
 import org.dosbcn.flashcards.data.Card;
+import org.dosbcn.flashcards.view.CardViewAdapter;
 
 /**
  * An {@link EventListener} indicating a new {@link Card} has been created.

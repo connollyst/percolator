@@ -8,6 +8,7 @@ import org.dosbcn.flashcards.data.CardServiceImpl;
 import org.dosbcn.flashcards.events.CardAddListener;
 import org.dosbcn.flashcards.events.GlobalLayoutListener;
 import org.dosbcn.flashcards.events.SaveButtonClickListener;
+import org.dosbcn.flashcards.view.CardViewAdapter;
 
 import android.app.Activity;
 import android.app.ListActivity;

@@ -1,9 +1,12 @@
-package org.dosbcn.flashcards;
+package org.dosbcn.flashcards.view;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.dosbcn.flashcards.R;
+import org.dosbcn.flashcards.R.id;
+import org.dosbcn.flashcards.R.layout;
 import org.dosbcn.flashcards.data.Card;
 import org.dosbcn.flashcards.events.CardClickListener;
 import org.dosbcn.flashcards.events.CardSwipeListener;
