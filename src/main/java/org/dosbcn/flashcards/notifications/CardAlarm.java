@@ -30,18 +30,10 @@ public class CardAlarm extends BroadcastReceiver {
 	private CardService service;
 	private CardNotifier notifier;
 
-	protected void setService(CardService service) {
-		this.service = service;
-	}
-
-	protected void setNotifier(CardNotifier notifier) {
-		this.notifier = notifier;
-	}
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		initialize(context);
-		handleAlarm(castIntent(intent));
+		CardAlarmIntent cardIntent = castIntent(intent);
+		handleAlarm(cardIntent);
 	}
 
 	protected void initialize(Context context) {
@@ -77,5 +69,21 @@ public class CardAlarm extends BroadcastReceiver {
 		} else {
 			throw new ClassCastException(ERROR_BAD_INTENT + intent.getClass());
 		}
+	}
+
+	public CardService getService() {
+		return service;
+	}
+
+	protected void setService(CardService service) {
+		this.service = service;
+	}
+
+	public CardNotifier getNotifier() {
+		return notifier;
+	}
+
+	protected void setNotifier(CardNotifier notifier) {
+		this.notifier = notifier;
 	}
 }
