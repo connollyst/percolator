@@ -74,8 +74,7 @@ public class CardServiceImpl implements CardService {
 	 * @param card
 	 */
 	public void save(Card card) {
-		Date notificationTime = timer.getNextNotificationTime(card);
-		card.setNextNotificationDate(notificationTime);
+		refreshNotificationTime(card);
 		repository.create(card);
 		alarmQueue.setAlarm(card);
 		toaster.cardSaved();
@@ -101,6 +100,8 @@ public class CardServiceImpl implements CardService {
 		CardStage currentStage = card.getStage();
 		CardStage nextStage = CardStage.nextStage(currentStage);
 		card.setStage(nextStage);
+		// Update the next notification time to reflect the new stage
+		refreshNotificationTime(card);
 		repository.update(card);
 	}
 
@@ -112,6 +113,11 @@ public class CardServiceImpl implements CardService {
 	 */
 	public void setOnAddListener(EventListener<Card> onAddListener) {
 		this.onAddListener = onAddListener;
+	}
+
+	private void refreshNotificationTime(Card card) {
+		Date notificationTime = timer.getNextNotificationTime(card);
+		card.setNextNotificationDate(notificationTime);
 	}
 
 	/**
