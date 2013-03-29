@@ -34,8 +34,8 @@ public class MockCardAlarmQueue extends CardAlarmQueueImpl implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void setAlarm(int cardId, Date alarmDate) {
-		alarms.put(cardId, alarmDate);
+	protected void setAlarm(Card card, Date alarmDate) {
+		alarms.put(card.getId(), alarmDate);
 		// there is no Android context, don't actually set any alarm
 	}
 

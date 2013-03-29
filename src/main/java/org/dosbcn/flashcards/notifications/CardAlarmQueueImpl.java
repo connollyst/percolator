@@ -9,7 +9,6 @@ import org.dosbcn.flashcards.data.Card;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 /**
@@ -70,28 +69,11 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 			throw new NullPointerException("Cannot queue an alarm for a "
 					+ Card.class.getSimpleName() + " without an id.");
 		}
-		int cardId = card.getId();
-		setAlarm(cardId, alarmDate);
-	}
-
-	/**
-	 * Set an Android alarm for the specified {@code alarmDate}. The alarm will
-	 * be handled by the {@link CardAlarm} broadcast receiver who will display a
-	 * notification for the {@link Card} with the id '{@code cardId}'.
-	 * 
-	 * @param cardId
-	 *            the id of the card the notification will display
-	 * @param alarmDate
-	 *            the date and time the alarm should go off
-	 */
-	protected void setAlarm(int cardId, Date alarmDate) {
 		AlarmManager alarmManager = getAlarmManager();
-		Intent intent = new Intent(context, CardAlarm.class);
-		intent.putExtra(CardAlarm.CARD_ID_EXTRA, cardId);
+		CardAlarmIntent intent = new CardAlarmIntent(context, card);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getTime(),
-				PendingIntent.getBroadcast(context, cardId, intent,
+				PendingIntent.getBroadcast(context, card.getId(), intent,
 						PendingIntent.FLAG_CANCEL_CURRENT));
-
 	}
 
 	/**

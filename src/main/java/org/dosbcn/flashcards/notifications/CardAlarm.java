@@ -22,33 +22,43 @@ public class CardAlarm extends BroadcastReceiver {
 
 	private static final String LOG_TAG = CardAlarm.class.getSimpleName();
 
-	public static final String CARD_ID_EXTRA = "org.dosbcn.flashcards.card.id";
+	protected static final String ERROR_NULL_INTENT = CardAlarm.class
+			.getSimpleName() + " received an alarm with a null intent.";
+	protected static final String ERROR_BAD_INTENT = CardAlarm.class
+			.getSimpleName() + " received an alarm with an invalid intent: ";
 
 	private CardService service;
 	private CardNotifier notifier;
 
+	protected void setService(CardService service) {
+		this.service = service;
+	}
+
+	protected void setNotifier(CardNotifier notifier) {
+		this.notifier = notifier;
+	}
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		initialize(context);
+		handleAlarm(castIntent(intent));
+	}
+
+	protected void initialize(Context context) {
 		Log.i(LOG_TAG, "Preparing notification alarm.");
 		service = new CardServiceImpl(context);
 		notifier = new CardNotifierImpl(context);
+	}
+
+	protected void handleAlarm(CardAlarmIntent intent) {
 		Card card = getCardFromIntent(intent);
 		showNotification(card);
 		updateStage(card);
 	}
 
-	private Card getCardFromIntent(Intent intent) {
-		int id = getCardIdFromIntent(intent);
-		return service.get(id);
-	}
-
-	private int getCardIdFromIntent(Intent intent) {
-		int id = intent.getIntExtra(CARD_ID_EXTRA, -1);
-		if (id == -1) {
-			throw new RuntimeException(CARD_ID_EXTRA
-					+ " missing from notification");
-		}
-		return id;
+	private Card getCardFromIntent(CardAlarmIntent intent) {
+		int cardId = intent.getCardId();
+		return service.get(cardId);
 	}
 
 	private void showNotification(Card card) {
@@ -57,5 +67,15 @@ public class CardAlarm extends BroadcastReceiver {
 
 	private void updateStage(Card card) {
 		service.incrementCardStage(card);
+	}
+
+	private CardAlarmIntent castIntent(Intent intent) {
+		if (intent == null) {
+			throw new NullPointerException(ERROR_NULL_INTENT);
+		} else if (intent instanceof CardAlarmIntent) {
+			return (CardAlarmIntent) intent;
+		} else {
+			throw new ClassCastException(ERROR_BAD_INTENT + intent.getClass());
+		}
 	}
 }
