@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.dosbcn.flashcards"
+    package="org.dosbcn.percolator"
     android:versionCode="1"
     android:versionName="0.0.1-SNAPSHOT" >
 
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.dosbcn.flashcards.notifications.CardAlarm" />
+        <receiver android:name="com.dosbcn.percolator.notifications.CardAlarm" />
     </application>
 
 </manifest>

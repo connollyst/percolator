@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import org.dosbcn.flashcards.R;
-import org.dosbcn.percolator.CardActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

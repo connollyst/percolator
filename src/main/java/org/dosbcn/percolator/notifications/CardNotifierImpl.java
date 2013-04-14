@@ -1,6 +1,6 @@
 package org.dosbcn.percolator.notifications;
 
-import org.dosbcn.flashcards.R;
+import org.dosbcn.percolator.R;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardStage;
 

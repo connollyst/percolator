@@ -1,15 +1,14 @@
 package org.dosbcn.percolator.events;
 
+import org.dosbcn.percolator.R;
+
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Build;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ListView;
-
-import org.dosbcn.flashcards.R;
 
 public class GlobalLayoutListener implements
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -44,17 +43,17 @@ public class GlobalLayoutListener implements
 	private Point getDisplaySize() {
 		Point size = new Point();
 		Display display = getWindowManager().getDefaultDisplay();
-//		if (Build.VERSION.SDK_INT >= 13) {
-//			display.getSize(size);
-//		} else {
-			// For backwards compatibility
-			@SuppressWarnings("deprecation")
-			int width = display.getWidth();
-			@SuppressWarnings("deprecation")
-			int height = display.getHeight();
-			size.x = width;
-			size.y = height;
-//		}
+		// if (Build.VERSION.SDK_INT >= 13) {
+		// display.getSize(size);
+		// } else {
+		// For backwards compatibility
+		@SuppressWarnings("deprecation")
+		int width = display.getWidth();
+		@SuppressWarnings("deprecation")
+		int height = display.getHeight();
+		size.x = width;
+		size.y = height;
+		// }
 		return size;
 	}
 

@@ -4,9 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.dosbcn.flashcards.R;
-import org.dosbcn.flashcards.R.id;
-import org.dosbcn.flashcards.R.layout;
+import org.dosbcn.percolator.R;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.events.CardClickListener;
 import org.dosbcn.percolator.events.CardSwipeListener;

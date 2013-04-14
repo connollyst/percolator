@@ -2,7 +2,6 @@ package org.dosbcn.percolator;
 
 import java.util.List;
 
-import org.dosbcn.flashcards.R;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardService;
 import org.dosbcn.percolator.data.CardServiceImpl;
