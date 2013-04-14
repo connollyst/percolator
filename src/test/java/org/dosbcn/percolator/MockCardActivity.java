@@ -1,6 +1,5 @@
 package org.dosbcn.percolator;
 
-import org.dosbcn.percolator.CardActivity;
 import org.dosbcn.percolator.data.MockCardService;
 
 /**
@@ -17,11 +16,6 @@ public class MockCardActivity extends CardActivity {
 
 	public MockCardService getMockCardService() {
 		return (MockCardService) getService();
-	}
-
-	@Override
-	protected void initLoadManager() {
-		// do nothing
 	}
 
 }

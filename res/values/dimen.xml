@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_input_bottom">0dp</dimen>
+    <dimen name="margin_input_left">10dp</dimen>
+    <dimen name="margin_input_right">10dp</dimen>
+    <dimen name="margin_input_top">50dp</dimen>
+
+</resources>
