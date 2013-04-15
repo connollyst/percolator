@@ -5,6 +5,7 @@
     <string name="menu_settings">Settings</string>
     <string name="help_title">Welcome</string>
     <string name="title_hint">word</string>
+    <string name="gradient_desc">color slider</string>
     <string name="description_hint">definition</string>
     <string name="save_button_label">Save</string>
 

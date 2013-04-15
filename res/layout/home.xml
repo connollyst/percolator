@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="0px"
             android:padding="0px"
+            android:contentDescription="@string/gradient_desc"
             android:src="@drawable/color_gradient"/>
 
     <EditText
@@ -28,7 +29,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/title_hint"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/pink"
             android:textSize="50sp"
             android:textStyle="bold"/>
 
@@ -43,7 +44,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/description_hint"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/pink"
             android:textSize="50sp"
             android:textStyle="bold"/>
 
