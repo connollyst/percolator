@@ -2,13 +2,14 @@ package org.dosbcn.percolator;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import org.dosbcn.percolator.data.CardService;
 import org.dosbcn.percolator.data.CardServiceImpl;
-import org.dosbcn.percolator.events.GotoListButtonClickListener;
 import org.dosbcn.percolator.events.SaveButtonClickListener;
 
 /**
@@ -49,7 +50,13 @@ public class CardActivity extends Activity {
     }
 
     private void initGotoListButtonListener() {
-        findGotoListButton().setOnClickListener(new GotoListButtonClickListener());
+        findGotoListButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(getApplicationContext(), ListCardsActivity.class);
+                startActivity(nextActivity);
+            }
+        });
     }
 
     public CardService getService() {
