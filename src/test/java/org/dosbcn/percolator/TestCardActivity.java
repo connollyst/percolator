@@ -12,12 +12,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test cases for the {@link CardActivity}.<br/>
+ * Test cases for the {@link MainActivity}.<br/>
  * Note: for the tests which require initialization we use a
- * {@link MockCardActivity} which resolves issues with the DB and other
+ * {@link MockMainActivity} which resolves issues with the DB and other
  * components which are normally initialized. The tests, however, do not depend
  * on any of the mocked components and focus on Android managed aspects of the
- * {@link CardActivity}.
+ * {@link MainActivity}.
  *
  * @author Sean Connolly
  */
@@ -28,29 +28,29 @@ public class TestCardActivity {
 
     @Test
     public void testAppName() {
-        Resources cardResources = new CardActivity().getResources();
+        Resources cardResources = new MainActivity().getResources();
         String appName = cardResources.getString(R.string.app_name);
         assertThat(appName, equalTo(EXPECTED_TITLE));
     }
 
     @Test
     public void testFindTitleField() {
-        CardActivity cardActivity = new MockCardActivity();
-        EditText titleField = cardActivity.findTitleField();
+        MainActivity mainActivity = new MockMainActivity();
+        EditText titleField = mainActivity.findTitleField();
         assertNotNull(titleField);
     }
 
     @Test
     public void testFindDescriptionField() {
-        CardActivity cardActivity = new MockCardActivity();
-        EditText descField = cardActivity.findDescriptionField();
+        MainActivity mainActivity = new MockMainActivity();
+        EditText descField = mainActivity.findDescriptionField();
         assertNotNull(descField);
     }
 
     @Test
     public void testFindSaveButton() {
-        CardActivity cardActivity = new MockCardActivity();
-        Button saveButton = cardActivity.findSaveButton();
+        MainActivity mainActivity = new MockMainActivity();
+        Button saveButton = mainActivity.findSaveButton();
         assertNotNull(saveButton);
     }
 

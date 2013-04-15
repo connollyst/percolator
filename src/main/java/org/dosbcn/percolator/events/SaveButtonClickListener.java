@@ -2,7 +2,7 @@ package org.dosbcn.percolator.events;
 
 import android.view.View;
 import android.widget.EditText;
-import org.dosbcn.percolator.CardActivity;
+import org.dosbcn.percolator.MainActivity;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardColor;
 import org.dosbcn.percolator.data.CardService;
@@ -26,7 +26,7 @@ public class SaveButtonClickListener implements View.OnClickListener {
      * @param activity
      *         the activity being listened to
      */
-    public SaveButtonClickListener(CardActivity activity) {
+    public SaveButtonClickListener(MainActivity activity) {
         this.service = activity.getService();
         this.titleField = activity.findTitleField();
         this.descriptionField = activity.findDescriptionField();

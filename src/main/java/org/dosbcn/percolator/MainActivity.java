@@ -1,7 +1,6 @@
 package org.dosbcn.percolator;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,26 +14,26 @@ import org.dosbcn.percolator.events.SaveButtonClickListener;
 /**
  * The main {@link Activity} in this application.<br/>
  * Our interface is a single {@link ListView} and is managed by simply extending
- * the {@link ListActivity}.
+ * the {@link android.app.ListActivity}.
  *
  * @author Sean Connolly
  */
-public class CardActivity extends Activity {
+public class MainActivity extends Activity {
 
     private final CardService service;
 
-    public CardActivity() {
+    public MainActivity() {
         service = new CardServiceImpl(this);
     }
 
-    protected CardActivity(CardService service) {
+    protected MainActivity(CardService service) {
         this.service = service;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.main);
         initSaveButtonListener();
         initGotoListButtonListener();
         // Make sure an alarm is queued for all active cards, the queue is smart
@@ -53,7 +52,7 @@ public class CardActivity extends Activity {
         findGotoListButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextActivity = new Intent(getApplicationContext(), ListCardsActivity.class);
+                Intent nextActivity = new Intent(getApplicationContext(), ListActivity.class);
                 startActivity(nextActivity);
             }
         });

@@ -1,7 +1,6 @@
 package org.dosbcn.percolator;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
@@ -16,20 +15,20 @@ import java.util.List;
 /**
  * The {@link Activity} displaying the list of flash cards.<br/>
  * Our interface is a single {@link ListView} and is managed by simply extending
- * the {@link ListActivity}.
+ * the {@link android.app.ListActivity}.
  *
  * @author Sean Connolly
  */
-public class ListCardsActivity extends ListActivity {
+public class ListActivity extends android.app.ListActivity {
 
-    private static final String LOG_TAG = ListCardsActivity.class.getSimpleName();
+    private static final String LOG_TAG = ListActivity.class.getSimpleName();
     private final CardService service;
 
-    public ListCardsActivity() {
+    public ListActivity() {
         service = new CardServiceImpl(this);
     }
 
-    protected ListCardsActivity(CardService service) {
+    protected ListActivity(CardService service) {
         this.service = service;
     }
 
