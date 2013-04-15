@@ -1,39 +1,91 @@
 package org.dosbcn.percolator.events;
 
+import android.view.View;
+import android.widget.EditText;
 import org.dosbcn.percolator.CardActivity;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardColor;
+import org.dosbcn.percolator.data.CardService;
 
-import android.view.View;
-import android.widget.EditText;
-
+/**
+ * A listener for click events on the 'Save' button.<br/>
+ * Creates a new card and resets the form.
+ *
+ * @author Sean Connolly
+ */
 public class SaveButtonClickListener implements View.OnClickListener {
 
-	private final CardActivity activity;
-	private final EditText titleField;
-	private final EditText descriptionField;
+    private static final String BLANK = "";
+    private final CardService service;
+    private final EditText titleField;
+    private final EditText descriptionField;
 
-	public SaveButtonClickListener(CardActivity activity) {
-		this.activity = activity;
-		this.titleField = activity.findTitleField();
-		this.descriptionField = activity.findDescriptionField();
-	}
+    /**
+     * Construct a new listener.
+     *
+     * @param activity
+     *         the activity being listened to
+     */
+    public SaveButtonClickListener(CardActivity activity) {
+        this.service = activity.getService();
+        this.titleField = activity.findTitleField();
+        this.descriptionField = activity.findDescriptionField();
+    }
 
-	@Override
-	public void onClick(View view) {
-		onClick();
-	}
+    /**
+     * Handle a click event.
+     *
+     * @param view
+     *         the view originating the click event
+     */
+    @Override
+    public void onClick(View view) {
+        onClick();
+    }
 
-	public void onClick() {
-		String title = titleField.getText().toString();
-		String description = descriptionField.getText().toString();
-		Card card = new Card(title, description, CardColor.WHITE);
-		activity.getService().save(card);
-		clearForm();
-	}
+    /**
+     * Handle a click event.
+     */
+    public void onClick() {
+        String title = getTitle();
+        String description = getDescription();
+        Card card = new Card(title, description, CardColor.WHITE);
+        service.save(card);
+        clearForm();
+        resetFocus();
+    }
 
-	private void clearForm() {
-		titleField.setText("");
-		descriptionField.setText("");
-	}
+    /**
+     * Get the current title from the form.
+     *
+     * @return the title
+     */
+    private String getTitle() {
+        return titleField.getText().toString();
+    }
+
+    /**
+     * Get the current description from the form.
+     *
+     * @return the description
+     */
+    private String getDescription() {
+        return descriptionField.getText().toString();
+    }
+
+    /**
+     * Clear the form, setting both input fields to blank.
+     */
+    private void clearForm() {
+        titleField.setText(BLANK);
+        descriptionField.setText(BLANK);
+    }
+
+    /**
+     * Reset the focus in the form.
+     */
+    private void resetFocus() {
+        titleField.requestFocus();
+    }
+
 }
