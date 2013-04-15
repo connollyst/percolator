@@ -2,11 +2,17 @@
 <resources>
 
     <string name="app_name">Percolator</string>
-    <string name="menu_settings">Settings</string>
+
+    <!-- Text Labels -->
     <string name="help_title">Welcome</string>
     <string name="title_hint">word</string>
-    <string name="gradient_desc">color slider</string>
     <string name="description_hint">definition</string>
+
+    <!-- Button Labels -->
     <string name="save_button_label">Save</string>
+    <string name="list_button_label">List..</string>
+
+    <!-- Image Descriptions -->
+    <string name="gradient_desc">color slider</string>
 
 </resources>
