@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  * @author Sean Connolly
  */
 @RunWith(RobolectricTestRunner.class)
-public class TestCardActivity {
+public class TestMainActivity {
 
     private static final String EXPECTED_TITLE = "Percolator";
 

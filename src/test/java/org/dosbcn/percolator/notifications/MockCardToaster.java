@@ -1,18 +1,17 @@
 package org.dosbcn.percolator.notifications;
 
-import org.dosbcn.percolator.notifications.CardToaster;
+public class MockCardToaster
+        implements CardToaster {
 
-public class MockCardToaster implements CardToaster {
+    boolean toasted = false;
 
-	boolean toasted = false;
+    @Override
+    public void cardSaved() {
+        toasted = true;
+    }
 
-	@Override
-	public void cardSaved() {
-		toasted = true;
-	}
-
-	public boolean isToasted() {
-		return toasted;
-	}
+    public boolean isToasted() {
+        return toasted;
+    }
 
 }

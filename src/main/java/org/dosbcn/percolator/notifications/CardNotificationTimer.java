@@ -1,11 +1,11 @@
 package org.dosbcn.percolator.notifications;
 
-import java.util.Date;
-
 import org.dosbcn.percolator.data.Card;
+
+import java.util.Date;
 
 public interface CardNotificationTimer {
 
-	Date getNextNotificationTime(Card card);
+    Date getNextNotificationTime(Card card);
 
 }

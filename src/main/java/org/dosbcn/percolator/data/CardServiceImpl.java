@@ -3,27 +3,33 @@ package org.dosbcn.percolator.data;
 import android.content.Context;
 import android.util.Log;
 import org.dosbcn.percolator.events.EventListener;
-import org.dosbcn.percolator.notifications.*;
+import org.dosbcn.percolator.notifications.CardAlarmQueue;
+import org.dosbcn.percolator.notifications.CardAlarmQueueImpl;
+import org.dosbcn.percolator.notifications.CardNotificationTimer;
+import org.dosbcn.percolator.notifications.CardNotificationTimerImpl;
+import org.dosbcn.percolator.notifications.CardToaster;
+import org.dosbcn.percolator.notifications.CardToasterImpl;
 
 import java.util.Date;
 import java.util.List;
 
 /**
  * The {@link CardService} is the central point of connectivity between the
- * {@link org.dosbcn.percolator.MainActivity} on the front end and all resources on the back end;
+ * {@link org.dosbcn.percolator.MainActivity} on the front end and all
+ * resources
+ * on the back end;
  * {@link CardRepository}, {@link CardAlarmQueue}, etc.
  *
  * @author Sean Connolly
  */
-public class CardServiceImpl implements CardService {
+public class CardServiceImpl
+        implements CardService {
 
     private static final String LOG_TAG = CardService.class.getSimpleName();
-
     private final CardRepository repository;
     private final CardNotificationTimer timer;
     private final CardAlarmQueue alarmQueue;
     private final CardToaster toaster;
-
     private EventListener<Card> onAddListener;
 
     public CardServiceImpl(Context context) {
@@ -65,6 +71,7 @@ public class CardServiceImpl implements CardService {
      * Save a new card to the database.
      *
      * @param card
+     *         the new card
      */
     public void save(Card card) {
         refreshNotificationTime(card);
@@ -78,6 +85,7 @@ public class CardServiceImpl implements CardService {
      * Queues all active alarms, replacing any existing alarms for those cards.
      */
     public void resetAllAlarms() {
+        Log.d(LOG_TAG, "Resetting all alarms.");
         alarmQueue.setAlarms(getAll());
     }
 

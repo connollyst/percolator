@@ -1,24 +1,44 @@
 package org.dosbcn.percolator.notifications;
 
-import org.dosbcn.percolator.data.CardService;
-import org.dosbcn.percolator.notifications.CardAlarm;
-
 import android.content.Context;
+import org.dosbcn.percolator.data.CardService;
 
-public class MockCardAlarm extends CardAlarm {
+/**
+ * A mock extension of the {@link CardAlarm} for testing purposes.
+ *
+ * @author Sean Connolly
+ */
+public class MockCardAlarm
+        extends CardAlarm {
 
-	public MockCardAlarm(CardService service) {
-		setNotifier(new MockCardNotifier());
-		setService(service);
-	}
+    /**
+     * Default constructor.
+     *
+     * @param service
+     *         the card service to use in testing
+     */
+    public MockCardAlarm(CardService service) {
+        setNotifier(new MockCardNotifier());
+        setService(service);
+    }
 
-	@Override
-	protected void initialize(Context context) {
-		// do nothing
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Context context) {
+        // do nothing
+    }
 
-	public MockCardNotifier getMockNotifier() {
-		return (MockCardNotifier) getNotifier();
-	}
+    /**
+     * Return the {@link MockCardNotifier} being used in the test.<br/>
+     * Note: this is the same as {@code getNotifier} except it handles the cast
+     * for us.
+     *
+     * @return
+     */
+    public MockCardNotifier getMockNotifier() {
+        return (MockCardNotifier) getNotifier();
+    }
 
 }

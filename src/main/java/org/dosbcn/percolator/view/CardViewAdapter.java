@@ -1,99 +1,110 @@
 package org.dosbcn.percolator.view;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import org.dosbcn.percolator.R;
-import org.dosbcn.percolator.data.Card;
-import org.dosbcn.percolator.events.CardClickListener;
-import org.dosbcn.percolator.events.CardSwipeListener;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import org.dosbcn.percolator.R;
+import org.dosbcn.percolator.data.Card;
+import org.dosbcn.percolator.events.CardClickListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
- * 
+ * An Android list adapter, responsible for managing the relationship between
+ * the list of {@link Card}s and their respective {@link CardViewHolder}s.
+ *
  * @author Sean Connolly
  */
-public class CardViewAdapter extends ArrayAdapter<Card> {
+public class CardViewAdapter
+        extends ArrayAdapter<Card> {
 
-	private static final DateFormat DATE_FORMAT = SimpleDateFormat
-			.getDateTimeInstance();
+    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();
+    private static final CardClickListener CLICK_LISTENER = new CardClickListener();
+    private static final int CARD_VIEW = R.layout.card;
+    private final LayoutInflater inflator;
 
-	private static final CardSwipeListener SWIPE_LISTENER = new CardSwipeListener();
-	private static final CardClickListener CLICK_LISTENER = new CardClickListener();
+    /**
+     * Default constructor.
+     *
+     * @param context
+     *         the android context
+     * @param cards
+     *         the initial list of flash cards
+     */
+    public CardViewAdapter(Context context, List<Card> cards) {
+        super(context, CARD_VIEW, cards);
+        this.inflator = LayoutInflater.from(context.getApplicationContext());
+    }
 
-	private static final int CARD_VIEW = R.layout.card;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+        Card card = getItem(position);
+        if (view == null) {
+            view = initializeNewView();
+        }
+        CardViewHolder cardView = (CardViewHolder) view.getTag();
+        cardView.getTitleView().setText(card.getTitle());
+        cardView.getDescriptionView().setText(card.getDescription());
+        cardView.getTimeView().setText(
+                DATE_FORMAT.format(card.getNextNotificationDate()));
+        return view;
+    }
 
-	private final LayoutInflater inflator;
-	private final List<Card> cards;
+    /**
+     * Views are recycled in a list view; here we create a new recyclable view.
+     *
+     * @return a new convertable view
+     */
+    private View initializeNewView() {
+        View convertView = inflator.inflate(CARD_VIEW, null);
+        TextView title = getTitleTextView(convertView);
+        TextView description = getDescriptionTextView(convertView);
+        TextView time = getTimeTextView(convertView);
+        CardViewHolder viewHolder = new CardViewHolder(title, description, time);
+        convertView.setTag(viewHolder);
+        convertView.setOnClickListener(CLICK_LISTENER);
+        return convertView;
+    }
 
-	/**
-	 * 
-	 * @param context
-	 * @param cards
-	 */
-	public CardViewAdapter(Context context, List<Card> cards) {
-		super(context, CARD_VIEW, cards);
-		this.inflator = LayoutInflater.from(context.getApplicationContext());
-		this.cards = cards;
-	}
+    /**
+     * Get the 'title' {@link TextView}.
+     *
+     * @param view
+     *         the context view
+     * @return the text view
+     */
+    private TextView getTitleTextView(View view) {
+        return (TextView) view.findViewById(R.id.title);
+    }
 
-	/**
-	 * 
-	 * @param position
-	 * @param convertView
-	 * @param parent
-	 */
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			convertView = initializeNewConvertView(convertView);
-		}
-		CardViewHolder cardView = (CardViewHolder) convertView.getTag();
-		Card card = cards.get(position);
-		cardView.getTitleView().setText(card.getTitle());
-		cardView.getDescriptionView().setText(card.getDescription());
-		cardView.getTimeView().setText(
-				DATE_FORMAT.format(card.getNextNotificationDate()));
-		return convertView;
-	}
+    /**
+     * Get the 'description' {@link TextView}.
+     *
+     * @param view
+     *         the context view
+     * @return the text view
+     */
+    private TextView getDescriptionTextView(View view) {
+        return (TextView) view.findViewById(R.id.description);
+    }
 
-	/**
-	 * 
-	 * @param convertView
-	 * @return
-	 */
-	private View initializeNewConvertView(View convertView) {
-		convertView = inflator.inflate(CARD_VIEW, null);
-		TextView title = getTitleTextView(convertView);
-		TextView description = getDescriptionTextView(convertView);
-		TextView time = getTimeTextView(convertView);
-		CardViewHolder viewHolder = new CardViewHolder();
-		viewHolder.setTitleView(title);
-		viewHolder.setDescriptionView(description);
-		viewHolder.setTimeView(time);
-		convertView.setTag(viewHolder);
-		convertView.setOnTouchListener(SWIPE_LISTENER);
-		convertView.setOnClickListener(CLICK_LISTENER);
-		return convertView;
-	}
-
-	private TextView getTitleTextView(View convertView) {
-		return (TextView) convertView.findViewById(R.id.title);
-	}
-
-	private TextView getDescriptionTextView(View convertView) {
-		return (TextView) convertView.findViewById(R.id.description);
-	}
-
-	private TextView getTimeTextView(View convertView) {
-		return (TextView) convertView.findViewById(R.id.time);
-	}
+    /**
+     * Get the 'time' {@link TextView}.
+     *
+     * @param view
+     *         the context view
+     * @return the text view
+     */
+    private TextView getTimeTextView(View view) {
+        return (TextView) view.findViewById(R.id.time);
+    }
 
 }

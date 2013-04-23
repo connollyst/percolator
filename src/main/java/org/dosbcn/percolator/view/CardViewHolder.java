@@ -9,37 +9,43 @@ import android.widget.TextView;
  * The {@link ListView} recycles actual {@link View}s and the
  * {@link CardViewHolder} allows us to easily access and modify the state of an
  * actual view.
- * 
+ *
  * @author Sean Connolly
  */
 public class CardViewHolder {
 
-	private TextView titleView;
-	private TextView descriptionView;
-	private TextView timeView;
+    private TextView titleView;
+    private TextView descriptionView;
+    private TextView timeView;
 
-	public TextView getTitleView() {
-		return titleView;
-	}
+    public CardViewHolder(TextView titleView, TextView descriptionView, TextView timeView) {
+        this.titleView = titleView;
+        this.descriptionView = descriptionView;
+        this.timeView = timeView;
+    }
 
-	public void setTitleView(TextView titleView) {
-		this.titleView = titleView;
-	}
+    public TextView getTitleView() {
+        return titleView;
+    }
 
-	public TextView getDescriptionView() {
-		return descriptionView;
-	}
+    public void setTitleView(TextView titleView) {
+        this.titleView = titleView;
+    }
 
-	public void setDescriptionView(TextView descriptionView) {
-		this.descriptionView = descriptionView;
-	}
+    public TextView getDescriptionView() {
+        return descriptionView;
+    }
 
-	public TextView getTimeView() {
-		return timeView;
-	}
+    public void setDescriptionView(TextView descriptionView) {
+        this.descriptionView = descriptionView;
+    }
 
-	public void setTimeView(TextView timeView) {
-		this.timeView = timeView;
-	}
+    public TextView getTimeView() {
+        return timeView;
+    }
+
+    public void setTimeView(TextView timeView) {
+        this.timeView = timeView;
+    }
 
 }

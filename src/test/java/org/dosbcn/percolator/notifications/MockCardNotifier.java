@@ -1,19 +1,19 @@
 package org.dosbcn.percolator.notifications;
 
 import org.dosbcn.percolator.data.Card;
-import org.dosbcn.percolator.notifications.CardNotifier;
 
-public class MockCardNotifier implements CardNotifier {
+public class MockCardNotifier
+        implements CardNotifier {
 
-	private boolean notificationShown = false;
+    private boolean notificationShown = false;
 
-	@Override
-	public void showNotification(Card card) {
-		notificationShown = true;
-	}
+    @Override
+    public void showNotification(Card card) {
+        notificationShown = true;
+    }
 
-	public boolean wasNotificationShown() {
-		return notificationShown;
-	}
+    public boolean wasNotificationShown() {
+        return notificationShown;
+    }
 
 }
