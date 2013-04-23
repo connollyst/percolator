@@ -3,7 +3,6 @@ package org.dosbcn.percolator.notifications;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 
-import static junit.framework.Assert.assertTrue;
+import static org.dosbcn.percolator.AssertTime.assertEvenDistribution;
 
 /**
  * Test cases for the {@link RandomTimeGenerator}.
@@ -26,9 +25,7 @@ public class TestRandomTimeGenerator {
     // Sample a large number of random times to evaluate the generator's behavior
     private static final int TEST_ITERATION_COUNT = 1000;
     private static final int EXPECTED_MIN_HOUR = 11;
-    private static final int EXPECTED_MEAN_HOUR = 16;
     private static final int EXPECTED_MAX_HOUR = 21;
-    private static final Period ONE_HOUR = Period.hours(1);
     private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
     @Test
@@ -42,26 +39,9 @@ public class TestRandomTimeGenerator {
                 return new DateTime(timeGenerator.getRandomTimeOneDayFromDate(now.toDate()));
             }
         });
-        DateTime actualMinimum = stats.getMinimumTime();
-        DateTime actualMaximum = stats.getMaximumTime();
-        DateTime actualMean = stats.getMean();
-
-        // We expect the random times to be within the limits
         DateTime lowerLimit = getHourTomorrow(EXPECTED_MIN_HOUR);
         DateTime upperLimit = getHourTomorrow(EXPECTED_MAX_HOUR);
-        assertAfter(lowerLimit, actualMinimum);
-        assertBefore(upperLimit, actualMaximum);
-
-        // We expect the random times include the full gamut of valid times
-        Interval lowerInterval = new Interval(lowerLimit, lowerLimit.plus(ONE_HOUR));
-        Interval upperInterval = new Interval(upperLimit.minus(ONE_HOUR), upperLimit);
-        assertBetween(lowerInterval, actualMinimum);
-        assertBetween(upperInterval, actualMaximum);
-
-        // And they should be evenly distributed around the expected mean
-        DateTime expectedMean = getHourTomorrow(EXPECTED_MEAN_HOUR);
-        Interval meanInterval = new Interval(expectedMean.minus(ONE_HOUR), expectedMean.plus(ONE_HOUR));
-        assertBetween(meanInterval, actualMean);
+        assertEvenDistribution(stats, lowerLimit, upperLimit);
     }
 
     /**
@@ -97,22 +77,6 @@ public class TestRandomTimeGenerator {
                 .withMinuteOfHour(0)
                 .withSecondOfMinute(0)
                 .withMillisOfSecond(0);
-    }
-
-    private void assertBefore(DateTime expected, DateTime actual) {
-        assertTrue("expected " + actual + " to be before " + expected,
-                actual.isBefore(expected));
-    }
-
-    private void assertAfter(DateTime expected, DateTime actual) {
-        assertTrue("expected " + actual + " to be after " + expected,
-                actual.isAfter(expected));
-    }
-
-    private void assertBetween(Interval expected, DateTime actual) {
-        assertTrue("expected " + actual + " to be between "
-                + expected.getStart() + " and " + expected.getEnd(),
-                expected.contains(actual));
     }
 
 }
