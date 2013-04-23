@@ -8,13 +8,12 @@ import java.util.Random;
 
 public class RandomTimeGenerator {
 
-    private static final String LOG_TAG = RandomTimeGenerator.class
-            .getSimpleName();
+    private static final String LOG_TAG = RandomTimeGenerator.class.getSimpleName();
     // Don't notify anyone earlier than 11:00 or later than 21:00
     // TODO make configurable
-    private static final int EARLIEST_NOFITICATION_HOUR = 11;
-    private static final int LATEST_NOFITICATION_HOUR = 21;
-    private final RandomTime randomTimeGenerator = new RandomTime();
+    private static final int EARLIEST_NOTIFICATION_HOUR = 11;
+    private static final int LATEST_NOTIFICATION_HOUR = 21;
+    private final RandomTime randomTime = new RandomTime();
 
     /**
      * Generates a random time to send a notification, as soon as
@@ -76,7 +75,7 @@ public class RandomTimeGenerator {
      */
     private Date getRandomTimeInDay(Date date) {
         Date day = TimeAdjustor.stripTimeFromDate(date);
-        int randomTimeMillis = randomTimeGenerator.nextTime();
+        int randomTimeMillis = randomTime.nextTime();
         TimeAdjustment adjustment = new TimeAdjustment(Calendar.MILLISECOND,
                 randomTimeMillis);
         Date notificationTime = TimeAdjustor.addTime(day, adjustment);
@@ -87,7 +86,7 @@ public class RandomTimeGenerator {
         Date today = Calendar.getInstance().getTime();
         Date day = TimeAdjustor.stripTimeFromDate(today);
         int msNow = (int) today.getTime();
-        int randomTimeMillis = randomTimeGenerator.nextTimeAfter(msNow);
+        int randomTimeMillis = randomTime.nextTimeAfter(msNow);
         TimeAdjustment adjustment = new TimeAdjustment(Calendar.MILLISECOND,
                 randomTimeMillis);
         Date notificationTime = TimeAdjustor.addTime(day, adjustment);
@@ -105,7 +104,7 @@ public class RandomTimeGenerator {
     public Date getEarliestNotificationTimeOnDate(Date date) {
         Date day = TimeAdjustor.stripTimeFromDate(date);
         Date earliest = TimeAdjustor.addTime(day, new TimeAdjustment(
-                Calendar.HOUR_OF_DAY, EARLIEST_NOFITICATION_HOUR));
+                Calendar.HOUR_OF_DAY, EARLIEST_NOTIFICATION_HOUR));
         return earliest;
     }
 
@@ -121,19 +120,22 @@ public class RandomTimeGenerator {
     public Date getLatestNotificationTimeOnDate(Date date) {
         Date day = TimeAdjustor.stripTimeFromDate(date);
         Date latest = TimeAdjustor.addTime(day, new TimeAdjustment(
-                Calendar.HOUR_OF_DAY, LATEST_NOFITICATION_HOUR));
+                Calendar.HOUR_OF_DAY, LATEST_NOTIFICATION_HOUR));
         return latest;
     }
 
+    /**
+     * The actual random time generator
+     */
     private class RandomTime {
 
         private static final int SECOND_MS = 1000;
         private static final int MINUTE_MS = 60 * SECOND_MS;
         private static final int HOUR_MS = 60 * MINUTE_MS;
-        private static final int EARLIEST_NOTIFICATION_MS = EARLIEST_NOFITICATION_HOUR
-                * HOUR_MS;
-        private static final int LATEST_NOTIFICATION_MS = LATEST_NOFITICATION_HOUR
-                * HOUR_MS;
+        private static final int EARLIEST_NOTIFICATION_MS =
+                EARLIEST_NOTIFICATION_HOUR * HOUR_MS;
+        private static final int LATEST_NOTIFICATION_MS =
+                LATEST_NOTIFICATION_HOUR * HOUR_MS;
         private final Random randomGenerator = new Random();
 
         public int nextTime() {
@@ -150,7 +152,6 @@ public class RandomTimeGenerator {
         }
 
         public int nextTimeBetween(int msEarliest, int msLatest) {
-            Log.i(LOG_TAG, "Getting a time between " + msEarliest + " and " + msLatest);
             return randomGenerator.nextInt(msLatest - msEarliest) + msEarliest;
         }
     }
