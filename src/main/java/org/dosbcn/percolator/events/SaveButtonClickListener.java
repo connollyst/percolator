@@ -13,7 +13,8 @@ import org.dosbcn.percolator.data.CardService;
  *
  * @author Sean Connolly
  */
-public class SaveButtonClickListener implements View.OnClickListener {
+public class SaveButtonClickListener
+        implements View.OnClickListener {
 
     private static final String BLANK = "";
     private final CardService service;
@@ -40,13 +41,6 @@ public class SaveButtonClickListener implements View.OnClickListener {
      */
     @Override
     public void onClick(View view) {
-        onClick();
-    }
-
-    /**
-     * Handle a click event.
-     */
-    public void onClick() {
         String title = getTitle();
         String description = getDescription();
         Card card = new Card(title, description, CardColor.WHITE);

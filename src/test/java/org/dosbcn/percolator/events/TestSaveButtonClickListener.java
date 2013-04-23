@@ -19,8 +19,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class TestSaveButtonClickListener {
 
-    // TODO this is a great test, but it's a mess..
-    // this should be multiple, more directed tests.
+    // TODO this is a great test, but it's a mess.. this should be multiple, more directed tests.
 
     @Test
     public void testSaveOnClick() {
@@ -30,7 +29,7 @@ public class TestSaveButtonClickListener {
                 cardActivity);
         cardActivity.findTitleField().setText("Hello");
         cardActivity.findDescriptionField().setText("World");
-        listener.onClick();
+        listener.onClick(null);
         List<Card> cards = cardService.getAll();
         assertEquals(1, cards.size());
         Card card = cards.get(0);
