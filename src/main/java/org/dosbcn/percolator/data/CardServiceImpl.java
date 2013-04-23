@@ -9,8 +9,8 @@ import org.dosbcn.percolator.notifications.CardNotificationTimer;
 import org.dosbcn.percolator.notifications.CardNotificationTimerImpl;
 import org.dosbcn.percolator.notifications.CardToaster;
 import org.dosbcn.percolator.notifications.CardToasterImpl;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,7 +74,7 @@ public class CardServiceImpl
      *         the new card
      */
     public void save(Card card) {
-        refreshNotificationTime(card);
+        incrementNotificationTime(card);
         repository.create(card);
         alarmQueue.setAlarm(card);
         toaster.cardSaved();
@@ -102,8 +102,20 @@ public class CardServiceImpl
         CardStage nextStage = CardStage.nextStage(currentStage);
         card.setStage(nextStage);
         // Update the next notification time to reflect the new stage
-        refreshNotificationTime(card);
+        incrementNotificationTime(card);
         repository.update(card);
+    }
+
+    /**
+     * Increment the card's next notification time.<br/>
+     * Note: this does not actually queue up the notification.
+     *
+     * @param card
+     *         the card to update
+     */
+    private void incrementNotificationTime(Card card) {
+        DateTime notificationTime = timer.getNextNotificationTime(card);
+        card.setNextNotificationDate(notificationTime);
     }
 
     /**
@@ -114,11 +126,6 @@ public class CardServiceImpl
      */
     public void setOnAddListener(EventListener<Card> onAddListener) {
         this.onAddListener = onAddListener;
-    }
-
-    private void refreshNotificationTime(Card card) {
-        Date notificationTime = timer.getNextNotificationTime(card);
-        card.setNextNotificationDate(notificationTime);
     }
 
     /**

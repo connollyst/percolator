@@ -2,9 +2,7 @@ package org.dosbcn.percolator.data;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * A card is our single model object. It simply represents a pair or words;
@@ -32,9 +30,9 @@ public class Card {
     @DatabaseField
     private CardStage stage;
     @DatabaseField
-    private Date startDate;
+    private DateTime startDate;
     @DatabaseField
-    private Date nextNotificationDate;
+    private DateTime nextNotificationDate;
 
     @SuppressWarnings("unused")
     private Card() {
@@ -47,7 +45,7 @@ public class Card {
         this.description = description;
         this.color = color;
         this.stage = CardStage.ONE_DAY;
-        this.startDate = Calendar.getInstance().getTime();
+        this.startDate = new DateTime();
     }
 
     public Integer getId() {
@@ -90,19 +88,19 @@ public class Card {
         this.stage = stage;
     }
 
-    public Date getStartDate() {
+    public DateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(DateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getNextNotificationDate() {
+    public DateTime getNextNotificationDate() {
         return nextNotificationDate;
     }
 
-    public void setNextNotificationDate(Date nextNotificationDate) {
+    public void setNextNotificationDate(DateTime nextNotificationDate) {
         this.nextNotificationDate = nextNotificationDate;
     }
 

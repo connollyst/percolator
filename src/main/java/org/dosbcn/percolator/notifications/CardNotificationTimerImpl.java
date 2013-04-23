@@ -4,10 +4,8 @@ import android.util.Log;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardStage;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
-import org.dosbcn.percolator.notifications.time.TimeAdjustor;
-
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 /**
  * Generates times that notifications should be scheduled for in the
@@ -42,14 +40,10 @@ public class CardNotificationTimerImpl
     private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
     /**
-     * Returns the next time that a notification should be sent for this
-     * {@link Card}.<br/>
-     * The time is guaranteed to be within the range of 'Ok times'.
-     *
-     * @param card
-     * @return
+     * {@inheritDoc}
      */
-    public Date getNextNotificationTime(Card card) {
+    @Override
+    public DateTime getNextNotificationTime(Card card) {
         return getNotificationTime(card.getStage(), card.getStartDate());
     }
 
@@ -57,8 +51,8 @@ public class CardNotificationTimerImpl
      * Generate a random time to send the notification, appropriate for the
      * given stage and origin date.
      */
-    private Date getNotificationTime(CardStage stage,
-                                     Date originDate) {
+    private DateTime getNotificationTime(CardStage stage,
+                                         DateTime originDate) {
         switch (stage) {
             case ONE_DAY:
                 return getOneDayNotification(originDate);
@@ -72,7 +66,7 @@ public class CardNotificationTimerImpl
         }
     }
 
-    private Date getOneDayNotification(Date originDate) {
+    private DateTime getOneDayNotification(DateTime originDate) {
         if (haveMissedOneDayNotification(originDate)) {
             Log.i(LOG_TAG, "Missed one day notification, sending asap.");
             return timeGenerator.getRandomTimeASAP();
@@ -81,7 +75,7 @@ public class CardNotificationTimerImpl
         }
     }
 
-    private Date getOneWeekNotification(Date originDate) {
+    private DateTime getOneWeekNotification(DateTime originDate) {
         if (haveMissedOneWeekNotification(originDate)) {
             Log.i(LOG_TAG, "Missed one week notification, sending asap.");
             return timeGenerator.getRandomTimeASAP();
@@ -90,7 +84,7 @@ public class CardNotificationTimerImpl
         }
     }
 
-    private Date getOneMonthNotification(Date originDate) {
+    private DateTime getOneMonthNotification(DateTime originDate) {
         if (haveMissedOneMonthNotification(originDate)) {
             Log.i(LOG_TAG, "Missed one month notification, sending asap.");
             return timeGenerator.getRandomTimeASAP();
@@ -99,16 +93,16 @@ public class CardNotificationTimerImpl
         }
     }
 
-    private boolean haveMissedOneDayNotification(Date date) {
-        return havePassedNotificationPeriodOnDate(TimeAdjustor.addDay(date));
+    private boolean haveMissedOneDayNotification(DateTime date) {
+        return havePassedNotificationPeriodOnDate(date.plus(Period.days(1)));
     }
 
-    private boolean haveMissedOneWeekNotification(Date date) {
-        return havePassedNotificationPeriodOnDate(TimeAdjustor.addWeek(date));
+    private boolean haveMissedOneWeekNotification(DateTime date) {
+        return havePassedNotificationPeriodOnDate(date.plus(Period.weeks(1)));
     }
 
-    private boolean haveMissedOneMonthNotification(Date date) {
-        return havePassedNotificationPeriodOnDate(TimeAdjustor.addMonth(date));
+    private boolean haveMissedOneMonthNotification(DateTime date) {
+        return havePassedNotificationPeriodOnDate(date.plus(Period.months(1)));
     }
 
     /**
@@ -121,27 +115,26 @@ public class CardNotificationTimerImpl
      * @param date
      * @return
      */
-    private boolean havePassedNotificationPeriodOnDate(Date date) {
-        Date now = getNowNormalized();
-        return now.after(date);
+    private boolean havePassedNotificationPeriodOnDate(DateTime date) {
+        return getNow().isAfter(date);
     }
 
-    private Date getNow() {
+    private DateTime getNow() {
         // TODO make this more efficient and easier to test
-        return Calendar.getInstance().getTime();
+        return new DateTime();
     }
 
-    private Date getNowNormalized() {
+    private DateTime getNowNormalized() {
         return normalize(getNow());
     }
 
-    private Date normalize(Date date) {
-        Date lowCutoff = timeGenerator.getEarliestNotificationTimeOnDate(date);
-        Date highCutoff = timeGenerator.getLatestNotificationTimeOnDate(date);
-        Date normalizedDate;
-        if (date.before(lowCutoff)) {
+    private DateTime normalize(DateTime date) {
+        DateTime lowCutoff = timeGenerator.getEarliestNotificationTimeOnDate(date);
+        DateTime highCutoff = timeGenerator.getLatestNotificationTimeOnDate(date);
+        DateTime normalizedDate;
+        if (date.isBefore(lowCutoff)) {
             normalizedDate = lowCutoff;
-        } else if (date.after(highCutoff)) {
+        } else if (date.isAfter(highCutoff)) {
             normalizedDate = highCutoff;
         } else {
             normalizedDate = date;

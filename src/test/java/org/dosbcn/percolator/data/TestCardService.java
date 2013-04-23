@@ -5,11 +5,10 @@ import org.dosbcn.percolator.events.MockCardEventListener;
 import org.dosbcn.percolator.notifications.CardNotificationTimerImpl;
 import org.dosbcn.percolator.notifications.MockCardAlarmQueue;
 import org.dosbcn.percolator.notifications.MockCardToaster;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -59,7 +58,7 @@ public class TestCardService {
         Card card = mockCard();
         cardService.save(card);
         card = refreshCardFromDB(card);
-        Date alarm = cardAlarmQueue.getAlarm(card);
+        DateTime alarm = cardAlarmQueue.getAlarm(card);
         assertEquals(card.getNextNotificationDate(), alarm);
     }
 

@@ -7,10 +7,9 @@ import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardColor;
 import org.dosbcn.percolator.data.CardService;
 import org.dosbcn.percolator.data.CardStage;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -38,11 +37,11 @@ public class TestCardAlarm {
         Card card = mockCard(service);
         CardAlarmIntent intent = new CardAlarmIntent(activity, card);
         CardAlarm alarm = new MockCardAlarm(service);
-        Date initialDate = card.getNextNotificationDate();
+        DateTime initialDate = card.getNextNotificationDate();
         // Trigger the alarm and assert the notification time was updated
         alarm.onReceive(activity, intent);
         card = service.get(card.getId());
-        Date updatedDate = card.getNextNotificationDate();
+        DateTime updatedDate = card.getNextNotificationDate();
         assertNotSame("next date was not set", initialDate, updatedDate);
     }
 

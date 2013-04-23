@@ -3,8 +3,7 @@ package org.dosbcn.percolator.notifications;
 import android.app.AlarmManager;
 import android.util.SparseArray;
 import org.dosbcn.percolator.data.Card;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * A mock {@link CardAlarmQueue} implementation for testing purposes.<br/>
@@ -17,17 +16,16 @@ import java.util.Date;
  */
 public class MockCardAlarmQueue
         extends CardAlarmQueueImpl
-        implements
-        CardAlarmQueue {
+        implements CardAlarmQueue {
 
-    private final SparseArray<Date> alarms;
+    private final SparseArray<DateTime> alarms;
 
     public MockCardAlarmQueue() {
         super(null);
-        this.alarms = new SparseArray<Date>();
+        this.alarms = new SparseArray<DateTime>();
     }
 
-    public Date getAlarm(Card card) {
+    public DateTime getAlarm(Card card) {
         return alarms.get(card.getId());
     }
 
@@ -35,7 +33,7 @@ public class MockCardAlarmQueue
      * {@inheritDoc}
      */
     @Override
-    protected void setAlarm(Card card, Date alarmDate) {
+    protected void setAlarm(Card card, DateTime alarmDate) {
         alarms.put(card.getId(), alarmDate);
         // there is no Android context, don't actually set any alarm
     }

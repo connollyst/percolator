@@ -1,8 +1,8 @@
 package org.dosbcn.percolator.notifications.time;
 
-import android.util.Log;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -25,15 +25,13 @@ public class RandomTimeGenerator {
      *
      * @return a random time to send a notification, ASAP
      */
-    public Date getRandomTimeASAP() {
-        Log.i(LOG_TAG, "Getting notification ASAP.");
-        Date now = Calendar.getInstance().getTime();
-        Date cutoff = getLatestNotificationTimeOnDate(now);
-        if (now.before(cutoff)) {
+    public DateTime getRandomTimeASAP() {
+        DateTime now = new DateTime();
+        DateTime cutoff = getLatestNotificationTimeOnDate(now);
+        if (now.isBefore(cutoff)) {
             return getRandomTimeToday();
         } else {
-            Date tomorrow = TimeAdjustor.addDay(now);
-            return getRandomTimeInDay(tomorrow);
+            return getRandomTimeOneDayFromDate(now);
         }
     }
 
@@ -44,20 +42,20 @@ public class RandomTimeGenerator {
      * @param originDate
      * @return a random time to send a notification
      */
-    public Date getRandomTimeOneDayFromDate(Date originDate) {
-        Date oneDayFromOrigin = TimeAdjustor.addDay(originDate);
+    public DateTime getRandomTimeOneDayFromDate(DateTime originDate) {
+        DateTime oneDayFromOrigin = originDate.plus(Period.days(1));
         return getRandomTimeInDay(oneDayFromOrigin);
     }
 
-    public Date getRandomTimeOneWeekFromDate(Date originDate) {
+    public DateTime getRandomTimeOneWeekFromDate(DateTime originDate) {
         // TODO pick a day about one week from the start day (and after now)
-        Date oneWeekFromOrigin = TimeAdjustor.addWeek(originDate);
+        DateTime oneWeekFromOrigin = originDate.plus(Period.weeks(1));
         return getRandomTimeInDay(oneWeekFromOrigin);
     }
 
-    public Date getRandomTimeOneMonthFromDate(Date originDate) {
+    public DateTime getRandomTimeOneMonthFromDate(DateTime originDate) {
         // TODO pick a day about one month from the start day (and after now)
-        Date oneMonthFromOrigin = TimeAdjustor.addMonth(originDate);
+        DateTime oneMonthFromOrigin = originDate.plus(Period.months(1));
         return getRandomTimeInDay(oneMonthFromOrigin);
     }
 
@@ -73,24 +71,18 @@ public class RandomTimeGenerator {
      * @param date
      * @return
      */
-    private Date getRandomTimeInDay(Date date) {
-        Date day = TimeAdjustor.stripTimeFromDate(date);
+    private DateTime getRandomTimeInDay(DateTime date) {
+        DateTime day = TimeAdjustor.stripTimeFromDate(date);
         int randomTimeMillis = randomTime.nextTime();
-        TimeAdjustment adjustment = new TimeAdjustment(Calendar.MILLISECOND,
-                randomTimeMillis);
-        Date notificationTime = TimeAdjustor.addTime(day, adjustment);
-        return notificationTime;
+        return day.plus(randomTimeMillis);
     }
 
-    private Date getRandomTimeToday() {
-        Date today = Calendar.getInstance().getTime();
-        Date day = TimeAdjustor.stripTimeFromDate(today);
-        int msNow = (int) today.getTime();
+    private DateTime getRandomTimeToday() {
+        DateTime now = new DateTime();
+        DateTime today = TimeAdjustor.stripTimeFromDate(now);
+        int msNow = (int) now.getMillis();
         int randomTimeMillis = randomTime.nextTimeAfter(msNow);
-        TimeAdjustment adjustment = new TimeAdjustment(Calendar.MILLISECOND,
-                randomTimeMillis);
-        Date notificationTime = TimeAdjustor.addTime(day, adjustment);
-        return notificationTime;
+        return today.plus(randomTimeMillis);
     }
 
     /**
@@ -101,11 +93,9 @@ public class RandomTimeGenerator {
      *         the date in question
      * @return the earliest a notification may be sent on that day
      */
-    public Date getEarliestNotificationTimeOnDate(Date date) {
-        Date day = TimeAdjustor.stripTimeFromDate(date);
-        Date earliest = TimeAdjustor.addTime(day, new TimeAdjustment(
-                Calendar.HOUR_OF_DAY, EARLIEST_NOTIFICATION_HOUR));
-        return earliest;
+    public DateTime getEarliestNotificationTimeOnDate(DateTime date) {
+        DateTime day = TimeAdjustor.stripTimeFromDate(date);
+        return day.withHourOfDay(EARLIEST_NOTIFICATION_HOUR);
     }
 
     /**
@@ -117,11 +107,9 @@ public class RandomTimeGenerator {
      *         the date in question
      * @return the latest a notification may be sent on that day
      */
-    public Date getLatestNotificationTimeOnDate(Date date) {
-        Date day = TimeAdjustor.stripTimeFromDate(date);
-        Date latest = TimeAdjustor.addTime(day, new TimeAdjustment(
-                Calendar.HOUR_OF_DAY, LATEST_NOTIFICATION_HOUR));
-        return latest;
+    public DateTime getLatestNotificationTimeOnDate(DateTime date) {
+        DateTime day = TimeAdjustor.stripTimeFromDate(date);
+        return day.withHourOfDay(LATEST_NOTIFICATION_HOUR);
     }
 
     /**

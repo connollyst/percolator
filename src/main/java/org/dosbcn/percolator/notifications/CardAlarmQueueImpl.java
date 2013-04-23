@@ -5,10 +5,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.util.Log;
 import org.dosbcn.percolator.data.Card;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * The default implementation of the {@link CardAlarmQueue}. Adding a
@@ -25,7 +24,7 @@ public class CardAlarmQueueImpl
         implements CardAlarmQueue {
 
     private static final String LOG_TAG = CardAlarmQueue.class.getSimpleName();
-    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();
+    private static final DateTimeFormatter DATE_FORMAT = ISODateTimeFormat.dateTime();
     private final Context context;
 
     public CardAlarmQueueImpl(Context context) {
@@ -47,9 +46,9 @@ public class CardAlarmQueueImpl
      */
     @Override
     public void setAlarm(Card card) {
-        Date notificationTime = card.getNextNotificationDate();
+        DateTime notificationTime = card.getNextNotificationDate();
         Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
-                + DATE_FORMAT.format(notificationTime));
+                + DATE_FORMAT.print(notificationTime));
         setAlarm(card, notificationTime);
     }
 
@@ -64,14 +63,14 @@ public class CardAlarmQueueImpl
      * @param alarmDate
      *         the date and time the alarm should go off
      */
-    protected void setAlarm(Card card, Date alarmDate) {
+    protected void setAlarm(Card card, DateTime alarmDate) {
         if (card.getId() == null) {
             throw new NullPointerException("Cannot queue an alarm for a "
                     + Card.class.getSimpleName() + " without an id.");
         }
         AlarmManager alarmManager = getAlarmManager();
         CardAlarmIntent intent = new CardAlarmIntent(context, card);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getTime(),
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getMillis(),
                 PendingIntent.getBroadcast(context, card.getId(), intent,
                         PendingIntent.FLAG_CANCEL_CURRENT));
     }

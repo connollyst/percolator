@@ -29,6 +29,12 @@ public class TestRandomTimeGenerator {
     private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
     @Test
+    public void testGetRandomTimeASAP()
+            throws InterruptedException, ExecutionException {
+
+    }
+
+    @Test
     public void testGetRandomTimeOneDayFromDate()
             throws InterruptedException, ExecutionException {
         final DateTime now = new DateTime();
@@ -36,7 +42,7 @@ public class TestRandomTimeGenerator {
             @Override
             public DateTime call()
                     throws Exception {
-                return new DateTime(timeGenerator.getRandomTimeOneDayFromDate(now.toDate()));
+                return new DateTime(timeGenerator.getRandomTimeOneDayFromDate(now));
             }
         });
         DateTime lowerLimit = getHourTomorrow(EXPECTED_MIN_HOUR);
