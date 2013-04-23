@@ -53,6 +53,26 @@ public class TestRandomTimeGenerator {
     }
 
     @Test
+    public void testGetRandomTimeASAPStartingInTheEvening()
+            throws InterruptedException, ExecutionException {
+        DateTime now = mockToday(EVENING_HOUR);
+        RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
+        DateTime lowerLimit = mockToday(EVENING_HOUR);
+        DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
+        assertEvenDistribution(stats, lowerLimit, upperLimit);
+    }
+
+    @Test
+    public void testGetRandomTimeASAPStartingInTheNight()
+            throws InterruptedException, ExecutionException {
+        DateTime now = mockToday(NIGHT_HOUR);
+        RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
+        DateTime lowerLimit = mockToday(NIGHT_HOUR);
+        DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
+        assertEvenDistribution(stats, lowerLimit, upperLimit);
+    }
+
+    @Test
     public void testGetRandomTimeOneDayFromDate()
             throws InterruptedException, ExecutionException {
         final DateTime now = mockToday(MORNING_HOUR);
