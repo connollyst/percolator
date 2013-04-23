@@ -1,6 +1,7 @@
 package org.dosbcn.percolator.notifications;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import org.dosbcn.percolator.notifications.time.MockRandomTimeGenerator;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -26,18 +27,36 @@ public class TestRandomTimeGenerator {
     private static final int TEST_ITERATION_COUNT = 1000;
     private static final int EXPECTED_MIN_HOUR = 11;
     private static final int EXPECTED_MAX_HOUR = 21;
-    private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
+    private static final int MORNING_HOUR = 8;
+    private static final int AFTERNOON_HOUR = 13;
+    private static final int EVENING_HOUR = 18;
+    private static final int NIGHT_HOUR = 20;
 
     @Test
-    public void testGetRandomTimeASAP()
+    public void testGetRandomTimeASAPStartingInTheMorning()
             throws InterruptedException, ExecutionException {
+        DateTime now = mockToday(MORNING_HOUR);
+        RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
+        DateTime lowerLimit = mockToday(EXPECTED_MIN_HOUR);
+        DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
+        assertEvenDistribution(stats, lowerLimit, upperLimit);
+    }
 
+    @Test
+    public void testGetRandomTimeASAPStartingInTheAfternoon()
+            throws InterruptedException, ExecutionException {
+        DateTime now = mockToday(AFTERNOON_HOUR);
+        RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
+        DateTime lowerLimit = mockToday(AFTERNOON_HOUR);
+        DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
+        assertEvenDistribution(stats, lowerLimit, upperLimit);
     }
 
     @Test
     public void testGetRandomTimeOneDayFromDate()
             throws InterruptedException, ExecutionException {
-        final DateTime now = new DateTime();
+        final DateTime now = mockToday(MORNING_HOUR);
+        final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
         RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
             @Override
             public DateTime call()
@@ -45,9 +64,21 @@ public class TestRandomTimeGenerator {
                 return new DateTime(timeGenerator.getRandomTimeOneDayFromDate(now));
             }
         });
-        DateTime lowerLimit = getHourTomorrow(EXPECTED_MIN_HOUR);
-        DateTime upperLimit = getHourTomorrow(EXPECTED_MAX_HOUR);
+        DateTime lowerLimit = mockTomorrow(EXPECTED_MIN_HOUR);
+        DateTime upperLimit = mockTomorrow(EXPECTED_MAX_HOUR);
         assertEvenDistribution(stats, lowerLimit, upperLimit);
+    }
+
+    private RandomTimeTestStatistics generateStatisticsWithGetRandomTimeASAP(DateTime currentTime)
+            throws InterruptedException, ExecutionException {
+        final RandomTimeGenerator timeGenerator = new MockRandomTimeGenerator(currentTime);
+        return generateStatistics(new Callable<DateTime>() {
+            @Override
+            public DateTime call()
+                    throws Exception {
+                return new DateTime(timeGenerator.getRandomTimeASAP());
+            }
+        });
     }
 
     /**
@@ -69,20 +100,25 @@ public class TestRandomTimeGenerator {
     }
 
     /**
-     * Get a specific hour, tomorrow, exactly.
+     * Mock up a {@link DateTime} to represent today at a specific hour.
      *
      * @param hour
      *         the hour
      * @return the specified hour, tomorrow.
      */
-    private DateTime getHourTomorrow(int hour) {
-        // Tomorrow as the specified hour exactly..
-        return new DateTime()
-                .plus(Period.days(1))
-                .withHourOfDay(hour)
-                .withMinuteOfHour(0)
-                .withSecondOfMinute(0)
-                .withMillisOfSecond(0);
+    private DateTime mockToday(int hour) {
+        return new DateTime(1985, 8, 6, hour, 0, 0, 0);
+    }
+
+    /**
+     * Mock up a {@link DateTime} to represent tomorrow at a specific hour.
+     *
+     * @param hour
+     *         the hour
+     * @return the specified hour, tomorrow.
+     */
+    private DateTime mockTomorrow(int hour) {
+        return mockToday(hour).plus(Period.days(1));
     }
 
 }
