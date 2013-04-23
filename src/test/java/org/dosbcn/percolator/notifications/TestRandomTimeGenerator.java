@@ -1,7 +1,7 @@
 package org.dosbcn.percolator.notifications;
 
+import com.google.common.primitives.Doubles;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
 import org.junit.Test;
@@ -104,8 +104,7 @@ public class TestRandomTimeGenerator {
         }
 
         private double[] getValues() {
-            Double[] values = randomTimes.toArray(new Double[randomTimes.size()]);
-            return ArrayUtils.toPrimitive(values);
+            return Doubles.toArray(randomTimes);
         }
 
         private double[] getWeights() {
@@ -114,6 +113,5 @@ public class TestRandomTimeGenerator {
             return weights;
         }
     }
-
 
 }

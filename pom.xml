@@ -112,9 +112,9 @@
 
         <!-- Some utilities are used in tests-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>r09</version>
             <scope>test</scope>
         </dependency>
 
