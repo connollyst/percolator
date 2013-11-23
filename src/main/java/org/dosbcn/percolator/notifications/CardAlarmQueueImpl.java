@@ -20,68 +20,67 @@ import org.joda.time.format.ISODateTimeFormat;
  *
  * @author Sean Connolly
  */
-public class CardAlarmQueueImpl
-        implements CardAlarmQueue {
+public class CardAlarmQueueImpl implements CardAlarmQueue {
 
-    private static final String LOG_TAG = CardAlarmQueue.class.getSimpleName();
-    private static final DateTimeFormatter DATE_FORMAT = ISODateTimeFormat.dateTime();
-    private final Context context;
+	private static final String LOG_TAG = CardAlarmQueue.class.getName();
+	private static final DateTimeFormatter DATE_FORMAT = ISODateTimeFormat
+			.dateTime();
+	private final Context context;
 
-    public CardAlarmQueueImpl(Context context) {
-        this.context = context;
-    }
+	public CardAlarmQueueImpl(Context context) {
+		this.context = context;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setAlarms(Iterable<Card> cards) {
-        for (Card card : cards) {
-            setAlarm(card);
-        }
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAlarms(Iterable<Card> cards) {
+		for (Card card : cards) {
+			setAlarm(card);
+		}
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setAlarm(Card card) {
-        DateTime notificationTime = card.getNextNotificationDate();
-        Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
-                + DATE_FORMAT.print(notificationTime));
-        setAlarm(card, notificationTime);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAlarm(Card card) {
+		DateTime notificationTime = card.getNextNotificationDate();
+		Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
+				+ DATE_FORMAT.print(notificationTime));
+		setAlarm(card, notificationTime);
+	}
 
-    /**
-     * Set an Android alarm for the specified {@code alarmDate}. The alarm will
-     * be handled by the {@link CardAlarm} broadcast receiver who will display
-     * a
-     * notification for the specified {@code card}.
-     *
-     * @param card
-     *         the card the notification will display
-     * @param alarmDate
-     *         the date and time the alarm should go off
-     */
-    protected void setAlarm(Card card, DateTime alarmDate) {
-        if (card.getId() == null) {
-            throw new NullPointerException("Cannot queue an alarm for a "
-                    + Card.class.getSimpleName() + " without an id.");
-        }
-        AlarmManager alarmManager = getAlarmManager();
-        CardAlarmIntent intent = new CardAlarmIntent(context, card);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getMillis(),
-                PendingIntent.getBroadcast(context, card.getId(), intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT));
-    }
+	/**
+	 * Set an Android alarm for the specified {@code alarmDate}. The alarm will
+	 * be handled by the {@link CardAlarm} broadcast receiver who will display a
+	 * notification for the specified {@code card}.
+	 *
+	 * @param card
+	 *            the card the notification will display
+	 * @param alarmDate
+	 *            the date and time the alarm should go off
+	 */
+	protected void setAlarm(Card card, DateTime alarmDate) {
+		if (card.getId() == null) {
+			throw new NullPointerException("Cannot queue an alarm for a "
+					+ Card.class.getSimpleName() + " without an id.");
+		}
+		AlarmManager alarmManager = getAlarmManager();
+		CardAlarmIntent intent = new CardAlarmIntent(context, card);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getMillis(),
+				PendingIntent.getBroadcast(context, card.getId(), intent,
+						PendingIntent.FLAG_CANCEL_CURRENT));
+	}
 
-    /**
-     * Get the {@link AlarmManager} service from the Android {@link Context}.
-     *
-     * @return the alarm service provided by Android
-     */
-    protected AlarmManager getAlarmManager() {
-        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    }
+	/**
+	 * Get the {@link AlarmManager} service from the Android {@link Context}.
+	 *
+	 * @return the alarm service provided by Android
+	 */
+	protected AlarmManager getAlarmManager() {
+		return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+	}
 
 }

@@ -12,7 +12,7 @@ import org.dosbcn.percolator.data.CardServiceImpl;
 
 /**
  * The alarm, {@link BroadcastReceiver}, element of the app.<br/>
- * Receives boradcasts from {@link AlarmManager} managed alarms when it is time
+ * Receives broadcasts from {@link AlarmManager} managed alarms when it is time
  * to show a {@link Notification} for a {@link Card}.
  *
  * @author Sean Connolly
@@ -26,7 +26,7 @@ public class CardAlarm
             .getSimpleName() + " received an alarm with an invalid intent: ";
     protected static final String ERROR_ID_MISSING = CardAlarmIntent.CARD_ID_EXTRA
             + " missing from " + CardAlarmIntent.class.getSimpleName();
-    private static final String LOG_TAG = CardAlarm.class.getSimpleName();
+    private static final String LOG_TAG = CardAlarm.class.getName();
     private CardService service;
     private CardNotifier notifier;
 

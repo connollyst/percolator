@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ListActivity extends android.app.ListActivity {
 
-    private static final String LOG_TAG = ListActivity.class.getSimpleName();
+    private static final String LOG_TAG = ListActivity.class.getName();
     private final CardService service;
 
     public ListActivity() {

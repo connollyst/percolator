@@ -25,7 +25,7 @@ import java.util.List;
 public class CardServiceImpl
         implements CardService {
 
-    private static final String LOG_TAG = CardService.class.getSimpleName();
+    private static final String LOG_TAG = CardService.class.getName();
     private final CardRepository repository;
     private final CardNotificationTimer timer;
     private final CardAlarmQueue alarmQueue;
