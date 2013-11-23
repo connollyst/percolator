@@ -1,7 +1,8 @@
+.DS_Store
 
 bin/
 gen/
 target/
 
-.DS_Store
-/tmp
+.idea/
+*.iml
