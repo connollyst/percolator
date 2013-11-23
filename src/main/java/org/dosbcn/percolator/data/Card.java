@@ -37,7 +37,7 @@ public class Card {
     @SuppressWarnings("unused")
     private Card() {
         // A no-arg constructor provide for the DB layer,
-        // but private so it can't be accessed without reflection.
+        // but private so it can't be accessed.
     }
 
     public Card(String title, String description, CardColor color) {

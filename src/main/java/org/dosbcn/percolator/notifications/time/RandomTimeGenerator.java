@@ -1,14 +1,19 @@
 package org.dosbcn.percolator.notifications.time;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
 
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * A utility to generate random times on a specific day.
+ *
+ * @author Sean Connolly
+ */
 public class RandomTimeGenerator {
 
-	private static final String LOG_TAG = RandomTimeGenerator.class.getName();
 	// Don't notify anyone earlier than 11:00 or later than 21:00
 	// TODO make configurable
 	private static final int EARLIEST_NOTIFICATION_HOUR = 11;
@@ -44,10 +49,8 @@ public class RandomTimeGenerator {
 	 */
 	private DateTime getRandomTimeToday() {
 		DateTime now = getNow();
-		DateTime today = TimeAdjustor.stripTimeFromDate(now);
-		int msNow = now.getMillisOfDay();
-		int randomTimeMillis = randomTime.nextTimeAfter(msNow);
-		return today.plus(randomTimeMillis);
+		LocalDate today = now.toLocalDate();
+		return getRandomTimeInDay(today);
 	}
 
 	/**
@@ -56,31 +59,10 @@ public class RandomTimeGenerator {
 	 * @return a random time to send a notification
 	 */
 	private DateTime getRandomTimeTomorrow() {
-		return getRandomTimeOneDayFromDate(getNow());
-	}
-
-	/**
-	 * Generates a random time to send a notification, roughly one day from the
-	 * given origin date.
-	 *
-	 * @param originDate
-	 * @return a random time to send a notification
-	 */
-	public DateTime getRandomTimeOneDayFromDate(DateTime originDate) {
-		DateTime oneDayFromOrigin = originDate.plus(Period.days(1));
-		return getRandomTimeInDay(oneDayFromOrigin);
-	}
-
-	public DateTime getRandomTimeOneWeekFromDate(DateTime originDate) {
-		// TODO pick a day about one week from the start day (and after now)
-		DateTime oneWeekFromOrigin = originDate.plus(Period.weeks(1));
-		return getRandomTimeInDay(oneWeekFromOrigin);
-	}
-
-	public DateTime getRandomTimeOneMonthFromDate(DateTime originDate) {
-		// TODO pick a day about one month from the start day (and after now)
-		DateTime oneMonthFromOrigin = originDate.plus(Period.months(1));
-		return getRandomTimeInDay(oneMonthFromOrigin);
+		DateTime now = getNow();
+		LocalDate today = now.toLocalDate();
+		LocalDate tomorrow = today.plusDays(1);
+		return getRandomTimeInDay(tomorrow);
 	}
 
 	/**
@@ -91,13 +73,13 @@ public class RandomTimeGenerator {
 	 * return a time before, exactly equal to, or after the provided time.
 	 * </p>
 	 *
-	 * @param date
+	 * @param day
 	 * @return
 	 */
-	private DateTime getRandomTimeInDay(DateTime date) {
-		DateTime day = TimeAdjustor.stripTimeFromDate(date);
+	public DateTime getRandomTimeInDay(LocalDate day) {
+		DateTime time = day.toDateTimeAtStartOfDay();
 		int randomTimeMillis = randomTime.nextTime();
-		return day.plus(randomTimeMillis);
+		return time.plus(randomTimeMillis);
 	}
 
 	/**

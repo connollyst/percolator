@@ -1,27 +1,40 @@
 package org.dosbcn.percolator.notifications;
 
-import android.util.Log;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardStage;
+import org.dosbcn.percolator.notifications.time.RandomDayGenerator;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
+
+import android.util.Log;
 
 /**
  * Generates times that notifications should be scheduled for in the future.<br/>
  * There are a couple of important factors here:
  * <ol>
  * <li>
+ * <b>Days are random:</b> while we keep notifications to some basic schedule,
+ * we don't want to be too predictable. By sending notifications randomly, the
+ * user is forced to not think about the message too much until it appears.</li>
+ * <li>
+ * <li>
  * <b>Times are random:</b> we don't want a user to always receive reminders at
- * 1:37pm. By making the notifications occur randomly, the user is forced to not
- * think about the message until it appears.</li>
+ * a specific time.</li>
  * <li>
- * <b>Times are not random:</b> we don't want to schedule a notification for
- * 00:42am or for one year from now.</li>
+ * <b>Times are not completely random:</b> we don't want to schedule a
+ * notification for the middle of the night or something.</li>
  * <li>
- * <b>Times are staged:</b> we want notifications to be sent in stages. For
- * example: a simple reminder tomorrow, a simple quiz next week, a hard quiz
- * next month.</li>
+ * <li>
+ * <b>Notifications per day are limited:</b> we don't want too many
+ * notifications per day.</li>
+ * <li>
  * </ol>
  *
  * @author Sean Connolly
@@ -34,6 +47,11 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 			.getName();
 	private static final String BAD_STAGE_LOG = "Unexpected "
 			+ CardStage.class.getSimpleName() + ": ";
+
+	private static final int MAX_DAILY_NOTIFICATIONS = 3;
+	private final Multiset<LocalDate> scheduledDates = HashMultiset.create();
+
+	private final RandomDayGenerator dayGenerator = new RandomDayGenerator();
 	private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
 
 	/**
@@ -45,8 +63,8 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	}
 
 	/**
-	 * Generate a random time to send the notification, appropriate for the
-	 * given stage and origin date.
+	 * Generate a random day and time to send the notification, appropriate for
+	 * the given stage and origin date.
 	 */
 	private DateTime getNotificationTime(CardStage stage, DateTime originDate) {
 		switch (stage) {
@@ -64,29 +82,65 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 
 	private DateTime getOneDayNotification(DateTime originDate) {
 		if (haveMissedOneDayNotification(originDate)) {
-			Log.i(LOG_TAG, "Missed one day notification, sending asap.");
-			return timeGenerator.getRandomTimeASAP();
+			Log.i(LOG_TAG, "Missed one day notification, sending ASAP.");
+			return getNotificationASAP();
 		} else {
-			return timeGenerator.getRandomTimeOneDayFromDate(originDate);
+			LocalDate originDay = originDate.toLocalDate();
+			LocalDate day = dayGenerator.getDayAboutOneDayFromDay(originDay);
+			return getNotificationTime(day);
 		}
 	}
 
 	private DateTime getOneWeekNotification(DateTime originDate) {
 		if (haveMissedOneWeekNotification(originDate)) {
-			Log.i(LOG_TAG, "Missed one week notification, sending asap.");
-			return timeGenerator.getRandomTimeASAP();
+			Log.i(LOG_TAG, "Missed one week notification, sending ASAP.");
+			return getNotificationASAP();
 		} else {
-			return timeGenerator.getRandomTimeOneWeekFromDate(originDate);
+			LocalDate originDay = originDate.toLocalDate();
+			LocalDate day = dayGenerator.getDayAboutOneWeekFromDay(originDay);
+			return getNotificationTime(day);
 		}
 	}
 
 	private DateTime getOneMonthNotification(DateTime originDate) {
 		if (haveMissedOneMonthNotification(originDate)) {
-			Log.i(LOG_TAG, "Missed one month notification, sending asap.");
-			return timeGenerator.getRandomTimeASAP();
+			Log.i(LOG_TAG, "Missed one month notification, sending ASAP.");
+			return getNotificationASAP();
 		} else {
-			return timeGenerator.getRandomTimeOneMonthFromDate(originDate);
+			LocalDate originDay = originDate.toLocalDate();
+			LocalDate day = dayGenerator.getDayAboutOneMonthFromDay(originDay);
+			return getNotificationTime(day);
 		}
+	}
+
+	private DateTime getNotificationASAP() {
+		// TODO check for available date
+		DateTime time = timeGenerator.getRandomTimeASAP();
+		recordNotificationDay(time.toLocalDate());
+		return time;
+	}
+
+	private DateTime getNotificationTime(LocalDate day) {
+		day = getAvailableDay(day);
+		recordNotificationDay(day);
+		return timeGenerator.getRandomTimeInDay(day);
+	}
+
+	private LocalDate getAvailableDay(LocalDate day) {
+		while (!isDayAvailable(day)) {
+			day = day.plusDays(1);
+		}
+		return day;
+	}
+
+	private boolean isDayAvailable(LocalDate day) {
+		boolean dayFull = scheduledDates.count(day) < MAX_DAILY_NOTIFICATIONS;
+		// TODO check cutoff times!
+		return dayFull;
+	}
+
+	private void recordNotificationDay(LocalDate day) {
+		scheduledDates.add(day);
 	}
 
 	private boolean haveMissedOneDayNotification(DateTime date) {
@@ -109,15 +163,17 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	 * the date.
 	 *
 	 * @param date
-	 * @return
+	 *            the notification date time in question
+	 * @return whether the current date time is after the specified date time
 	 */
 	private boolean havePassedNotificationPeriodOnDate(DateTime date) {
+		// TODO take cutoff times into account
 		return getNow().isAfter(date);
 	}
 
 	private DateTime getNow() {
-		// TODO make this more efficient and easier to test
-		return new DateTime();
+		// TODO make this easier to test
+		return DateTime.now();
 	}
 
 	private DateTime getNowNormalized() {

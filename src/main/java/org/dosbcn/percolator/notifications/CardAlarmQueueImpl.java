@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
- * The default implementation of the {@link CardAlarmQueue}. Adding a
+ * The primary implementation of the {@link CardAlarmQueue}. Adding a
  * {@link Card} to the alarm queue immediately schedules an Android alarm for
  * the next notification time. Alarms are handled by the {@link CardAlarm}
  * broadcast receiver.<br/>
