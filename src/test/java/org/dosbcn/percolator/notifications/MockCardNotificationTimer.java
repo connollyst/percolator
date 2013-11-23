@@ -1,5 +1,6 @@
 package org.dosbcn.percolator.notifications;
 
+import org.dosbcn.percolator.notifications.time.MockTimeUtilities;
 import org.joda.time.DateTime;
 
 /**
@@ -10,21 +11,8 @@ import org.joda.time.DateTime;
  */
 public class MockCardNotificationTimer extends CardNotificationTimerImpl {
 
-	private final DateTime now;
-
 	public MockCardNotificationTimer(DateTime now) {
-		this.now = now;
-	}
-
-	/**
-	 * Returns a {@inheritDoc DateTime} for the current system time, <i>as set
-	 * when constructing the mock</i>.
-	 *
-	 * @return the mock system time
-	 */
-	@Override
-	protected DateTime getNow() {
-		return now;
+		super(new MockTimeUtilities(now));
 	}
 
 }

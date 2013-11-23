@@ -1,16 +1,19 @@
 package org.dosbcn.percolator.notifications;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardStage;
 import org.dosbcn.percolator.notifications.time.RandomDayGenerator;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
+import org.dosbcn.percolator.notifications.time.TimeUtilities;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
 import android.util.Log;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 
 /**
  * Generates times that notifications should be scheduled for in the future.<br/>
@@ -45,8 +48,19 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	private static final int MAX_DAILY_NOTIFICATIONS = 3;
 	private final Multiset<LocalDate> scheduledDates = HashMultiset.create();
 
-	private final RandomDayGenerator dayGenerator = new RandomDayGenerator();
-	private final RandomTimeGenerator timeGenerator = new RandomTimeGenerator();
+	private final TimeUtilities timeUtilities;
+	private final RandomDayGenerator dayGenerator;
+	private final RandomTimeGenerator timeGenerator;
+
+	public CardNotificationTimerImpl() {
+		this(new TimeUtilities());
+	}
+
+	protected CardNotificationTimerImpl(TimeUtilities timeUtilities) {
+		this.timeUtilities = timeUtilities;
+		this.dayGenerator = new RandomDayGenerator();
+		this.timeGenerator = new RandomTimeGenerator(timeUtilities);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -114,15 +128,14 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	}
 
 	private DateTime getNotificationASAP() {
-		LocalDate today = new LocalDate();
-		return getNotificationTime(today);
+		return getNotificationTime(timeUtilities.getToday());
 	}
 
 	private DateTime getNotificationTime(LocalDate day) {
 		if (!isDayAvailable(day)) {
 			day = getNextAvailableDay(day);
 		}
-		recordNotificationDay(day);
+		scheduledDates.add(day);
 		return timeGenerator.getRandomTimeInDay(day);
 	}
 
@@ -134,13 +147,13 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	}
 
 	private boolean isDayAvailable(LocalDate day) {
-		boolean dayFull = scheduledDates.count(day) < MAX_DAILY_NOTIFICATIONS;
-		// TODO check cutoff times!
-		return dayFull;
-	}
-
-	private void recordNotificationDay(LocalDate day) {
-		scheduledDates.add(day);
+		boolean dayFull = scheduledDates.count(day) >= MAX_DAILY_NOTIFICATIONS;
+		boolean pastCutoff = false;
+		if (timeUtilities.isToday(day)) {
+			LocalTime limit = timeUtilities.getLatestNotificationTime();
+			pastCutoff = timeUtilities.getNow().toLocalTime().isAfter(limit);
+		}
+		return !dayFull && !pastCutoff;
 	}
 
 	private boolean haveMissedOneDayNotification(DateTime date) {
@@ -168,32 +181,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	 */
 	private boolean havePassedNotificationPeriodOnDate(DateTime date) {
 		// TODO take cutoff times into account
-		return getNow().isAfter(date);
-	}
-
-    protected DateTime getNow() {
-		// TODO make this easier to test
-		return DateTime.now();
-	}
-
-	private DateTime getNowNormalized() {
-		return normalize(getNow());
-	}
-
-	private DateTime normalize(DateTime date) {
-		DateTime lowCutoff = timeGenerator
-				.getEarliestNotificationTimeOnDate(date);
-		DateTime highCutoff = timeGenerator
-				.getLatestNotificationTimeOnDate(date);
-		DateTime normalizedDate;
-		if (date.isBefore(lowCutoff)) {
-			normalizedDate = lowCutoff;
-		} else if (date.isAfter(highCutoff)) {
-			normalizedDate = highCutoff;
-		} else {
-			normalizedDate = date;
-		}
-		return normalizedDate;
+		return timeUtilities.getNow().isAfter(date);
 	}
 
 }

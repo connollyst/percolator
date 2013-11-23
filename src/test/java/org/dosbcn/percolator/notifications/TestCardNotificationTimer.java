@@ -7,14 +7,17 @@ import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardColor;
 import org.dosbcn.percolator.data.CardStage;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * Test cases for the {@link CardNotificationTimer}.
  *
  * @author Sean Connolly
  */
+@RunWith(RobolectricTestRunner.class)
 public class TestCardNotificationTimer {
 
 	private static final DateTime MID_DAY = new DateTime(1985, 8, 6, 12, 0);
@@ -27,50 +30,27 @@ public class TestCardNotificationTimer {
 	public void testSetOneDayNotification() {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime startDate = MID_DAY;
-		LocalDate expectedDate = startDate.plusDays(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	@Test
 	public void testSetOneWeekNotification() {
 		CardStage stage = CardStage.ONE_WEEK;
 		DateTime startDate = MID_DAY;
-		LocalDate expectedDate = startDate.plusWeeks(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusWeeks(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	@Test
 	public void testSetOneMonthNotification() {
 		CardStage stage = CardStage.ONE_MONTH;
 		DateTime startDate = MID_DAY;
-		LocalDate expectedDate = startDate.plusMonths(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
-	}
-
-	/* Test Notification Day For Late Night Cards */
-
-	@Test
-	public void testSetOneDayNotificationLateAtNight() {
-		CardStage stage = CardStage.ONE_DAY;
-		DateTime startDate = LATE_NIGHT;
-		LocalDate expectedDate = startDate.plusDays(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
-	}
-
-	@Test
-	public void testSetOneWeekNotificationLateAtNight() {
-		CardStage stage = CardStage.ONE_WEEK;
-		DateTime startDate = LATE_NIGHT;
-		LocalDate expectedDate = startDate.plusWeeks(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
-	}
-
-	@Test
-	public void testSetOneMonthNotificationLateAtNight() {
-		CardStage stage = CardStage.ONE_MONTH;
-		DateTime startDate = LATE_NIGHT;
-		LocalDate expectedDate = startDate.plusMonths(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusMonths(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	/* Test Notification Day For Early Morning Cards */
@@ -79,24 +59,143 @@ public class TestCardNotificationTimer {
 	public void testSetOneDayNotificationInTheEarlyMorning() {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime startDate = EARLY_MORNING;
-		LocalDate expectedDate = startDate.plusDays(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	@Test
 	public void testSetOneWeekNotificationInTheEarlyMorning() {
 		CardStage stage = CardStage.ONE_WEEK;
 		DateTime startDate = EARLY_MORNING;
-		LocalDate expectedDate = startDate.plusWeeks(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusWeeks(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	@Test
 	public void testSetOneMonthNotificationInTheEarlyMorning() {
 		CardStage stage = CardStage.ONE_MONTH;
 		DateTime startDate = EARLY_MORNING;
-		LocalDate expectedDate = startDate.plusMonths(1).toLocalDate();
-		assertNotificationDate(expectedDate, startDate, stage);
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusMonths(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	/* Test Notification Day For Late Night Cards */
+
+	@Test
+	public void testSetOneDayNotificationLateAtNight() {
+		CardStage stage = CardStage.ONE_DAY;
+		DateTime startDate = LATE_NIGHT;
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneWeekNotificationLateAtNight() {
+		CardStage stage = CardStage.ONE_WEEK;
+		DateTime startDate = LATE_NIGHT;
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusWeeks(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneMonthNotificationLateAtNight() {
+		CardStage stage = CardStage.ONE_MONTH;
+		DateTime startDate = LATE_NIGHT;
+		DateTime currentDate = MID_DAY;
+		DateTime expectedDate = startDate.plusMonths(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	/* Test Notification Day For Today */
+
+	@Test
+	public void testSetOneDayNotificationForToday() {
+		CardStage stage = CardStage.ONE_DAY;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = MID_DAY.plusDays(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneWeekNotificationForToday() {
+		CardStage stage = CardStage.ONE_WEEK;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = MID_DAY.plusWeeks(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneMonthNotificationForToday() {
+		CardStage stage = CardStage.ONE_MONTH;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = MID_DAY.plusMonths(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	/* Test Notification Day For Today, Early In The Morning */
+
+	@Test
+	public void testSetOneDayNotificationForTodayInTheEarlyMorning() {
+		CardStage stage = CardStage.ONE_DAY;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = EARLY_MORNING.plusDays(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneWeekNotificationForTodayInTheEarlyMorning() {
+		CardStage stage = CardStage.ONE_WEEK;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = EARLY_MORNING.plusWeeks(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneMonthNotificationForTodayInTheEarlyMorning() {
+		CardStage stage = CardStage.ONE_MONTH;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = EARLY_MORNING.plusMonths(1);
+		DateTime expectedDate = currentDate;
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	/* Test Notification Day For Today, Late At Night */
+
+	@Test
+	public void testSetOneDayNotificationForTodayLateAtNight() {
+		CardStage stage = CardStage.ONE_DAY;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = LATE_NIGHT.plusDays(1);
+		DateTime expectedDate = currentDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneWeekNotificationForTodayLateAtNight() {
+		CardStage stage = CardStage.ONE_WEEK;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = LATE_NIGHT.plusWeeks(1);
+		DateTime expectedDate = currentDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
+	}
+
+	@Test
+	public void testSetOneMonthNotificationForTodayLateAtNight() {
+		CardStage stage = CardStage.ONE_MONTH;
+		DateTime startDate = MID_DAY;
+		DateTime currentDate = LATE_NIGHT.plusMonths(1);
+		DateTime expectedDate = currentDate.plusDays(1);
+		assertNotificationDate(currentDate, startDate, stage, expectedDate);
 	}
 
 	// TODO test missed notifications (ASAP notifications)
@@ -142,13 +241,27 @@ public class TestCardNotificationTimer {
 		assertFalse("4th day should be different than 3rd", day3 == day4);
 	}
 
-	private void assertNotificationDate(LocalDate expectedDate,
-			DateTime startDate, CardStage stage) {
-		CardNotificationTimer timer = new MockCardNotificationTimer(startDate);
+	/**
+	 * Assert that a notification is scheduled for the expected date, given the
+	 * current date and time, the date and time the card was started, and the
+	 * current stage of the card.
+	 *
+	 * @param currentDate
+	 *            the current date and time
+	 * @param startDate
+	 *            the date and time the card was started
+	 * @param stage
+	 *            the stage of the card
+	 * @param expectedDate
+	 *            the expected date of the notification
+	 */
+	private void assertNotificationDate(DateTime currentDate,
+			DateTime startDate, CardStage stage, DateTime expectedDate) {
+		CardNotificationTimer timer = new MockCardNotificationTimer(currentDate);
 		DateTime[] times = getNotificationTimes(timer, startDate, stage, 1);
 		DateTime time = times[0];
-		LocalDate notificationDate = time.toLocalDate();
-		assertEquals(expectedDate, notificationDate);
+		assertEquals(expectedDate.toLocalDate(), time.toLocalDate());
+		// TODO assert that the time is in acceptable hours
 	}
 
 	private DateTime[] getNotificationTimes(CardNotificationTimer timer,

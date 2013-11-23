@@ -1,6 +1,5 @@
 package org.dosbcn.percolator.notifications.time;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 
@@ -16,6 +15,7 @@ public class RandomDayGenerator {
 	 * given origin date.
 	 *
 	 * @param originDay
+	 *            the reference date
 	 * @return a random time to send a notification
 	 */
 	public LocalDate getDayAboutOneDayFromDay(LocalDate originDay) {
