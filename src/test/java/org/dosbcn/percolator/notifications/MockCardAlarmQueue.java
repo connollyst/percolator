@@ -5,6 +5,10 @@ import android.util.SparseArray;
 import org.dosbcn.percolator.data.Card;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A mock {@link CardAlarmQueue} implementation for testing purposes.<br/>
  * Actually extends the default {@link CardAlarmQueueImpl} implementation so as
@@ -14,37 +18,36 @@ import org.joda.time.DateTime;
  *
  * @author Sean Connolly
  */
-public class MockCardAlarmQueue
-        extends CardAlarmQueueImpl
-        implements CardAlarmQueue {
+public class MockCardAlarmQueue extends CardAlarmQueueImpl implements
+		CardAlarmQueue {
 
-    private final SparseArray<DateTime> alarms;
+	private final Map<Integer, DateTime> alarms;
 
-    public MockCardAlarmQueue() {
-        super(null);
-        this.alarms = new SparseArray<DateTime>();
-    }
+	public MockCardAlarmQueue() {
+		super(null);
+		this.alarms = new HashMap<Integer, DateTime>();
+	}
 
-    public DateTime getAlarm(Card card) {
-        return alarms.get(card.getId());
-    }
+	public DateTime getAlarm(Card card) {
+		return alarms.get(card.getId());
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setAlarm(Card card, DateTime alarmDate) {
-        alarms.put(card.getId(), alarmDate);
-        // there is no Android context, don't actually set any alarm
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void setAlarm(Card card, DateTime alarmDate) {
+		alarms.put(card.getId(), alarmDate);
+		// there is no Android context, don't actually set any alarm
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected AlarmManager getAlarmManager() {
-        // No AlarmManager exists in unit tests
-        return null;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected AlarmManager getAlarmManager() {
+		// No AlarmManager exists in unit tests
+		return null;
+	}
 
 }
