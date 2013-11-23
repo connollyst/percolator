@@ -1,8 +1,5 @@
 package org.dosbcn.percolator.notifications;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import org.dosbcn.percolator.data.Card;
@@ -24,17 +21,14 @@ import android.util.Log;
  * we don't want to be too predictable. By sending notifications randomly, the
  * user is forced to not think about the message too much until it appears.</li>
  * <li>
- * <li>
  * <b>Times are random:</b> we don't want a user to always receive reminders at
  * a specific time.</li>
  * <li>
  * <b>Times are not completely random:</b> we don't want to schedule a
  * notification for the middle of the night or something.</li>
  * <li>
- * <li>
  * <b>Notifications per day are limited:</b> we don't want too many
  * notifications per day.</li>
- * <li>
  * </ol>
  *
  * @author Sean Connolly
@@ -65,6 +59,12 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	/**
 	 * Generate a random day and time to send the notification, appropriate for
 	 * the given stage and origin date.
+	 *
+	 * @param stage
+	 *            the stage the card is at
+	 * @param originDate
+	 *            the date the card was started
+	 * @return th next date and time that a notification should be sent
 	 */
 	private DateTime getNotificationTime(CardStage stage, DateTime originDate) {
 		switch (stage) {
@@ -114,19 +114,19 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	}
 
 	private DateTime getNotificationASAP() {
-		// TODO check for available date
-		DateTime time = timeGenerator.getRandomTimeASAP();
-		recordNotificationDay(time.toLocalDate());
-		return time;
+		LocalDate today = new LocalDate();
+		return getNotificationTime(today);
 	}
 
 	private DateTime getNotificationTime(LocalDate day) {
-		day = getAvailableDay(day);
+		if (!isDayAvailable(day)) {
+			day = getNextAvailableDay(day);
+		}
 		recordNotificationDay(day);
 		return timeGenerator.getRandomTimeInDay(day);
 	}
 
-	private LocalDate getAvailableDay(LocalDate day) {
+	private LocalDate getNextAvailableDay(LocalDate day) {
 		while (!isDayAvailable(day)) {
 			day = day.plusDays(1);
 		}
@@ -171,7 +171,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 		return getNow().isAfter(date);
 	}
 
-	private DateTime getNow() {
+    protected DateTime getNow() {
 		// TODO make this easier to test
 		return DateTime.now();
 	}
