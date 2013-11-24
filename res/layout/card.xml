@@ -1,38 +1,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="20dip"
+    android:paddingBottom="20dip">
 
     <TextView
-            android:id="@+id/title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:paddingLeft="6dip"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white"/>
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dip"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black" />
 
     <TextView
-            android:id="@+id/description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:paddingLeft="6dip"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
+        android:id="@+id/description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="0pt"
+        android:paddingBottom="0pt"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:lineSpacingExtra="0pt"
+        android:lineSpacingMultiplier="1"
+        android:includeFontPadding="false"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
     <TextView
-            android:id="@+id/time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:paddingLeft="6dip"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
+        android:id="@+id/time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="0pt"
+        android:paddingBottom="0pt"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:lineSpacingExtra="0pt"
+        android:lineSpacingMultiplier="1"
+        android:includeFontPadding="false"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 </LinearLayout>
