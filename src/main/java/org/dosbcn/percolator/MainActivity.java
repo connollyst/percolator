@@ -74,9 +74,6 @@ public class MainActivity extends Activity {
 		case R.id.action_list:
 			openList();
 			return true;
-		case R.id.action_settings:
-			openSettings();
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -86,10 +83,6 @@ public class MainActivity extends Activity {
 		Intent nextActivity = new Intent(getApplicationContext(),
 				ListActivity.class);
 		startActivity(nextActivity);
-	}
-
-	public void openSettings() {
-
 	}
 
 	public CardService getService() {

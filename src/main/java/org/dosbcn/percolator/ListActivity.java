@@ -3,6 +3,9 @@ package org.dosbcn.percolator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardService;
@@ -44,9 +47,9 @@ public class ListActivity extends android.app.ListActivity {
 	}
 
 	private void initApplication() {
-        CardViewAdapter adapter = initAdapter();
-        initServiceListeners(adapter);
-    }
+		CardViewAdapter adapter = initAdapter();
+		initServiceListeners(adapter);
+	}
 
 	private CardViewAdapter initAdapter() {
 		Log.i(LOG_TAG, "Initializing adapter.");
@@ -61,4 +64,23 @@ public class ListActivity extends android.app.ListActivity {
 		service.setOnAddListener(new CardAddListener(adapter));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// No supported actions yet
+		return super.onOptionsItemSelected(item);
+	}
 }
