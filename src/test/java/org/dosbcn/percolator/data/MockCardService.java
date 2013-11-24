@@ -13,30 +13,28 @@ import org.dosbcn.percolator.notifications.MockCardToaster;
  *
  * @author Sean Connolly
  */
-public class MockCardService
-        extends CardServiceImpl
-        implements CardService {
+public class MockCardService extends CardServiceImpl implements CardService {
 
-    public MockCardService() {
-        super(new MockCardRepository(), new CardNotificationTimerImpl(),
-                new MockCardAlarmQueue(), new MockCardToaster());
-    }
+	public MockCardService() {
+		super(new MockCardRepository(), new CardNotificationTimerImpl(),
+				new MockCardAlarmQueue(), new MockCardToaster());
+	}
 
-    public MockCardRepository getMockCardRepository() {
-        return (MockCardRepository) getCardRepository();
-    }
+	public MockCardRepository getMockCardRepository() {
+		return (MockCardRepository) getCardRepository();
+	}
 
-    public CardNotificationTimer getMockCardNotificationTimer() {
-        // TODO do we need to mock the timer?
-        return getCardNotificationTimer();
-    }
+	public CardNotificationTimer getMockCardNotificationTimer() {
+		// TODO do we need to mock the timer?
+		return getCardNotificationTimer();
+	}
 
-    public MockCardAlarmQueue getMockCardAlarmQueue() {
-        return (MockCardAlarmQueue) getCardAlarmQueue();
-    }
+	public MockCardAlarmQueue getMockCardAlarmQueue() {
+		return (MockCardAlarmQueue) getCardAlarmQueue();
+	}
 
-    public MockCardToaster getMockCardToaster() {
-        return (MockCardToaster) getCardToaster();
-    }
+	public MockCardToaster getMockCardToaster() {
+		return (MockCardToaster) getCardToaster();
+	}
 
 }

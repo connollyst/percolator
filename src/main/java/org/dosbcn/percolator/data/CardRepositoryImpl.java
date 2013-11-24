@@ -10,6 +10,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -63,7 +65,9 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 
 	public List<Card> fetchAll() {
 		try {
-			return getFlashCardDAO().queryForAll();
+			List<Card> cards = getFlashCardDAO().queryForAll();
+			Collections.sort(cards);
+			return cards;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

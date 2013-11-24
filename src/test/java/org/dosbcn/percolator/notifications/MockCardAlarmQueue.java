@@ -18,8 +18,7 @@ import java.util.Map;
  *
  * @author Sean Connolly
  */
-public class MockCardAlarmQueue extends CardAlarmQueueImpl implements
-		CardAlarmQueue {
+public class MockCardAlarmQueue extends CardAlarmQueueImpl {
 
 	private final Map<Integer, DateTime> alarms;
 
