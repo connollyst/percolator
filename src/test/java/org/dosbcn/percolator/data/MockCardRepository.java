@@ -20,10 +20,7 @@ public class MockCardRepository implements CardRepository {
 
 	@Override
 	public List<Card> fetchAll() {
-        System.out.println("Getting all cards");
-		List<Card> all = new ArrayList<Card>(cards.values());
-		Collections.sort(all);
-		return all;
+		return new ArrayList<Card>(cards.values());
 	}
 
 	@Override

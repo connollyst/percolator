@@ -53,4 +53,5 @@ public class CardNotifierImpl implements CardNotifier {
 		return (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
+
 }
