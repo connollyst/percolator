@@ -2,8 +2,6 @@
     android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
     android:layout_margin="0px"
     android:background="@drawable/cover_bg"
     android:orientation="vertical"

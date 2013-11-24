@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -44,6 +41,10 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		initTitleChangeListener();
 		initSaveButtonListener();
+		// Request focus and show soft keyboard automatically
+		findTitleField().requestFocus();
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		// Make sure an alarm is queued for all active cards, the queue is smart
 		// enough to keep appropriate timing and avoid duplicates etc.
 		service.resetAllAlarms();
