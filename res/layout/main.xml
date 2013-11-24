@@ -46,16 +46,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_input_left"
         android:layout_marginRight="@dimen/margin_input_right"
-        android:layout_marginTop="@dimen/margin_input_top"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/save_button"
+            android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_done"
             android:text="@string/save_button_label"
-            android:textColor="@color/white"
+            android:textColor="@color/save_button_color_selector"
+            android:drawableLeft="@drawable/save_button_icon_selector"
             style="?android:attr/borderlessButtonStyle" />
 
     </LinearLayout>

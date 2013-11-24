@@ -3,6 +3,8 @@ package org.dosbcn.percolator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +42,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		initTitleChangeListener();
 		initSaveButtonListener();
 		// Make sure an alarm is queued for all active cards, the queue is smart
 		// enough to keep appropriate timing and avoid duplicates etc.
@@ -47,6 +50,26 @@ public class MainActivity extends Activity {
 		// TODO do this when the application starts.. not the activity
 		// TODO do this in another thread so the application starts quickly
 		// http://developer.android.com/guide/components/processes-and-threads.html
+	}
+
+	private void initTitleChangeListener() {
+		findTitleField().addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				boolean hasTitle = s.length() > 0;
+				findSaveButton().setEnabled(hasTitle);
+			}
+		});
 	}
 
 	private void initSaveButtonListener() {
