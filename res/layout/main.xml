@@ -1,20 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0px"
-    android:background="@drawable/cover_bg"
-    android:orientation="vertical"
-    android:padding="0px">
+    android:paddingTop="@dimen/main_top_padding"
+    android:paddingLeft="@dimen/main_horizontal_padding"
+    android:paddingRight="@dimen/main_horizontal_padding"
+    android:background="@drawable/cover_bg">
 
     <EditText
         android:id="@+id/title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_input_top"
-        android:layout_marginBottom="@dimen/margin_input_bottom"
-        android:layout_marginLeft="@dimen/margin_input_left"
-        android:layout_marginRight="@dimen/margin_input_right"
+        android:layout_marginBottom="@dimen/main_input_spacing_margin"
         android:hint="@string/title_hint"
         android:textColor="@color/white"
         android:textColorHint="@color/pink"
@@ -25,10 +24,7 @@
         android:id="@+id/description_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_input_bottom"
-        android:layout_marginLeft="@dimen/margin_input_left"
-        android:layout_marginRight="@dimen/margin_input_right"
-        android:layout_marginTop="@dimen/margin_input_top"
+        android:layout_marginBottom="@dimen/main_input_spacing_margin"
         android:hint="@string/description_hint"
         android:textColor="@color/white"
         android:textColorHint="@color/pink"
@@ -40,8 +36,6 @@
         android:gravity="right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_input_left"
-        android:layout_marginRight="@dimen/margin_input_right"
         android:orientation="vertical">
 
         <Button
