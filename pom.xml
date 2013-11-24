@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dosbcn</groupId>
     <artifactId>percolator</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>apk</packaging>
     <name>Percolator</name>
 
