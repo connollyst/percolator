@@ -3,7 +3,8 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="pink">#ffffa7a7</color>
+    <color name="salmon">#f26149</color>
+    <color name="pink">#f59888</color>
     <color name="yellow">#ffff00</color>
 
 </resources>
