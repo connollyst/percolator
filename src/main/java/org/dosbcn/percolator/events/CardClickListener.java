@@ -12,16 +12,11 @@ public class CardClickListener implements View.OnClickListener {
 	public void onClick(View view) {
 		Log.i(LOG_TAG, "onClick");
 		CardViewHolder holder = (CardViewHolder) view.getTag();
-		toggleDescriptionVisibility(holder);
-		toggleTimeVisibility(holder);
+		toggleDetailsVisibility(holder);
 	}
 
-	private void toggleDescriptionVisibility(CardViewHolder holder) {
-		toggleVisibility(holder.getDescriptionView());
-	}
-
-	private void toggleTimeVisibility(CardViewHolder holder) {
-		toggleVisibility(holder.getTimeView());
+	private void toggleDetailsVisibility(CardViewHolder holder) {
+		toggleVisibility(holder.getDetailsLayout());
 	}
 
 	private void toggleVisibility(View view) {

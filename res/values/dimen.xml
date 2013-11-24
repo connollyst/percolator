@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main Activity - Input Form Dimensions -->
     <dimen name="margin_input_bottom">0dp</dimen>
     <dimen name="margin_input_left">10dp</dimen>
     <dimen name="margin_input_right">10dp</dimen>
     <dimen name="margin_input_top">50dp</dimen>
+
+    <!-- List Activity - List Item Dimensions -->
+    <dimen name="list_item_vertical_margin">8dp</dimen>
+    <dimen name="list_item_horizontal_margin">10dp</dimen>
 
 </resources>

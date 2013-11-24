@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.dosbcn.percolator.R;
 import org.dosbcn.percolator.data.Card;
@@ -70,9 +71,11 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	private View initializeNewView() {
 		View convertView = inflator.inflate(CARD_VIEW, null);
 		TextView title = getTitleTextView(convertView);
+		LinearLayout detailsLayout = getDetailsLayout(convertView);
 		TextView description = getDescriptionTextView(convertView);
 		TextView time = getTimeTextView(convertView);
-		CardViewHolder viewHolder = new CardViewHolder(title, description, time);
+		CardViewHolder viewHolder = new CardViewHolder(title, detailsLayout,
+				description, time);
 		convertView.setTag(viewHolder);
 		convertView.setOnClickListener(CLICK_LISTENER);
 		return convertView;
@@ -87,6 +90,17 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	 */
 	private TextView getTitleTextView(View view) {
 		return (TextView) view.findViewById(R.id.title);
+	}
+
+	/**
+	 * Get the 'details' {@link LinearLayout}.
+	 *
+	 * @param view
+	 *            the context view
+	 * @return the linear layout
+	 */
+	private LinearLayout getDetailsLayout(View view) {
+		return (LinearLayout) view.findViewById(R.id.details);
 	}
 
 	/**

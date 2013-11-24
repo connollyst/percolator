@@ -3,6 +3,11 @@
 
     <string name="app_name">Percolator</string>
 
+    <!-- Action Bar Titles -->
+    <string name="action_list">List</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
+
     <!-- Text Labels -->
     <string name="help_title">Welcome</string>
     <string name="title_hint">word</string>
@@ -10,14 +15,11 @@
 
     <!-- Button Labels -->
     <string name="save_button_label">Save</string>
-    <string name="list_button_label">List..</string>
 
     <!-- Image Descriptions -->
     <string name="gradient_desc">color slider</string>
 
-    <!-- Action Bar Titles -->
-    <string name="action_list">List</string>
-    <string name="action_search">Search</string>
-    <string name="action_settings">Settings</string>
+    <string name="notification_date_title">Next Notification:</string>
+
 
 </resources>

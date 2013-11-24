@@ -1,6 +1,7 @@
 package org.dosbcn.percolator.view;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,38 +15,49 @@ import android.widget.TextView;
  */
 public class CardViewHolder {
 
-    private TextView titleView;
-    private TextView descriptionView;
-    private TextView timeView;
+	private TextView titleView;
+	private LinearLayout detailsLayout;
+	private TextView descriptionView;
+	private TextView timeView;
 
-    public CardViewHolder(TextView titleView, TextView descriptionView, TextView timeView) {
-        this.titleView = titleView;
-        this.descriptionView = descriptionView;
-        this.timeView = timeView;
-    }
+	public CardViewHolder(TextView titleView, LinearLayout detailsLayout,
+			TextView descriptionView, TextView timeView) {
+		this.titleView = titleView;
+		this.detailsLayout = detailsLayout;
+		this.descriptionView = descriptionView;
+		this.timeView = timeView;
+	}
 
-    public TextView getTitleView() {
-        return titleView;
-    }
+	public TextView getTitleView() {
+		return titleView;
+	}
 
-    public void setTitleView(TextView titleView) {
-        this.titleView = titleView;
-    }
+	public void setTitleView(TextView titleView) {
+		this.titleView = titleView;
+	}
 
-    public TextView getDescriptionView() {
-        return descriptionView;
-    }
+	public LinearLayout getDetailsLayout() {
+		return detailsLayout;
+	}
 
-    public void setDescriptionView(TextView descriptionView) {
-        this.descriptionView = descriptionView;
-    }
+	public void setDetailsLayout(LinearLayout detailsLayout) {
+		this.detailsLayout = detailsLayout;
+	}
 
-    public TextView getTimeView() {
-        return timeView;
-    }
+	public TextView getDescriptionView() {
+		return descriptionView;
+	}
 
-    public void setTimeView(TextView timeView) {
-        this.timeView = timeView;
-    }
+	public void setDescriptionView(TextView descriptionView) {
+		this.descriptionView = descriptionView;
+	}
+
+	public TextView getTimeView() {
+		return timeView;
+	}
+
+	public void setTimeView(TextView timeView) {
+		this.timeView = timeView;
+	}
 
 }
