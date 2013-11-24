@@ -45,7 +45,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	private static final String BAD_STAGE_LOG = "Unexpected "
 			+ CardStage.class.getSimpleName() + ": ";
 
-	private static final int MAX_DAILY_NOTIFICATIONS = 3;
+	private static final int MAX_DAILY_NOTIFICATIONS = 2;
 	private final Multiset<LocalDate> scheduledDates = HashMultiset.create();
 
 	private final TimeUtilities timeUtilities;

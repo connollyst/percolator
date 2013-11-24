@@ -200,8 +200,6 @@ public class TestCardNotificationTimer {
 
 	// TODO test missed notifications (ASAP notifications)
 
-	// TODO test notification to go off today (early, late, midday)
-
 	/* Test Maximum Notifications Per Day */
 
 	/**
@@ -213,15 +211,12 @@ public class TestCardNotificationTimer {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime now = MID_DAY;
 		CardNotificationTimer timer = new MockCardNotificationTimer(now);
-		DateTime[] times = getNotificationTimes(timer, now, stage, 3);
+		DateTime[] times = getNotificationTimes(timer, now, stage, 2);
 		DateTime time1 = times[0];
 		DateTime time2 = times[1];
-		DateTime time3 = times[2];
 		int day1 = time1.getDayOfYear();
 		int day2 = time2.getDayOfYear();
-		int day3 = time3.getDayOfYear();
 		assertEquals("notifications should be on same day", day1, day2);
-		assertEquals("notifications should be on same day", day2, day3);
 	}
 
 	/**
@@ -233,12 +228,12 @@ public class TestCardNotificationTimer {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime now = MID_DAY;
 		CardNotificationTimer timer = new MockCardNotificationTimer(now);
-		DateTime[] times = getNotificationTimes(timer, now, stage, 4);
+		DateTime[] times = getNotificationTimes(timer, now, stage, 3);
+		DateTime time2 = times[1];
 		DateTime time3 = times[2];
-		DateTime time4 = times[3];
+		int day2 = time2.getDayOfYear();
 		int day3 = time3.getDayOfYear();
-		int day4 = time4.getDayOfYear();
-		assertFalse("4th day should be different than 3rd", day3 == day4);
+		assertFalse("3th day should be different than 2rd", day2 == day3);
 	}
 
 	/**
