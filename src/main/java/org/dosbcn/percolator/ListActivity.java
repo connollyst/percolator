@@ -72,6 +72,7 @@ public class ListActivity extends android.app.ListActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_activity_actions, menu);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		return super.onCreateOptionsMenu(menu);
 	}
 
