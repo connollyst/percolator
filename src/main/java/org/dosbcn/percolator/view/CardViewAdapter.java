@@ -9,6 +9,9 @@ import android.widget.TextView;
 import org.dosbcn.percolator.R;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.events.CardClickListener;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,91 +23,92 @@ import java.util.List;
  *
  * @author Sean Connolly
  */
-public class CardViewAdapter
-        extends ArrayAdapter<Card> {
+public class CardViewAdapter extends ArrayAdapter<Card> {
 
-    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();
-    private static final CardClickListener CLICK_LISTENER = new CardClickListener();
-    private static final int CARD_VIEW = R.layout.card;
-    private final LayoutInflater inflator;
+	private static final String DATE_FORMAT_PATTERN = "MMMM dd, YYYY";
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat
+			.forPattern(DATE_FORMAT_PATTERN);
+	private static final CardClickListener CLICK_LISTENER = new CardClickListener();
+	private static final int CARD_VIEW = R.layout.card;
+	private final LayoutInflater inflator;
 
-    /**
-     * Default constructor.
-     *
-     * @param context
-     *         the android context
-     * @param cards
-     *         the initial list of flash cards
-     */
-    public CardViewAdapter(Context context, List<Card> cards) {
-        super(context, CARD_VIEW, cards);
-        this.inflator = LayoutInflater.from(context.getApplicationContext());
-    }
+	/**
+	 * Default constructor.
+	 *
+	 * @param context
+	 *            the android context
+	 * @param cards
+	 *            the initial list of flash cards
+	 */
+	public CardViewAdapter(Context context, List<Card> cards) {
+		super(context, CARD_VIEW, cards);
+		this.inflator = LayoutInflater.from(context.getApplicationContext());
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        Card card = getItem(position);
-        if (view == null) {
-            view = initializeNewView();
-        }
-        CardViewHolder cardView = (CardViewHolder) view.getTag();
-        cardView.getTitleView().setText(card.getTitle());
-        cardView.getDescriptionView().setText(card.getDescription());
-        cardView.getTimeView().setText(
-                DATE_FORMAT.format(card.getNextNotificationDate()));
-        return view;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public View getView(int position, View view, ViewGroup parent) {
+		Card card = getItem(position);
+		if (view == null) {
+			view = initializeNewView();
+		}
+		CardViewHolder cardView = (CardViewHolder) view.getTag();
+		cardView.getTitleView().setText(card.getTitle());
+		cardView.getDescriptionView().setText(card.getDescription());
+		cardView.getTimeView().setText(
+				DATE_FORMAT.print(card.getNextNotificationDate()));
+		return view;
+	}
 
-    /**
-     * Views are recycled in a list view; here we create a new recyclable view.
-     *
-     * @return a new convertable view
-     */
-    private View initializeNewView() {
-        View convertView = inflator.inflate(CARD_VIEW, null);
-        TextView title = getTitleTextView(convertView);
-        TextView description = getDescriptionTextView(convertView);
-        TextView time = getTimeTextView(convertView);
-        CardViewHolder viewHolder = new CardViewHolder(title, description, time);
-        convertView.setTag(viewHolder);
-        convertView.setOnClickListener(CLICK_LISTENER);
-        return convertView;
-    }
+	/**
+	 * Views are recycled in a list view; here we create a new recyclable view.
+	 *
+	 * @return a new convertable view
+	 */
+	private View initializeNewView() {
+		View convertView = inflator.inflate(CARD_VIEW, null);
+		TextView title = getTitleTextView(convertView);
+		TextView description = getDescriptionTextView(convertView);
+		TextView time = getTimeTextView(convertView);
+		CardViewHolder viewHolder = new CardViewHolder(title, description, time);
+		convertView.setTag(viewHolder);
+		convertView.setOnClickListener(CLICK_LISTENER);
+		return convertView;
+	}
 
-    /**
-     * Get the 'title' {@link TextView}.
-     *
-     * @param view
-     *         the context view
-     * @return the text view
-     */
-    private TextView getTitleTextView(View view) {
-        return (TextView) view.findViewById(R.id.title);
-    }
+	/**
+	 * Get the 'title' {@link TextView}.
+	 *
+	 * @param view
+	 *            the context view
+	 * @return the text view
+	 */
+	private TextView getTitleTextView(View view) {
+		return (TextView) view.findViewById(R.id.title);
+	}
 
-    /**
-     * Get the 'description' {@link TextView}.
-     *
-     * @param view
-     *         the context view
-     * @return the text view
-     */
-    private TextView getDescriptionTextView(View view) {
-        return (TextView) view.findViewById(R.id.description);
-    }
+	/**
+	 * Get the 'description' {@link TextView}.
+	 *
+	 * @param view
+	 *            the context view
+	 * @return the text view
+	 */
+	private TextView getDescriptionTextView(View view) {
+		return (TextView) view.findViewById(R.id.description);
+	}
 
-    /**
-     * Get the 'time' {@link TextView}.
-     *
-     * @param view
-     *         the context view
-     * @return the text view
-     */
-    private TextView getTimeTextView(View view) {
-        return (TextView) view.findViewById(R.id.time);
-    }
+	/**
+	 * Get the 'time' {@link TextView}.
+	 *
+	 * @param view
+	 *            the context view
+	 * @return the text view
+	 */
+	private TextView getTimeTextView(View view) {
+		return (TextView) view.findViewById(R.id.time);
+	}
 
 }
