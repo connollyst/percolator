@@ -10,12 +10,9 @@ import android.widget.TextView;
 import org.dosbcn.percolator.R;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.events.CardClickListener;
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -55,11 +52,20 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		if (view == null) {
 			view = initializeNewView();
 		}
+		// Set content
 		CardViewHolder cardView = (CardViewHolder) view.getTag();
 		cardView.getTitleView().setText(card.getTitle());
 		cardView.getDescriptionView().setText(card.getDescription());
-		cardView.getTimeView().setText(
+		cardView.getStartDateView().setText(
+				DATE_FORMAT.print(card.getStartDate()));
+		cardView.getNotificationDateView().setText(
 				DATE_FORMAT.print(card.getNextNotificationDate()));
+		// Set style
+		if (position % 2 == 1) {
+			view.setBackgroundResource(R.color.salmon);
+		} else {
+			view.setBackgroundResource(R.color.salmon_dark);
+		}
 		return view;
 	}
 
@@ -73,16 +79,17 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		TextView title = getTitleTextView(convertView);
 		LinearLayout detailsLayout = getDetailsLayout(convertView);
 		TextView description = getDescriptionTextView(convertView);
-		TextView time = getTimeTextView(convertView);
+		TextView startDate = getStartDateTextView(convertView);
+		TextView notificationDate = getNotificationDateTextView(convertView);
 		CardViewHolder viewHolder = new CardViewHolder(title, detailsLayout,
-				description, time);
+				description, startDate, notificationDate);
 		convertView.setTag(viewHolder);
 		convertView.setOnClickListener(CLICK_LISTENER);
 		return convertView;
 	}
 
 	/**
-	 * Get the 'title' {@link TextView}.
+	 * Get the 'Title' {@link TextView}.
 	 *
 	 * @param view
 	 *            the context view
@@ -93,7 +100,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	}
 
 	/**
-	 * Get the 'details' {@link LinearLayout}.
+	 * Get the 'Details' {@link LinearLayout}.
 	 *
 	 * @param view
 	 *            the context view
@@ -104,7 +111,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	}
 
 	/**
-	 * Get the 'description' {@link TextView}.
+	 * Get the 'Description' {@link TextView}.
 	 *
 	 * @param view
 	 *            the context view
@@ -115,14 +122,25 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	}
 
 	/**
-	 * Get the 'time' {@link TextView}.
+	 * Get the 'Start Date' {@link TextView}.
 	 *
 	 * @param view
 	 *            the context view
 	 * @return the text view
 	 */
-	private TextView getTimeTextView(View view) {
-		return (TextView) view.findViewById(R.id.time);
+	private TextView getStartDateTextView(View view) {
+		return (TextView) view.findViewById(R.id.start_date_text);
+	}
+
+	/**
+	 * Get the 'Next Notification' {@link TextView}.
+	 *
+	 * @param view
+	 *            the context view
+	 * @return the text view
+	 */
+	private TextView getNotificationDateTextView(View view) {
+		return (TextView) view.findViewById(R.id.notification_date_text);
 	}
 
 }

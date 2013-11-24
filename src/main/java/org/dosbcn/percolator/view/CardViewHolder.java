@@ -18,14 +18,17 @@ public class CardViewHolder {
 	private TextView titleView;
 	private LinearLayout detailsLayout;
 	private TextView descriptionView;
-	private TextView timeView;
+	private TextView startDateView;
+	private TextView notificationDateView;
 
 	public CardViewHolder(TextView titleView, LinearLayout detailsLayout,
-			TextView descriptionView, TextView timeView) {
+			TextView descriptionView, TextView startDateView,
+			TextView notificationDateView) {
 		this.titleView = titleView;
 		this.detailsLayout = detailsLayout;
 		this.descriptionView = descriptionView;
-		this.timeView = timeView;
+		this.startDateView = startDateView;
+		this.notificationDateView = notificationDateView;
 	}
 
 	public TextView getTitleView() {
@@ -52,12 +55,20 @@ public class CardViewHolder {
 		this.descriptionView = descriptionView;
 	}
 
-	public TextView getTimeView() {
-		return timeView;
+	public TextView getStartDateView() {
+		return startDateView;
 	}
 
-	public void setTimeView(TextView timeView) {
-		this.timeView = timeView;
+	public void setStartDateView(TextView startDateView) {
+		this.startDateView = startDateView;
+	}
+
+	public TextView getNotificationDateView() {
+		return notificationDateView;
+	}
+
+	public void setNotificationDateView(TextView notificationDateView) {
+		this.notificationDateView = notificationDateView;
 	}
 
 }

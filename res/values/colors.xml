@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
-    <color name="salmon">#f26149</color>
-    <color name="pink">#f59888</color>
-    <color name="yellow">#ffff00</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="grey">#ff6c6c6c</color>
+    <color name="salmon_lightest">#fff5a28d</color>
+    <color name="salmon_light">#fff59180</color>
+    <color name="salmon">#fff26149</color>
+    <color name="salmon_dark">#ffea5941</color>
+    <color name="salmon_darkest">#ffe3523a</color>
+    <color name="pink">#fff59888</color>
 
 </resources>

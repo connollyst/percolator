@@ -19,6 +19,7 @@
     <!-- Image Descriptions -->
     <string name="gradient_desc">color slider</string>
 
+    <string name="start_date_title">Started On:</string>
     <string name="notification_date_title">Next Notification:</string>
 
 
