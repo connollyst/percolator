@@ -2,6 +2,7 @@ package org.dosbcn.percolator.notifications.time;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
 import java.util.Date;
@@ -47,17 +48,22 @@ public class RandomTimeGenerator {
 	 * Generates a random time to send a notification, some time today.<br/>
 	 * Note: It is possible <i>now</i> is later than the earliest notification
 	 * time, usually used in generating a random time. If this is the case, we
-	 * need to generate a time after now, not the notification time so as not to
-	 * generate a notification time in the past.
+	 * need to generate a time <i>after now</i>.
 	 *
 	 * @return a random time to send a notification
 	 */
 	private DateTime getRandomTimeToday() {
-		// TODO reduce code duplication with getRandomTimeInDay
+		LocalTime now = timeUtilities.getNow().toLocalTime();
+		LocalTime cutoff = timeUtilities.getEarliestNotificationTime();
+		LocalTime startTime;
+		if (now.isBefore(cutoff)) {
+			startTime = cutoff;
+		} else {
+			startTime = now;
+		}
 		LocalDate today = timeUtilities.getToday();
 		DateTime time = today.toDateTimeAtStartOfDay();
-		int randomTimeMillis = randomTime
-				.nextTimeAfter(TimeUtilities.EARLIEST_NOTIFICATION_HOUR);
+		int randomTimeMillis = randomTime.nextTimeAfter(startTime);
 		return time.plus(randomTimeMillis);
 	}
 
@@ -91,24 +97,26 @@ public class RandomTimeGenerator {
 		 * Return a random time (milliseconds in day) <i>after</i> the limit
 		 * specified, within the hard limits.
 		 *
-		 * @param msEarliest
+		 * @param earliest
 		 *            an early cutoff
 		 * @return a random time in the day
 		 */
-		int nextTimeAfter(final int msEarliest) {
-			return nextTimeBetween(msEarliest, LATEST_NOTIFICATION_MS);
+		int nextTimeAfter(final LocalTime earliest) {
+			return nextTimeBetween(earliest.getMillisOfDay(),
+					LATEST_NOTIFICATION_MS);
 		}
 
 		/**
 		 * Return a random time (milliseconds in day) <i>before</i> the limit
 		 * specified, within the hard limits.
 		 *
-		 * @param msLatest
-		 *            an late cutoff
+		 * @param latest
+		 *            a late cutoff
 		 * @return a random time in the day
 		 */
-		int nextTimeBefore(final int msLatest) {
-			return nextTimeBetween(EARLIEST_NOTIFICATION_MS, msLatest);
+		int nextTimeBefore(final LocalTime latest) {
+			return nextTimeBetween(EARLIEST_NOTIFICATION_MS,
+					latest.getMillisOfDay());
 		}
 
 		/**
@@ -122,9 +130,15 @@ public class RandomTimeGenerator {
 		 * @return a random time in the day
 		 */
 		int nextTimeBetween(final int msEarliest, final int msLatest) {
-			int lower = Math.max(msEarliest, EARLIEST_NOTIFICATION_MS);
-			int upper = Math.min(msLatest, LATEST_NOTIFICATION_MS);
-			return randomGenerator.nextInt(upper - lower) + lower;
+			if (msEarliest < EARLIEST_NOTIFICATION_MS) {
+				throw new RuntimeException(
+						"Tried to schedule event before earliest notification time.");
+			}
+			if (msLatest > LATEST_NOTIFICATION_MS) {
+				throw new RuntimeException(
+						"Tried to schedule event after latest notification time.");
+			}
+			return randomGenerator.nextInt(msLatest - msEarliest) + msEarliest;
 		}
 
 	}

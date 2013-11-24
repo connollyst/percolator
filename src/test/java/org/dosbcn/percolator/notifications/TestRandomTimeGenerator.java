@@ -7,9 +7,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 
+import org.dosbcn.percolator.notifications.time.MockTimeUtilities;
 import org.dosbcn.percolator.notifications.time.RandomTimeGenerator;
 import org.dosbcn.percolator.notifications.time.TimeUtilities;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +29,7 @@ public class TestRandomTimeGenerator {
 
 	// Sample a large number of random times to evaluate the generator's
 	// behavior
-	private static final int TEST_ITERATION_COUNT = 1000;
+	private static final int TEST_ITERATION_COUNT = 10000;
 	private static final int EXPECTED_MIN_HOUR = 11;
 	private static final int EXPECTED_MAX_HOUR = 21;
 	private static final int MORNING_HOUR = 8;
@@ -34,75 +37,122 @@ public class TestRandomTimeGenerator {
 	private static final int EVENING_HOUR = 18;
 	private static final int NIGHT_HOUR = 20;
 
+	/**
+	 * Assert that random times generated today, for tomorrow, are returned with
+	 * an even distribution and don't stray outside the cutoff times.
+	 */
 	@Test
-	public void testGetRandomTimeASAPStartingInTheMorning()
-			throws InterruptedException, ExecutionException {
-		DateTime now = mockToday(MORNING_HOUR);
-		RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
-		DateTime lowerLimit = mockToday(EXPECTED_MIN_HOUR);
-		DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
-		assertEvenDistribution(stats, lowerLimit, upperLimit);
-	}
-
-	@Test
-	public void testGetRandomTimeASAPStartingInTheAfternoon()
-			throws InterruptedException, ExecutionException {
-		DateTime now = mockToday(AFTERNOON_HOUR);
-		RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
-		DateTime lowerLimit = mockToday(AFTERNOON_HOUR);
-		DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
-		assertEvenDistribution(stats, lowerLimit, upperLimit);
-	}
-
-	@Test
-	public void testGetRandomTimeASAPStartingInTheEvening()
-			throws InterruptedException, ExecutionException {
-		DateTime now = mockToday(EVENING_HOUR);
-		RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
-		DateTime lowerLimit = mockToday(EVENING_HOUR);
-		DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
-		assertEvenDistribution(stats, lowerLimit, upperLimit);
-	}
-
-	@Test
-	public void testGetRandomTimeASAPStartingInTheNight()
-			throws InterruptedException, ExecutionException {
-		DateTime now = mockToday(NIGHT_HOUR);
-		RandomTimeTestStatistics stats = generateStatisticsWithGetRandomTimeASAP(now);
-		DateTime lowerLimit = mockToday(NIGHT_HOUR);
-		DateTime upperLimit = mockToday(EXPECTED_MAX_HOUR);
-		assertEvenDistribution(stats, lowerLimit, upperLimit);
-	}
-
-	@Test
-	public void testGetRandomTimeOneDayFromDate() throws InterruptedException,
+	public void testRandomTimeInDay() throws InterruptedException,
 			ExecutionException {
-		final DateTime now = mockToday(MORNING_HOUR);
-		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(new TimeUtilities());
+		DateTime now = mockTodayAtHour(AFTERNOON_HOUR);
+		TimeUtilities timeUtils = new MockTimeUtilities(now);
+		final LocalDate tomorrow = mockTomorrowAtHour(AFTERNOON_HOUR)
+				.toLocalDate();
+		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(
+				timeUtils);
 		RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
 			@Override
 			public DateTime call() throws Exception {
-				return new DateTime(
-				// TODO this is not what we want to test!!
-						timeGenerator.getRandomTimeInDay(now.toLocalDate()));
+				return timeGenerator.getRandomTimeInDay(tomorrow);
 			}
 		});
-		DateTime lowerLimit = mockTomorrow(EXPECTED_MIN_HOUR);
-		DateTime upperLimit = mockTomorrow(EXPECTED_MAX_HOUR);
+		DateTime lowerLimit = mockTomorrowAtHour(EXPECTED_MIN_HOUR);
+		DateTime upperLimit = mockTomorrowAtHour(EXPECTED_MAX_HOUR);
 		assertEvenDistribution(stats, lowerLimit, upperLimit);
 	}
 
-	private RandomTimeTestStatistics generateStatisticsWithGetRandomTimeASAP(
-			DateTime currentTime) throws InterruptedException,
-			ExecutionException {
-		// final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(currentTime);
-		return generateStatistics(new Callable<DateTime>() {
+	/**
+	 * Assert that random times generated <i>in the morning</i> today, for
+	 * today, are returned with a distribution like any other day.
+	 */
+	@Test
+	public void testRandomTimeTodayFromMorningHour()
+			throws InterruptedException, ExecutionException {
+		DateTime now = mockTodayAtHour(MORNING_HOUR);
+		TimeUtilities timeUtils = new MockTimeUtilities(now);
+		final LocalDate today = now.toLocalDate();
+		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(
+				timeUtils);
+		RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
 			@Override
 			public DateTime call() throws Exception {
-				// TODO this is not what we want to test!!
-				return new DateTime();// timeGenerator.getRandomTimeASAP());
+				return timeGenerator.getRandomTimeInDay(today);
 			}
 		});
+		DateTime lowerLimit = mockTodayAtHour(EXPECTED_MIN_HOUR);
+		DateTime upperLimit = mockTodayAtHour(EXPECTED_MAX_HOUR);
+		assertEvenDistribution(stats, lowerLimit, upperLimit);
+	}
+
+	/**
+	 * Assert that random times generated <i>in the afternoon</i> today, for
+	 * today, are returned with a distribution limited to the remaining hours in
+	 * the day.
+	 */
+	@Test
+	public void testRandomTimeTodayFromAfternoonHour()
+			throws InterruptedException, ExecutionException {
+		DateTime now = mockTodayAtHour(AFTERNOON_HOUR);
+		TimeUtilities timeUtils = new MockTimeUtilities(now);
+		final LocalDate today = now.toLocalDate();
+		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(
+				timeUtils);
+		RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
+			@Override
+			public DateTime call() throws Exception {
+				return timeGenerator.getRandomTimeInDay(today);
+			}
+		});
+		DateTime lowerLimit = mockTodayAtHour(AFTERNOON_HOUR);
+		DateTime upperLimit = mockTodayAtHour(EXPECTED_MAX_HOUR);
+		assertEvenDistribution(stats, lowerLimit, upperLimit);
+	}
+
+	/**
+	 * Assert that random times generated <i>in the evening</i> today, for
+	 * today, are returned with a distribution limited to the remaining hours in
+	 * the day.
+	 */
+	@Test
+	public void testRandomTimeTodayFromEveningHour()
+			throws InterruptedException, ExecutionException {
+		DateTime now = mockTodayAtHour(EVENING_HOUR);
+		TimeUtilities timeUtils = new MockTimeUtilities(now);
+		final LocalDate today = now.toLocalDate();
+		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(
+				timeUtils);
+		RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
+			@Override
+			public DateTime call() throws Exception {
+				return timeGenerator.getRandomTimeInDay(today);
+			}
+		});
+		DateTime lowerLimit = mockTodayAtHour(EVENING_HOUR);
+		DateTime upperLimit = mockTodayAtHour(EXPECTED_MAX_HOUR);
+		assertEvenDistribution(stats, lowerLimit, upperLimit);
+	}
+
+	/**
+	 * Assert that random times generated <i>at night</i> today, for today, are
+	 * returned with a distribution limited to the remaining hours in the day.
+	 */
+	@Test
+	public void testRandomTimeTodayFromNightHour() throws InterruptedException,
+			ExecutionException {
+		DateTime now = mockTodayAtHour(NIGHT_HOUR);
+		TimeUtilities timeUtils = new MockTimeUtilities(now);
+		final LocalDate today = now.toLocalDate();
+		final RandomTimeGenerator timeGenerator = new RandomTimeGenerator(
+				timeUtils);
+		RandomTimeTestStatistics stats = generateStatistics(new Callable<DateTime>() {
+			@Override
+			public DateTime call() throws Exception {
+				return timeGenerator.getRandomTimeInDay(today);
+			}
+		});
+		DateTime lowerLimit = mockTodayAtHour(NIGHT_HOUR);
+		DateTime upperLimit = mockTodayAtHour(EXPECTED_MAX_HOUR);
+		assertEvenDistribution(stats, lowerLimit, upperLimit);
 	}
 
 	/**
@@ -133,7 +183,7 @@ public class TestRandomTimeGenerator {
 	 *            the hour
 	 * @return the specified hour, tomorrow.
 	 */
-	private DateTime mockToday(int hour) {
+	private DateTime mockTodayAtHour(int hour) {
 		return new DateTime(1985, 8, 6, hour, 0, 0, 0);
 	}
 
@@ -144,8 +194,8 @@ public class TestRandomTimeGenerator {
 	 *            the hour
 	 * @return the specified hour, tomorrow.
 	 */
-	private DateTime mockTomorrow(int hour) {
-		return mockToday(hour).plus(Period.days(1));
+	private DateTime mockTomorrowAtHour(int hour) {
+		return mockTodayAtHour(hour).plus(Period.days(1));
 	}
 
 }
