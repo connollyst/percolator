@@ -8,6 +8,9 @@
         <!--
             API 11 theme customization can go here.
         -->
+
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+
     </style>
 
 </resources>
