@@ -2,9 +2,11 @@ package org.dosbcn.percolator;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,8 @@ import org.dosbcn.percolator.events.SaveButtonClickListener;
  */
 public class MainActivity extends Activity {
 
+	private static final String LOG_TAG = MainActivity.class.getName();
+
 	private final CardService service;
 
 	public MainActivity() {
@@ -38,6 +42,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(LOG_TAG, "Creating..");
 		setContentView(R.layout.main);
 		initTitleChangeListener();
 		initSaveButtonListener();
@@ -107,6 +112,45 @@ public class MainActivity extends Activity {
 		Intent nextActivity = new Intent(getApplicationContext(),
 				ListActivity.class);
 		startActivity(nextActivity);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d(LOG_TAG, "Pausing..");
+		saveState();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d(LOG_TAG, "Resuming..");
+		loadState();
+	}
+
+	private void saveState() {
+		String title = findTitleField().getText().toString();
+		String description = findDescriptionField().getText().toString();
+		Log.d(LOG_TAG, "Saving state: '" + title + "' & '" + description + "'");
+		SharedPreferences example = getState();
+		SharedPreferences.Editor edit = example.edit();
+		edit.putString("cardTitle", title);
+		edit.putString("cardDescription", description);
+		edit.commit();
+	}
+
+	private void loadState() {
+		SharedPreferences example = getState();
+		String title = example.getString("cardTitle", "");
+		String description = example.getString("cardDescription", "");
+		Log.d(LOG_TAG, "Loading state: '" + title + "' & '" + description + "'");
+		findTitleField().setText(title);
+		findDescriptionField().setText(description);
+	}
+
+	private SharedPreferences getState() {
+		String name = getClass().getName();
+		return getSharedPreferences(name, MODE_PRIVATE);
 	}
 
 	public CardService getService() {
