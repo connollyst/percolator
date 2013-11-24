@@ -15,4 +15,8 @@
     <!-- Image Descriptions -->
     <string name="gradient_desc">color slider</string>
 
+    <!-- Action Bar Titles -->
+    <string name="action_list">List</string>
+    <string name="action_settings">Settings</string>
+
 </resources>
