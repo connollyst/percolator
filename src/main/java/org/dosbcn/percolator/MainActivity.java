@@ -50,12 +50,6 @@ public class MainActivity extends Activity {
 		findTitleField().requestFocus();
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		// Make sure an alarm is queued for all active cards, the queue is smart
-		// enough to keep appropriate timing and avoid duplicates etc.
-		service.resetAllAlarms();
-		// TODO do this when the application starts.. not the activity
-		// TODO do this in another thread so the application starts quickly
-		// http://developer.android.com/guide/components/processes-and-threads.html
 	}
 
 	private void initTitleChangeListener() {
