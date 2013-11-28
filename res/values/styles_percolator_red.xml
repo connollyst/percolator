@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Percolator.Red" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/percolator_red_selectable_background</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Percolator.Red</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Percolator.Red</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Percolator.Red</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Percolator.Red</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Percolator.Red</item>
+        <item name="android:actionModeBackground">@drawable/percolator_red_cab_background_top</item>
+        <item name="android:actionModeSplitBackground">@drawable/percolator_red_cab_background_bottom</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Percolator.Red</item>
+
+                <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Percolator.Red.Widget</item>
+
+    </style>
+
+    <style name="ActionBar.Solid.Percolator.Red" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/percolator_red_ab_solid</item>
+        <item name="android:backgroundStacked">@drawable/percolator_red_ab_stacked_solid</item>
+        <item name="android:backgroundSplit">@drawable/percolator_red_ab_bottom_solid</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Percolator.Red</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Percolator.Red" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/percolator_red_ab_transparent</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Percolator.Red</item>
+    </style>
+
+    <style name="PopupMenu.Percolator.Red" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/percolator_red_menu_dropdown_panel</item>
+    </style>
+
+    <style name="DropDownListView.Percolator.Red" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/percolator_red_selectable_background</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Percolator.Red" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/percolator_red_tab_indicator_ab</item>
+    </style>
+
+    <style name="DropDownNav.Percolator.Red" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/percolator_red_spinner_background_ab</item>
+        <item name="android:popupBackground">@drawable/percolator_red_menu_dropdown_panel</item>
+        <item name="android:dropDownSelector">@drawable/percolator_red_selectable_background</item>
+    </style>
+
+    <style name="ProgressBar.Percolator.Red" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/percolator_red_progress_horizontal</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Percolator.Red" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/percolator_red_btn_cab_done</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Percolator.Red.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Percolator.Red</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Percolator.Red</item>
+    </style>
+
+</resources>
