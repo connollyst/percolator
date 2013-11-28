@@ -10,13 +10,17 @@
     <name>Percolator</name>
 
     <properties>
-        <platform.version>4.1.1.4</platform.version>
-        <ormlite.version>4.42</ormlite.version>
-        <robolectric.version>1.2</robolectric.version>
-        <mockito.version>1.9.5</mockito.version>
-        <dexmaker.version>1.0</dexmaker.version>
-        <junit.version>4.8.2</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <platform.version>4.1.1.4</platform.version>
+        <support.v4.version>r7</support.v4.version>
+        <actionbarsherlock.version>4.4.0</actionbarsherlock.version>
+        <guava.version>15.0</guava.version>
+        <ormlite.version>4.42</ormlite.version>
+        <joda.time.version>2.2</joda.time.version>
+        <junit.version>4.8.2</junit.version>
+        <mockito.version>1.9.5</mockito.version>
+        <robolectric.version>1.2</robolectric.version>
+        <commons.math.version>3.2</commons.math.version>
     </properties>
 
     <build>
@@ -68,13 +72,13 @@
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>support-v4</artifactId>
-            <version>r7</version>
+            <version>${support.v4.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.actionbarsherlock</groupId>
             <artifactId>actionbarsherlock</artifactId>
-            <version>4.4.0</version>
+            <version>${actionbarsherlock.version}</version>
             <type>apklib</type>
         </dependency>
 
@@ -93,14 +97,14 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.2</version>
+            <version>${joda.time.version}</version>
         </dependency>
 
         <!-- Guava for various utilities -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>15.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
@@ -130,7 +134,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.2</version>
+            <version>${commons.math.version}</version>
             <scope>test</scope>
         </dependency>
 
