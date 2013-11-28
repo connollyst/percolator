@@ -3,10 +3,10 @@ package org.dosbcn.percolator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import org.dosbcn.percolator.data.Card;
 import org.dosbcn.percolator.data.CardService;
 import org.dosbcn.percolator.data.CardServiceImpl;
@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author Sean Connolly
  */
-public class ListActivity extends android.app.ListActivity {
+public class ListActivity extends SherlockListActivity {
 
 	private static final String LOG_TAG = ListActivity.class.getName();
 	private final CardService service;
@@ -70,9 +70,9 @@ public class ListActivity extends android.app.ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.list_activity_actions, menu);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -84,4 +84,5 @@ public class ListActivity extends android.app.ListActivity {
 		// No supported actions yet
 		return super.onOptionsItemSelected(item);
 	}
+
 }

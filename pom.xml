@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.dosbcn</groupId>
     <artifactId>percolator</artifactId>
@@ -10,12 +10,13 @@
     <name>Percolator</name>
 
     <properties>
-        <platform.version>2.3.3</platform.version>
+        <platform.version>4.1.1.4</platform.version>
         <ormlite.version>4.42</ormlite.version>
         <robolectric.version>1.2</robolectric.version>
         <mockito.version>1.9.5</mockito.version>
         <dexmaker.version>1.0</dexmaker.version>
         <junit.version>4.8.2</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
@@ -23,19 +24,22 @@
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.8.0</version>
                 <configuration>
                     <androidManifestFile>
                         ${project.basedir}/AndroidManifest.xml
                     </androidManifestFile>
-                    <assetsDirectory>${project.basedir}/assets</assetsDirectory>
-                    <resourceDirectory>${project.basedir}/res
+                    <assetsDirectory>
+                        ${project.basedir}/assets
+                    </assetsDirectory>
+                    <resourceDirectory>
+                        ${project.basedir}/res
                     </resourceDirectory>
                     <nativeLibrariesDirectory>
                         ${project.basedir}/src/main/native
                     </nativeLibrariesDirectory>
                     <sdk>
-                        <platform>10</platform>
+                        <platform>17</platform>
                     </sdk>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
@@ -44,7 +48,7 @@
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -65,6 +69,13 @@
             <groupId>com.google.android</groupId>
             <artifactId>support-v4</artifactId>
             <version>r7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.actionbarsherlock</groupId>
+            <artifactId>actionbarsherlock</artifactId>
+            <version>4.4.0</version>
+            <type>apklib</type>
         </dependency>
 
         <dependency>
