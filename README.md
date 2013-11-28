@@ -14,3 +14,12 @@ Build
     for this step.
 3. Build Percolator
     - `mvn clean package`
+
+Release
+-------
+
+To build Percolator for release, simply build with the 'release' profile:
+`mvn clean package -Prelease`
+
+Note that to sign the apk for release on Google Play, you will need to have the
+keystore used to sign Percolator.
