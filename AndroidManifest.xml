@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dosbcn.percolator"
     android:versionCode="1"
-    android:versionName="0.0.1-SNAPSHOT">
+    android:versionName="0.3-SNAPSHOT">
 
     <!-- We can requeue notifications after boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
