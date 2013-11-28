@@ -62,9 +62,9 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 				DATE_FORMAT.print(card.getNextNotificationDate()));
 		// Set style
 		if (position % 2 == 1) {
-			view.setBackgroundResource(R.color.salmon);
+			view.setBackgroundResource(R.color.percolator_red_six);
 		} else {
-			view.setBackgroundResource(R.color.salmon_dark);
+			view.setBackgroundResource(R.color.percolator_red_seven);
 		}
 		return view;
 	}

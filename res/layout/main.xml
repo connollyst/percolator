@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/main_top_padding"
     android:paddingLeft="@dimen/main_horizontal_padding"
     android:paddingRight="@dimen/main_horizontal_padding"
-    android:background="@drawable/cover_bg">
+    android:background="@color/percolator_red_seven">
 
     <EditText
         android:id="@+id/title_input"
@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/main_input_spacing_margin"
         android:hint="@string/title_hint"
         android:textColor="@color/white"
-        android:textColorHint="@color/pink"
+        android:textColorHint="@color/percolator_red_grey"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_marginBottom="@dimen/main_input_spacing_margin"
         android:hint="@string/description_hint"
         android:textColor="@color/white"
-        android:textColorHint="@color/pink"
+        android:textColorHint="@color/percolator_red_grey"
         android:textSize="50sp"
         android:textStyle="bold" />
 

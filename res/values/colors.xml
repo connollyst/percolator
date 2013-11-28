@@ -13,4 +13,17 @@
 
     <color name="percolator_red_pressed">#CC922727</color>
 
+    <color name="percolator_red_one">#490100</color>
+    <color name="percolator_red_two">#6A0B02</color>
+    <color name="percolator_red_three">#540100</color>
+    <color name="percolator_red_four">#69110F</color>
+    <color name="percolator_red_five">#741713</color>
+
+    <color name="percolator_red_six">#732B2D</color>
+    <color name="percolator_red_seven">#7E414D</color>
+    <color name="percolator_red_eight">#E74B39</color>
+    <color name="percolator_red_nine">#8D417A</color>
+
+    <color name="percolator_red_grey">#C0B5B6</color>
+
 </resources>
