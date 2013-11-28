@@ -7,7 +7,7 @@ import com.dosbcn.percolator.data.Card;
 public class CardAlarmIntent
         extends Intent {
 
-    public static final String CARD_ID_EXTRA = "org.dosbcn.flashcards.card.id";
+    public static final String CARD_ID_EXTRA = "com.dosbcn.percolator.card.id";
 
     public CardAlarmIntent(Context context, Card card) {
         super(context, CardAlarm.class);

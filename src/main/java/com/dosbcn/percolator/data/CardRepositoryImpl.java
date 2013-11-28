@@ -24,7 +24,7 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 	private static final String LOG_TAG = CardRepositoryImpl.class.getName();
 
 	private static final int DB_VERSION = 1;
-	private static final String DB_NAME = "org.dosbcn.flashcards.sqlite";
+	private static final String DB_NAME = "com.dosbcn.percolator.sqlite";
 
 	public CardRepositoryImpl(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
