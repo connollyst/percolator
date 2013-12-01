@@ -4,17 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import com.dosbcn.percolator.R;
+
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardServiceImpl;
 import com.dosbcn.percolator.events.SaveButtonClickListener;
+import com.dosbcn.percolator.events.TitleInputListener;
 
 /**
  * The main {@link Activity} in this application.<br/>
@@ -45,35 +47,15 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.d(LOG_TAG, "Creating..");
 		setContentView(R.layout.main);
-		initTitleChangeListener();
-		initSaveButtonListener();
+		initListeners();
 		// Request focus and show soft keyboard automatically
 		findTitleField().requestFocus();
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 
-	private void initTitleChangeListener() {
-		findTitleField().addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				boolean hasTitle = s.length() > 0;
-				findSaveButton().setEnabled(hasTitle);
-			}
-		});
-	}
-
-	private void initSaveButtonListener() {
+	private void initListeners() {
+		findTitleField().addTextChangedListener(new TitleInputListener(this));
 		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
 	}
 
