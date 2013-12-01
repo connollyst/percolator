@@ -24,8 +24,8 @@ public class CardAlarm
             .getSimpleName() + " received an alarm with a null intent.";
     protected static final String ERROR_BAD_INTENT = CardAlarm.class
             .getSimpleName() + " received an alarm with an invalid intent: ";
-    protected static final String ERROR_ID_MISSING = CardAlarmIntent.CARD_ID_EXTRA
-            + " missing from " + CardAlarmIntent.class.getSimpleName();
+    protected static final String ERROR_ID_MISSING = CardIntent.CARD_ID_EXTRA
+            + " missing from " + CardIntent.class.getSimpleName();
     private static final String LOG_TAG = CardAlarm.class.getName();
     private CardService service;
     private CardNotifier notifier;
@@ -54,7 +54,7 @@ public class CardAlarm
     }
 
     private int getCardIdFromIntent(Intent intent) {
-        int id = intent.getIntExtra(CardAlarmIntent.CARD_ID_EXTRA, -1);
+        int id = intent.getIntExtra(CardIntent.CARD_ID_EXTRA, -1);
         if (id == -1) {
             throw new RuntimeException(ERROR_ID_MISSING);
         }

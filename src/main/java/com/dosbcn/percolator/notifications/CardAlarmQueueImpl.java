@@ -3,6 +3,7 @@ package com.dosbcn.percolator.notifications;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import com.dosbcn.percolator.data.Card;
 import org.joda.time.DateTime;
@@ -68,7 +69,7 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 					+ Card.class.getSimpleName() + " without an id.");
 		}
 		AlarmManager alarmManager = getAlarmManager();
-		CardAlarmIntent intent = new CardAlarmIntent(context, card);
+		Intent intent = new CardIntent(context, CardAlarm.class, card);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getMillis(),
 				PendingIntent.getBroadcast(context, card.getId(), intent,
 						PendingIntent.FLAG_CANCEL_CURRENT));

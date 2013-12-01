@@ -11,6 +11,7 @@ import com.dosbcn.percolator.data.Card;
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardServiceImpl;
 import com.dosbcn.percolator.events.CardAddListener;
+import com.dosbcn.percolator.notifications.CardIntent;
 import com.dosbcn.percolator.view.CardViewAdapter;
 
 import java.util.List;

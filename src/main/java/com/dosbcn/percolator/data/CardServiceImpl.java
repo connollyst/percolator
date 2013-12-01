@@ -3,12 +3,7 @@ package com.dosbcn.percolator.data;
 import android.content.Context;
 import android.util.Log;
 import com.dosbcn.percolator.events.EventListener;
-import com.dosbcn.percolator.notifications.CardAlarmQueue;
-import com.dosbcn.percolator.notifications.CardAlarmQueueImpl;
-import com.dosbcn.percolator.notifications.CardNotificationTimer;
-import com.dosbcn.percolator.notifications.CardNotificationTimerImpl;
-import com.dosbcn.percolator.notifications.CardToaster;
-import com.dosbcn.percolator.notifications.CardToasterImpl;
+import com.dosbcn.percolator.notifications.*;
 import org.joda.time.DateTime;
 
 import java.util.Collections;
@@ -28,6 +23,7 @@ public class CardServiceImpl implements CardService {
 	private final CardNotificationTimer timer;
 	private final CardAlarmQueue alarmQueue;
 	private final CardToaster toaster;
+	private final CardNotifier notifier; // TODO just for testing
 	private EventListener<Card> onAddListener;
 
 	public CardServiceImpl(Context context) {
@@ -35,6 +31,7 @@ public class CardServiceImpl implements CardService {
 		timer = new CardNotificationTimerImpl();
 		alarmQueue = new CardAlarmQueueImpl(context);
 		toaster = new CardToasterImpl(context);
+		notifier = new CardNotifierImpl(context);
 	}
 
 	CardServiceImpl(CardRepository repository, CardNotificationTimer timer,
@@ -43,6 +40,7 @@ public class CardServiceImpl implements CardService {
 		this.timer = timer;
 		this.alarmQueue = alarmQueue;
 		this.toaster = toaster;
+        notifier = null;
 	}
 
 	/**
@@ -79,6 +77,7 @@ public class CardServiceImpl implements CardService {
 		alarmQueue.setAlarm(card);
 		toaster.cardSaved();
 		onAddEvent(card);
+		notifier.showNotification(card);
 	}
 
 	/**

@@ -2,15 +2,18 @@ package com.dosbcn.percolator.events;
 
 import android.util.Log;
 import android.view.View;
+
 import com.dosbcn.percolator.view.CardViewHolder;
 
 public class CardClickListener implements View.OnClickListener {
 
 	private static final String LOG_TAG = CardClickListener.class.getName();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onClick(View view) {
-		Log.i(LOG_TAG, "onClick");
 		CardViewHolder holder = (CardViewHolder) view.getTag();
 		toggleDetailsVisibility(holder);
 	}

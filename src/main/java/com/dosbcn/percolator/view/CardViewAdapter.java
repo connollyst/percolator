@@ -28,7 +28,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 			.forPattern(DATE_FORMAT_PATTERN);
 	private static final CardClickListener CLICK_LISTENER = new CardClickListener();
 	private static final int CARD_VIEW = R.layout.card;
-	private final LayoutInflater inflator;
+	private final LayoutInflater inflater;
 
 	/**
 	 * Default constructor.
@@ -40,7 +40,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	 */
 	public CardViewAdapter(Context context, List<Card> cards) {
 		super(context, CARD_VIEW, cards);
-		this.inflator = LayoutInflater.from(context.getApplicationContext());
+		this.inflater = LayoutInflater.from(context.getApplicationContext());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 	 * @return a new convertable view
 	 */
 	private View initializeNewView() {
-		View convertView = inflator.inflate(CARD_VIEW, null);
+		View convertView = inflater.inflate(CARD_VIEW, null);
 		TextView title = getTitleTextView(convertView);
 		LinearLayout detailsLayout = getDetailsLayout(convertView);
 		TextView description = getDescriptionTextView(convertView);
