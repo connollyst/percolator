@@ -40,13 +40,17 @@ public class CardNotifierImpl implements CardNotifier {
 	}
 
 	private Notification buildNotification(Card card) {
-		return new NotificationCompat.Builder(context)
+		Notification notification = new NotificationCompat.Builder(context)
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(card.getTitle())
 				.setContentText(card.getDescription())
+				.setOngoing(false)
 				.setContentIntent(
 						PendingIntent.getActivity(context, 0, new Intent(), 0))
 				.getNotification();
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+		return notification;
 	}
 
 	private NotificationManager getNotificationManager() {
