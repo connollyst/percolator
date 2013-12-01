@@ -132,8 +132,6 @@ public class CardServiceImpl implements CardService {
 	private void onAddEvent(Card card) {
 		if (onAddListener != null) {
 			onAddListener.onEvent(card);
-		} else {
-			Log.w(LOG_TAG, "No onAdd listener registered!");
 		}
 	}
 

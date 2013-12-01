@@ -4,12 +4,12 @@ import java.util.List;
 
 public interface CardRepository {
 
-	public void create(Card card);
+	void create(Card card);
 
-	public void update(Card card);
+	void update(Card card);
 
-	public List<Card> fetchAll();
+	List<Card> fetchAll();
 
-	public Card fetchById(int id);
+	Card fetchById(int id);
 
 }
