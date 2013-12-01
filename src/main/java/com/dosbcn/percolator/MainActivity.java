@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardServiceImpl;
@@ -19,9 +18,8 @@ import com.dosbcn.percolator.events.SaveButtonClickListener;
 import com.dosbcn.percolator.events.TitleInputListener;
 
 /**
- * The main {@link Activity} in this application.<br/>
- * Our interface is a single {@link ListView} and is managed by simply extending
- * the {@link android.app.ListActivity}.
+ * The main {@link Activity} in this application, the first activity called when
+ * the application starts.
  *
  * @author Sean Connolly
  */
@@ -54,6 +52,9 @@ public class MainActivity extends Activity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 
+	/**
+	 * Initialize all listeners for this activity.
+	 */
 	private void initListeners() {
 		findTitleField().addTextChangedListener(new TitleInputListener(this));
 		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
@@ -91,33 +92,45 @@ public class MainActivity extends Activity {
 		startActivity(nextActivity);
 	}
 
+	/**
+	 * Called when the application pauses. The current state is saved so we can
+	 * restore it later.
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.d(LOG_TAG, "Pausing..");
 		saveState();
 	}
 
+	/**
+	 * Called when the application resumes. Any previously stored state is
+	 * restored.
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d(LOG_TAG, "Resuming..");
 		loadState();
 	}
 
+	/**
+	 * Save the current state so it can be restored later.
+	 */
 	private void saveState() {
 		String title = findTitleField().getText().toString();
 		String description = findDescriptionField().getText().toString();
 		Log.d(LOG_TAG, "Saving state: '" + title + "' & '" + description + "'");
-		SharedPreferences example = getState();
+		SharedPreferences example = getStateStorage();
 		SharedPreferences.Editor edit = example.edit();
 		edit.putString("cardTitle", title);
 		edit.putString("cardDescription", description);
 		edit.commit();
 	}
 
+	/**
+	 * Restore previously saved state, if any.
+	 */
 	private void loadState() {
-		SharedPreferences example = getState();
+		SharedPreferences example = getStateStorage();
 		String title = example.getString("cardTitle", "");
 		String description = example.getString("cardDescription", "");
 		Log.d(LOG_TAG, "Loading state: '" + title + "' & '" + description + "'");
@@ -125,9 +138,14 @@ public class MainActivity extends Activity {
 		findDescriptionField().setText(description);
 	}
 
-	private SharedPreferences getState() {
-		String name = getClass().getName();
-		return getSharedPreferences(name, MODE_PRIVATE);
+	/**
+	 * Get the {@link SharedPreferences} in which we can store/retrieve
+	 * application state.
+	 *
+	 * @return the state storage location
+	 */
+	private SharedPreferences getStateStorage() {
+		return getSharedPreferences(getClass().getName(), MODE_PRIVATE);
 	}
 
 	public CardService getService() {
