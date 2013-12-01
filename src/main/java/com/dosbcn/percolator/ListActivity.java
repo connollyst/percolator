@@ -7,7 +7,6 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.dosbcn.percolator.R;
 import com.dosbcn.percolator.data.Card;
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardServiceImpl;
@@ -18,8 +17,8 @@ import java.util.List;
 
 /**
  * The {@link Activity} displaying the list of flash cards.<br/>
- * Our interface is a single {@link ListView} and is managed by simply extending
- * the {@link android.app.ListActivity}.
+ * Our interface is a single {@link android.widget.ListView} and is managed by
+ * simply extending the {@link SherlockListActivity}.
  *
  * @author Sean Connolly
  */
