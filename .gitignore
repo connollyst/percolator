@@ -7,3 +7,5 @@ target/
 .idea/
 *.iml
 tmp/
+out/
+gen-external-apklibs/
