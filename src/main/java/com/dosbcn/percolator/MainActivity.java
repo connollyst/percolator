@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +25,8 @@ import com.dosbcn.percolator.events.TitleInputListener;
  *
  * @author Sean Connolly
  */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements
+		WelcomeDialogFragment.WelcomeDialogListener {
 
 	private static final String LOG_TAG = MainActivity.class.getName();
 
@@ -43,13 +46,16 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(LOG_TAG, "Creating..");
 		setContentView(R.layout.main);
 		initListeners();
-		// Request focus and show soft keyboard automatically
-		findTitleField().requestFocus();
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		if (isFirstCreate()) {
+			showWelcomeDialog();
+		} else {
+			// Request focus and show soft keyboard automatically
+			findTitleField().requestFocus();
+			getWindow().setSoftInputMode(
+					WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		}
 	}
 
 	/**
@@ -58,6 +64,15 @@ public class MainActivity extends Activity {
 	private void initListeners() {
 		findTitleField().addTextChangedListener(new TitleInputListener(this));
 		findSaveButton().setOnClickListener(new SaveButtonClickListener(this));
+	}
+
+	private boolean isFirstCreate() {
+		return !wasUserWelcomed();
+	}
+
+	private void showWelcomeDialog() {
+		new WelcomeDialogFragment()
+				.show(getSupportFragmentManager(), "welcome");
 	}
 
 	/**
@@ -119,11 +134,11 @@ public class MainActivity extends Activity {
 		String title = findTitleField().getText().toString();
 		String description = findDescriptionField().getText().toString();
 		Log.d(LOG_TAG, "Saving state: '" + title + "' & '" + description + "'");
-		SharedPreferences example = getStateStorage();
-		SharedPreferences.Editor edit = example.edit();
-		edit.putString("cardTitle", title);
-		edit.putString("cardDescription", description);
-		edit.commit();
+		SharedPreferences storage = getStateStorage();
+		SharedPreferences.Editor storageEditor = storage.edit();
+		storageEditor.putString("cardTitle", title);
+		storageEditor.putString("cardDescription", description);
+		storageEditor.commit();
 	}
 
 	/**
@@ -162,6 +177,35 @@ public class MainActivity extends Activity {
 
 	public Button findSaveButton() {
 		return (Button) findViewById(R.id.save_button);
+	}
+
+	/**
+	 * Listener for when the 'Welcome' dialog is dismissed.<br/>
+	 * As this is the user's first time here, let's start them off with an
+	 * example use.
+	 */
+	@Override
+	public void onWelcomeDismissed(DialogFragment dialog) {
+		showExample();
+		recordUserWelcomed();
+	}
+
+	private void showExample() {
+		findTitleField().setText(R.string.example_title);
+		findDescriptionField().setText(R.string.example_description);
+		findTitleField().clearFocus();
+	}
+
+	private void recordUserWelcomed() {
+		SharedPreferences storage = getStateStorage();
+		SharedPreferences.Editor storageEditor = storage.edit();
+		storageEditor.putBoolean("wasWelcomed", true);
+		storageEditor.commit();
+	}
+
+	private boolean wasUserWelcomed() {
+		SharedPreferences storage = getStateStorage();
+		return storage.getBoolean("wasWelcomed", false);
 	}
 
 }

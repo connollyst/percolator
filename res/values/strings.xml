@@ -3,6 +3,20 @@
 
     <string name="app_name">Percolator</string>
 
+    <!-- Welcome Dialog-->
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_message">
+        Percolator is a tool to help you remember the things want to
+        learn.\n\nAs you learn new things, jot them down here. I\'ll send you
+        simple reminders over the following days &amp; weeks.\n\nLet\'s get
+        started..\ndo you know what the word \'percolate\' means?
+    </string>
+    <string name="welcome_button_text">OK</string>
+
+    <!-- Example Use -->
+    <string name="example_title">percolate</string>
+    <string name="example_description">to spread slowly, to permeate</string>
+
     <!-- Action Bar Titles -->
     <string name="action_list">List</string>
     <string name="action_search">Search</string>
