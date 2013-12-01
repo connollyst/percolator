@@ -12,6 +12,7 @@
     <string name="help_title">Welcome</string>
     <string name="title_hint">word</string>
     <string name="description_hint">definition</string>
+    <string name="empty_list">no notifications queued</string>
 
     <!-- Button Labels -->
     <string name="save_button_label">Save</string>

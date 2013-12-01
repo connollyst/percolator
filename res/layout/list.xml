@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/list"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:divider="@color/percolator_red_one"
-    android:background="@color/percolator_red_two">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</ListView>
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/percolator_red_one"
+        android:background="@color/percolator_red_two" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/percolator_red_seven"
+        android:textColor="@color/percolator_red_grey"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/empty_list"/>
+
+</LinearLayout>
