@@ -23,7 +23,6 @@ public class CardServiceImpl implements CardService {
 	private final CardNotificationTimer timer;
 	private final CardAlarmQueue alarmQueue;
 	private final CardToaster toaster;
-	private final CardNotifier notifier; // TODO just for testing
 	private EventListener<Card> onAddListener;
 
 	public CardServiceImpl(Context context) {
@@ -31,7 +30,6 @@ public class CardServiceImpl implements CardService {
 		timer = new CardNotificationTimerImpl();
 		alarmQueue = new CardAlarmQueueImpl(context);
 		toaster = new CardToasterImpl(context);
-		notifier = new CardNotifierImpl(context);
 	}
 
 	CardServiceImpl(CardRepository repository, CardNotificationTimer timer,
@@ -40,7 +38,6 @@ public class CardServiceImpl implements CardService {
 		this.timer = timer;
 		this.alarmQueue = alarmQueue;
 		this.toaster = toaster;
-        notifier = null;
 	}
 
 	/**
@@ -77,7 +74,6 @@ public class CardServiceImpl implements CardService {
 		alarmQueue.setAlarm(card);
 		toaster.cardSaved();
 		onAddEvent(card);
-		notifier.showNotification(card);
 	}
 
 	/**
