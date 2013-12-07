@@ -32,10 +32,6 @@ public class ListActivity extends SherlockListActivity {
 		service = new CardServiceImpl(this);
 	}
 
-	protected ListActivity(CardService service) {
-		this.service = service;
-	}
-
 	public CardService getService() {
 		return service;
 	}
