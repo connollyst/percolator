@@ -1,7 +1,9 @@
-package com.dosbcn.percolator;
+package com.dosbcn.percolator.data;
 
 import static org.junit.Assert.assertEquals;
 
+import com.dosbcn.percolator.MainActivity;
+import com.dosbcn.percolator.RobolectricHelper;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -114,7 +116,7 @@ public class TestCardRepository {
 
 	/**
 	 * Get a {@link CardRepository} to work with. We go through the
-	 * {@link MainActivity} to let Robolectric create a new SQLite database for
+	 * {@link com.dosbcn.percolator.MainActivity} to let Robolectric create a new SQLite database for
 	 * us.
 	 *
 	 * @return a card repository
