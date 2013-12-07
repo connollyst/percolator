@@ -53,4 +53,11 @@ public interface CardService {
 	 */
 	void setOnAddListener(EventListener<Card> onAddListener);
 
+	/**
+	 * Get the repository backing the service.
+	 *
+	 * @return the repository
+	 */
+	CardRepository getCardRepository();
+
 }

@@ -19,25 +19,27 @@ import java.util.List;
 public class CardServiceImpl implements CardService {
 
 	private static final String LOG_TAG = CardService.class.getName();
+
 	private final CardRepository repository;
-	private final CardNotificationTimer timer;
 	private final CardAlarmQueue alarmQueue;
 	private final CardToaster toaster;
+	private final CardNotificationTimer timer;
+
 	private EventListener<Card> onAddListener;
 
 	public CardServiceImpl(Context context) {
 		repository = new CardRepositoryImpl(context);
-		timer = new CardNotificationTimerImpl();
 		alarmQueue = new CardAlarmQueueImpl(context);
 		toaster = new CardToasterImpl(context);
+		timer = new CardNotificationTimerImpl(repository);
 	}
 
 	CardServiceImpl(CardRepository repository, CardNotificationTimer timer,
 			CardAlarmQueue alarmQueue, CardToaster toaster) {
 		this.repository = repository;
-		this.timer = timer;
 		this.alarmQueue = alarmQueue;
 		this.toaster = toaster;
+		this.timer = timer;
 	}
 
 	/**
@@ -109,8 +111,8 @@ public class CardServiceImpl implements CardService {
 	 *            the card to update
 	 */
 	private void incrementNotificationTime(Card card) {
-		DateTime notificationTime = timer.getNextNotificationTime(card);
-		card.setNextNotificationDate(notificationTime);
+		DateTime notificationDateTime = timer.getNextNotificationTime(card);
+		card.setNextNotificationDateTime(notificationDateTime);
 	}
 
 	/**
@@ -135,19 +137,19 @@ public class CardServiceImpl implements CardService {
 		}
 	}
 
-	protected CardRepository getCardRepository() {
+	public CardRepository getCardRepository() {
 		return repository;
 	}
 
-	protected CardNotificationTimer getCardNotificationTimer() {
+	public CardNotificationTimer getCardNotificationTimer() {
 		return timer;
 	}
 
-	protected CardAlarmQueue getCardAlarmQueue() {
+	public CardAlarmQueue getCardAlarmQueue() {
 		return alarmQueue;
 	}
 
-	protected CardToaster getCardToaster() {
+	public CardToaster getCardToaster() {
 		return toaster;
 	}
 

@@ -2,18 +2,17 @@ package com.dosbcn.percolator;
 
 import static org.junit.Assert.assertEquals;
 
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.CardColor;
-import com.dosbcn.percolator.data.CardService;
-import com.dosbcn.percolator.data.MockCardService;
-import com.dosbcn.percolator.view.CardViewAdapter;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import android.widget.ListView;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.dosbcn.percolator.data.Card;
+import com.dosbcn.percolator.data.CardColor;
+import com.dosbcn.percolator.data.CardService;
+import com.dosbcn.percolator.view.CardViewAdapter;
 
 /**
  * Test cases for the {@link com.dosbcn.percolator.ListActivity}.
@@ -24,8 +23,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class TestListActivity {
 
 	/**
-	 * Display the {@link com.dosbcn.percolator.ListActivity} with one card in the store. It should be
-	 * the only card displayed.
+	 * Display the {@link com.dosbcn.percolator.ListActivity} with one card in
+	 * the store. It should be the only card displayed.
 	 */
 	@Test
 	public void testListWithOneCard() {
@@ -68,18 +67,19 @@ public class TestListActivity {
 	}
 
 	/**
-	 * Create a {@link MockListActivity} with the given cards.
+	 * Create a {@link ListActivity} with the given cards.
 	 *
 	 * @param cards
 	 *            the test cards
 	 * @return the mock activity
 	 */
 	private ListActivity mockListActivity(Card... cards) {
-		CardService service = new MockCardService();
+		ListActivity activity = PercolatorTestHelper.createListActivity();
+		CardService service = activity.getService();
 		for (Card card : cards) {
 			service.save(card);
 		}
-		return new MockListActivity(service);
+		return activity;
 	}
 
 	/**

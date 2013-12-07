@@ -6,8 +6,10 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import org.joda.time.LocalDate;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -46,25 +48,28 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 		// we have no versions yet
 	}
 
+	@Override
 	public void create(Card card) {
 		try {
-			getFlashCardDAO().create(card);
+			getDAO().create(card);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	@Override
 	public void update(Card card) {
 		try {
-			getFlashCardDAO().update(card);
+			getDAO().update(card);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	@Override
 	public List<Card> fetchAll() {
 		try {
-			List<Card> cards = getFlashCardDAO().queryForAll();
+			List<Card> cards = getDAO().queryForAll();
 			Collections.sort(cards);
 			return cards;
 		} catch (SQLException e) {
@@ -72,15 +77,38 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 		}
 	}
 
+	@Override
 	public Card fetchById(int id) {
 		try {
-			return getFlashCardDAO().queryForId(id);
+			return getDAO().queryForId(id);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private Dao<Card, Integer> getFlashCardDAO() throws SQLException {
+	@Override
+	public long count() {
+		try {
+			return getDAO().countOf();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public long count(LocalDate day) {
+		try {
+			Dao<Card, Integer> dao = getDAO();
+			PreparedQuery<Card> query = dao.queryBuilder().setCountOf(true)
+					.where().eq(Card.COLUMN_NAME_NOTIFICATION_DATE, day)
+					.prepare();
+			return dao.countOf(query);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private Dao<Card, Integer> getDAO() throws SQLException {
 		return DaoManager.createDao(getConnectionSource(), Card.class);
 	}
 

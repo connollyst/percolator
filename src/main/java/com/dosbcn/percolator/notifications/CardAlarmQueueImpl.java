@@ -47,7 +47,7 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 	 */
 	@Override
 	public void setAlarm(Card card) {
-		DateTime notificationTime = card.getNextNotificationDate();
+		DateTime notificationTime = card.getNextNotificationDateTime();
 		Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
 				+ DATE_FORMAT.print(notificationTime));
 		setAlarm(card, notificationTime);

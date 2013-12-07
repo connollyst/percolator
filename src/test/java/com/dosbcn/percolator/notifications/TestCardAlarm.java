@@ -1,27 +1,26 @@
 package com.dosbcn.percolator.notifications;
 
+import static org.junit.Assert.*;
+
+import org.joda.time.DateTime;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
 import android.content.Intent;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+
 import com.dosbcn.percolator.MainActivity;
-import com.dosbcn.percolator.MockMainActivity;
 import com.dosbcn.percolator.data.Card;
 import com.dosbcn.percolator.data.CardColor;
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardStage;
-import org.joda.time.DateTime;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class TestCardAlarm {
 
 	@Test
 	public void testCardAlarmShowsNotification() {
-		MainActivity activity = new MockMainActivity();
+		MainActivity activity = new MainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service);
 		Intent intent = new CardIntent(activity, CardAlarm.class, card);
@@ -33,16 +32,16 @@ public class TestCardAlarm {
 
 	@Test
 	public void testCardAlarmUpdatesNextDate() {
-		MainActivity activity = new MockMainActivity();
+		MainActivity activity = new MainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service);
-        Intent intent = new CardIntent(activity, CardAlarm.class, card);
+		Intent intent = new CardIntent(activity, CardAlarm.class, card);
 		CardAlarm alarm = new MockCardAlarm(service);
-		DateTime initialDate = card.getNextNotificationDate();
+		DateTime initialDate = card.getNextNotificationDateTime();
 		// Trigger the alarm and assert the notification time was updated
 		alarm.onReceive(activity, intent);
 		card = service.get(card.getId());
-		DateTime updatedDate = card.getNextNotificationDate();
+		DateTime updatedDate = card.getNextNotificationDateTime();
 		assertNotSame("next date was not set", initialDate, updatedDate);
 	}
 
@@ -61,10 +60,10 @@ public class TestCardAlarm {
 	 *            the stage card has before the alarm
 	 */
 	private void assertCardAlarmUpdatesStage(CardStage initialStage) {
-		MainActivity activity = new MockMainActivity();
+		MainActivity activity = new MainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service, initialStage);
-        Intent intent = new CardIntent(activity, CardAlarm.class, card);
+		Intent intent = new CardIntent(activity, CardAlarm.class, card);
 		CardAlarm alarm = new MockCardAlarm(service);
 		// Trigger the alarm and assert the card's stage is updated
 		alarm.onReceive(activity, intent);

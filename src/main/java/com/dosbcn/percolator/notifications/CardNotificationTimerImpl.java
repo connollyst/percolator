@@ -1,6 +1,8 @@
 package com.dosbcn.percolator.notifications;
 
 import com.dosbcn.percolator.data.Card;
+import com.dosbcn.percolator.data.CardRepository;
+import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardStage;
 import com.dosbcn.percolator.notifications.time.RandomDayGenerator;
 import com.dosbcn.percolator.notifications.time.RandomTimeGenerator;
@@ -46,17 +48,19 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 			+ CardStage.class.getSimpleName() + ": ";
 
 	private static final int MAX_DAILY_NOTIFICATIONS = 2;
-	private final Multiset<LocalDate> scheduledDates = HashMultiset.create();
 
+	private final CardRepository repository;
 	private final TimeUtilities timeUtilities;
 	private final RandomDayGenerator dayGenerator;
 	private final RandomTimeGenerator timeGenerator;
 
-	public CardNotificationTimerImpl() {
-		this(new TimeUtilities());
+	public CardNotificationTimerImpl(CardRepository repository) {
+		this(repository, new TimeUtilities());
 	}
 
-	protected CardNotificationTimerImpl(TimeUtilities timeUtilities) {
+	protected CardNotificationTimerImpl(CardRepository repository,
+			TimeUtilities timeUtilities) {
+		this.repository = repository;
 		this.timeUtilities = timeUtilities;
 		this.dayGenerator = new RandomDayGenerator();
 		this.timeGenerator = new RandomTimeGenerator(timeUtilities);
@@ -135,7 +139,6 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 		if (!isDayAvailable(day)) {
 			day = getNextAvailableDay(day);
 		}
-		scheduledDates.add(day);
 		return timeGenerator.getRandomTimeInDay(day);
 	}
 
@@ -147,7 +150,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	}
 
 	private boolean isDayAvailable(LocalDate day) {
-		boolean dayFull = scheduledDates.count(day) >= MAX_DAILY_NOTIFICATIONS;
+		boolean dayFull = repository.count(day) >= MAX_DAILY_NOTIFICATIONS;
 		boolean pastCutoff = false;
 		if (timeUtilities.isToday(day)) {
 			LocalTime limit = timeUtilities.getLatestNotificationTime();

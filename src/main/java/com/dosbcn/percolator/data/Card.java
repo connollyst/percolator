@@ -1,8 +1,13 @@
 package com.dosbcn.percolator.data;
 
+import com.dosbcn.percolator.data.ormlite.JodaDateTimeType;
+import com.dosbcn.percolator.data.ormlite.JodaLocalDateType;
+import com.dosbcn.percolator.data.ormlite.JodaLocalTimeType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 /**
  * A card is our single model object. It simply represents a pair or words; here
@@ -18,6 +23,10 @@ import org.joda.time.DateTime;
 @DatabaseTable(tableName = "cards")
 public class Card implements Comparable<Card> {
 
+	static final String COLUMN_NAME_START_DATE = "startdate";
+	static final String COLUMN_NAME_NOTIFICATION_DATE = "nextnotificationdate";
+	static final String COLUMN_NAME_NOTIFICATION_TIME = "nextnotificationtime";
+
 	@DatabaseField(generatedId = true)
 	private Integer id;
 	@DatabaseField
@@ -28,10 +37,12 @@ public class Card implements Comparable<Card> {
 	private CardColor color;
 	@DatabaseField
 	private CardStage stage;
-	@DatabaseField
+	@DatabaseField(persisterClass = JodaDateTimeType.class, columnName = COLUMN_NAME_START_DATE)
 	private DateTime startDate;
-	@DatabaseField
-	private DateTime nextNotificationDate;
+	@DatabaseField(persisterClass = JodaLocalDateType.class, columnName = COLUMN_NAME_NOTIFICATION_DATE)
+	private LocalDate nextNotificationDate;
+	@DatabaseField(persisterClass = JodaLocalTimeType.class, columnName = COLUMN_NAME_NOTIFICATION_TIME)
+	private LocalTime nextNotificationTime;
 
 	@SuppressWarnings("unused")
 	private Card() {
@@ -95,12 +106,29 @@ public class Card implements Comparable<Card> {
 		this.startDate = startDate;
 	}
 
-	public DateTime getNextNotificationDate() {
+	public LocalDate getNextNotificationDate() {
 		return nextNotificationDate;
 	}
 
-	public void setNextNotificationDate(DateTime nextNotificationDate) {
+	public void setNextNotificationDate(LocalDate nextNotificationDate) {
 		this.nextNotificationDate = nextNotificationDate;
+	}
+
+	public LocalTime getNextNotificationTime() {
+		return nextNotificationTime;
+	}
+
+	public void setNextNotificationTime(LocalTime nextNotificationTime) {
+		this.nextNotificationTime = nextNotificationTime;
+	}
+
+	public DateTime getNextNotificationDateTime() {
+		return nextNotificationDate.toDateTime(nextNotificationTime);
+	}
+
+	public void setNextNotificationDateTime(DateTime nextNotificationDateTime) {
+		this.nextNotificationDate = nextNotificationDateTime.toLocalDate();
+		this.nextNotificationTime = nextNotificationDateTime.toLocalTime();
 	}
 
 	@Override

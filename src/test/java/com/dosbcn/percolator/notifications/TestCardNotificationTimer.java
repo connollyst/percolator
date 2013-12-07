@@ -3,14 +3,16 @@ package com.dosbcn.percolator.notifications;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.CardColor;
-import com.dosbcn.percolator.data.CardStage;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.dosbcn.percolator.MainActivity;
+import com.dosbcn.percolator.data.Card;
+import com.dosbcn.percolator.data.CardColor;
+import com.dosbcn.percolator.data.CardRepository;
+import com.dosbcn.percolator.data.CardStage;
 
 /**
  * Test cases for the {@link CardNotificationTimer}.
@@ -210,7 +212,7 @@ public class TestCardNotificationTimer {
 	public void testSetMaximumNotificationOnSameDay() {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime now = MID_DAY;
-		CardNotificationTimer timer = new MockCardNotificationTimer(now);
+		CardNotificationTimer timer = mockTimer(now);
 		DateTime[] times = getNotificationTimes(timer, now, stage, 2);
 		DateTime time1 = times[0];
 		DateTime time2 = times[1];
@@ -227,13 +229,13 @@ public class TestCardNotificationTimer {
 	public void testSetTooManyNotificationOnSameDay() {
 		CardStage stage = CardStage.ONE_DAY;
 		DateTime now = MID_DAY;
-		CardNotificationTimer timer = new MockCardNotificationTimer(now);
+		CardNotificationTimer timer = mockTimer(now);
 		DateTime[] times = getNotificationTimes(timer, now, stage, 3);
 		DateTime time2 = times[1];
 		DateTime time3 = times[2];
 		int day2 = time2.getDayOfYear();
 		int day3 = time3.getDayOfYear();
-		assertFalse("3th day should be different than 2rd", day2 == day3);
+		assertFalse("3rd day should be different than 2nd", day2 == day3);
 	}
 
 	/**
@@ -252,7 +254,7 @@ public class TestCardNotificationTimer {
 	 */
 	private void assertNotificationDate(DateTime currentDate,
 			DateTime startDate, CardStage stage, DateTime expectedDate) {
-		CardNotificationTimer timer = new MockCardNotificationTimer(currentDate);
+		CardNotificationTimer timer = mockTimer(currentDate);
 		DateTime[] times = getNotificationTimes(timer, startDate, stage, 1);
 		DateTime time = times[0];
 		assertEquals(expectedDate.toLocalDate(), time.toLocalDate());
@@ -270,6 +272,12 @@ public class TestCardNotificationTimer {
 		return times;
 	}
 
+	private CardNotificationTimer mockTimer(DateTime now) {
+		MainActivity activity = new MainActivity();
+		CardRepository repository = activity.getService().getCardRepository();
+		return new MockCardNotificationTimer(repository, now);
+	}
+
 	private Card mockCard(DateTime startDate, CardStage stage) {
 		Card card = new Card("MockCardTitle", "MockCardDescription",
 				CardColor.WHITE);
@@ -277,4 +285,5 @@ public class TestCardNotificationTimer {
 		card.setStartDate(startDate);
 		return card;
 	}
+
 }

@@ -16,7 +16,11 @@ import com.dosbcn.percolator.notifications.MockCardToaster;
 public class MockCardService extends CardServiceImpl implements CardService {
 
 	public MockCardService() {
-		super(new MockCardRepository(), new CardNotificationTimerImpl(),
+		this(new MockCardRepository());
+	}
+
+	public MockCardService(CardRepository repository) {
+		super(repository, new CardNotificationTimerImpl(repository),
 				new MockCardAlarmQueue(), new MockCardToaster());
 	}
 

@@ -1,5 +1,7 @@
 package com.dosbcn.percolator.data;
 
+import org.joda.time.LocalDate;
+
 import java.util.List;
 
 public interface CardRepository {
@@ -11,5 +13,9 @@ public interface CardRepository {
 	List<Card> fetchAll();
 
 	Card fetchById(int id);
+
+    long count();
+
+    long count(LocalDate day);
 
 }

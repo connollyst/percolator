@@ -1,5 +1,7 @@
 package com.dosbcn.percolator.data;
 
+import org.joda.time.LocalDate;
+
 import java.util.*;
 
 public class MockCardRepository implements CardRepository {
@@ -26,6 +28,16 @@ public class MockCardRepository implements CardRepository {
 	@Override
 	public Card fetchById(int id) {
 		return cards.get(id);
+	}
+
+	@Override
+	public long count() {
+		return cards.size();
+	}
+
+	@Override
+	public long count(LocalDate day) {
+		throw new IllegalAccessError("not implemented");
 	}
 
 }

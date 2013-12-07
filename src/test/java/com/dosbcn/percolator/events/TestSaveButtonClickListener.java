@@ -1,15 +1,17 @@
 package com.dosbcn.percolator.events;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-import com.dosbcn.percolator.MockMainActivity;
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.MockCardService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
+import com.dosbcn.percolator.MainActivity;
+import com.dosbcn.percolator.PercolatorTestHelper;
+import com.dosbcn.percolator.data.Card;
+import com.dosbcn.percolator.data.CardService;
 
 /**
  * Test cases for the {@link SaveButtonClickListener}.
@@ -19,22 +21,23 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class TestSaveButtonClickListener {
 
-    // TODO this is a great test, but it's a mess.. this should be multiple, more directed tests.
+	// TODO this is a great test, but it's a mess.. this should be multiple,
+	// more directed tests.
 
-    @Test
-    public void testSaveOnClick() {
-        MockMainActivity cardActivity = new MockMainActivity();
-        MockCardService cardService = cardActivity.getMockCardService();
-        SaveButtonClickListener listener = new SaveButtonClickListener(
-                cardActivity);
-        cardActivity.findTitleField().setText("Hello");
-        cardActivity.findDescriptionField().setText("World");
-        listener.onClick(null);
-        List<Card> cards = cardService.getAll();
-        assertEquals(1, cards.size());
-        Card card = cards.get(0);
-        assertEquals("Hello", card.getTitle());
-        assertEquals("World", card.getDescription());
-    }
+	@Test
+	public void testSaveOnClick() {
+		MainActivity cardActivity = PercolatorTestHelper.createMainActivity();
+		CardService cardService = cardActivity.getService();
+		SaveButtonClickListener listener = new SaveButtonClickListener(
+				cardActivity);
+		cardActivity.findTitleField().setText("Hello");
+		cardActivity.findDescriptionField().setText("World");
+		listener.onClick(null);
+		List<Card> cards = cardService.getAll();
+		assertEquals(1, cards.size());
+		Card card = cards.get(0);
+		assertEquals("Hello", card.getTitle());
+		assertEquals("World", card.getDescription());
+	}
 
 }

@@ -7,16 +7,16 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
 
-import com.dosbcn.percolator.notifications.time.MockTimeUtilities;
-import com.dosbcn.percolator.notifications.time.RandomTimeGenerator;
-import com.dosbcn.percolator.notifications.time.TimeUtilities;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.dosbcn.percolator.notifications.time.MockTimeUtilities;
+import com.dosbcn.percolator.notifications.time.RandomTimeGenerator;
+import com.dosbcn.percolator.notifications.time.TimeUtilities;
 
 /**
  * Test cases for the {@link RandomTimeGenerator}.

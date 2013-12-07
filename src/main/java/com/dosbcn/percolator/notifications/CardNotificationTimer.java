@@ -3,6 +3,11 @@ package com.dosbcn.percolator.notifications;
 import com.dosbcn.percolator.data.Card;
 import org.joda.time.DateTime;
 
+/**
+ * A service to calculate appropriate notification times for cards.
+ *
+ * @author Sean Connolly
+ */
 public interface CardNotificationTimer {
 
 	/**
