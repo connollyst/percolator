@@ -24,7 +24,7 @@ public class TestMainActivity {
 
 	@Test
 	public void testAppName() {
-		MainActivity mainActivity = PercolatorTestHelper.createMainActivity();
+		MainActivity mainActivity = RobolectricHelper.createMainActivity();
 		Resources cardResources = mainActivity.getResources();
 		String appName = cardResources.getString(R.string.app_name);
 		assertThat(appName, equalTo(EXPECTED_TITLE));
@@ -32,21 +32,21 @@ public class TestMainActivity {
 
 	@Test
 	public void testFindTitleField() {
-		MainActivity mainActivity = PercolatorTestHelper.createMainActivity();
+		MainActivity mainActivity = RobolectricHelper.createMainActivity();
 		EditText titleField = mainActivity.findTitleField();
 		assertNotNull(titleField);
 	}
 
 	@Test
 	public void testFindDescriptionField() {
-		MainActivity mainActivity = PercolatorTestHelper.createMainActivity();
+		MainActivity mainActivity = RobolectricHelper.createMainActivity();
 		EditText descField = mainActivity.findDescriptionField();
 		assertNotNull(descField);
 	}
 
 	@Test
 	public void testFindSaveButton() {
-		MainActivity mainActivity = PercolatorTestHelper.createMainActivity();
+		MainActivity mainActivity = RobolectricHelper.createMainActivity();
 		Button saveButton = mainActivity.findSaveButton();
 		assertNotNull(saveButton);
 	}

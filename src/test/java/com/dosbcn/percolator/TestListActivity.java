@@ -74,7 +74,7 @@ public class TestListActivity {
 	 * @return the mock activity
 	 */
 	private ListActivity mockListActivity(Card... cards) {
-		ListActivity activity = PercolatorTestHelper.createListActivity();
+		ListActivity activity = RobolectricHelper.createListActivity();
 		CardService service = activity.getService();
 		for (Card card : cards) {
 			service.save(card);

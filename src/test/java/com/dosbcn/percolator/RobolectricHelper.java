@@ -3,9 +3,11 @@ package com.dosbcn.percolator;
 import org.robolectric.Robolectric;
 
 /**
+ * A helper for creating Percolator activities with Robolectric.
+ *
  * @author Sean Connolly
  */
-public class PercolatorTestHelper {
+public class RobolectricHelper {
 
 	public static MainActivity createMainActivity() {
 		return Robolectric.buildActivity(MainActivity.class).create().get();

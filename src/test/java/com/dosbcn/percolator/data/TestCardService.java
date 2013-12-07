@@ -2,6 +2,7 @@ package com.dosbcn.percolator.data;
 
 import static org.junit.Assert.*;
 
+import com.dosbcn.percolator.RobolectricHelper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosbcn.percolator.MainActivity;
-import com.dosbcn.percolator.PercolatorTestHelper;
 import com.dosbcn.percolator.events.MockCardEventListener;
 import com.dosbcn.percolator.notifications.CardNotificationTimerImpl;
 import com.dosbcn.percolator.notifications.MockCardAlarmQueue;
@@ -30,7 +30,7 @@ public class TestCardService {
 
 	@Before
 	public void beforeEachTest() {
-		MainActivity activity = PercolatorTestHelper.createMainActivity();
+		MainActivity activity = RobolectricHelper.createMainActivity();
 		cardRepository = activity.getService().getCardRepository();
 		cardAlarmQueue = new MockCardAlarmQueue();
 		cardToaster = new MockCardToaster();

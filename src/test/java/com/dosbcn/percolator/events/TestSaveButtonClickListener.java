@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import com.dosbcn.percolator.RobolectricHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosbcn.percolator.MainActivity;
-import com.dosbcn.percolator.PercolatorTestHelper;
 import com.dosbcn.percolator.data.Card;
 import com.dosbcn.percolator.data.CardService;
 
@@ -26,7 +26,7 @@ public class TestSaveButtonClickListener {
 
 	@Test
 	public void testSaveOnClick() {
-		MainActivity cardActivity = PercolatorTestHelper.createMainActivity();
+		MainActivity cardActivity = RobolectricHelper.createMainActivity();
 		CardService cardService = cardActivity.getService();
 		SaveButtonClickListener listener = new SaveButtonClickListener(
 				cardActivity);
