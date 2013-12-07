@@ -1,8 +1,7 @@
 package com.dosbcn.percolator;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +48,46 @@ public class TestMainActivity {
 		MainActivity mainActivity = RobolectricHelper.createMainActivity();
 		Button saveButton = mainActivity.findSaveButton();
 		assertNotNull(saveButton);
+	}
+
+	@Test
+	public void testWelcomeMessageShownOnFirstLaunch() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testWelcomeMessageNotShownOnSecondLaunch() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testExampleShownAfterWelcomeMessage() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testTitleFieldFocusedOnLaunch() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testSoftKeyboardShownOnLaunch() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testListMenuItemSelected() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testStateSavedOnPause() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testStateRestoredOnResume() {
+		fail("TODO implement test");
 	}
 
 }

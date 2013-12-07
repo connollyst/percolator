@@ -36,10 +36,6 @@ public class MainActivity extends FragmentActivity implements
 		service = new CardServiceImpl(this);
 	}
 
-	protected MainActivity(CardService service) {
-		this.service = service;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */

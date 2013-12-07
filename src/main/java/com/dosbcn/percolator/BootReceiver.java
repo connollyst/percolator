@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.util.Log;
 
 /**
+ * A {@link BroadcastReceiver}, called when the device first boots. All alarms
+ * are queued up again.
+ *
  * @author Sean Connolly
  */
 public class BootReceiver extends BroadcastReceiver {
