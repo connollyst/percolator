@@ -102,7 +102,9 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 			PreparedQuery<Card> query = dao.queryBuilder().setCountOf(true)
 					.where().eq(Card.COLUMN_NAME_NOTIFICATION_DATE, day)
 					.prepare();
-			return dao.countOf(query);
+			long count = dao.countOf(query);
+			System.out.println("Counting cards for " + day + ".. " + count);
+			return count;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
