@@ -76,6 +76,21 @@ public class TestMainActivity {
 	}
 
 	@Test
+	public void testSaveButtonDisabledByDefault() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testSaveButtonEnabledAfterTitleFieldInput() {
+		fail("TODO implement test");
+	}
+
+	@Test
+	public void testSaveButtonDisabledAfterDescriptionFieldInput() {
+		fail("TODO implement test");
+	}
+
+	@Test
 	public void testListMenuItemSelected() {
 		fail("TODO implement test");
 	}
