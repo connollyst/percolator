@@ -2,6 +2,7 @@ package com.dosbcn.percolator.notifications;
 
 import static org.junit.Assert.*;
 
+import com.dosbcn.percolator.RobolectricHelper;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ public class TestCardAlarm {
 
 	@Test
 	public void testCardAlarmShowsNotification() {
-		MainActivity activity = new MainActivity();
+		MainActivity activity = RobolectricHelper.createMainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service);
 		Intent intent = new CardIntent(activity, CardAlarm.class, card);
@@ -32,7 +33,7 @@ public class TestCardAlarm {
 
 	@Test
 	public void testCardAlarmUpdatesNextDate() {
-		MainActivity activity = new MainActivity();
+		MainActivity activity = RobolectricHelper.createMainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service);
 		Intent intent = new CardIntent(activity, CardAlarm.class, card);
@@ -60,7 +61,7 @@ public class TestCardAlarm {
 	 *            the stage card has before the alarm
 	 */
 	private void assertCardAlarmUpdatesStage(CardStage initialStage) {
-		MainActivity activity = new MainActivity();
+		MainActivity activity = RobolectricHelper.createMainActivity();
 		CardService service = activity.getService();
 		Card card = mockCard(service, initialStage);
 		Intent intent = new CardIntent(activity, CardAlarm.class, card);
