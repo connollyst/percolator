@@ -19,7 +19,7 @@
         <joda.time.version>2.2</joda.time.version>
         <junit.version>4.8.2</junit.version>
         <mockito.version>1.9.5</mockito.version>
-        <robolectric.version>1.2</robolectric.version>
+        <robolectric.version>2.2</robolectric.version>
         <commons.math.version>3.2</commons.math.version>
     </properties>
 
@@ -124,7 +124,7 @@
 
         <!-- Fills in the stubbed out Android SDK for testing -->
         <dependency>
-            <groupId>com.pivotallabs</groupId>
+            <groupId>org.robolectric</groupId>
             <artifactId>robolectric</artifactId>
             <version>${robolectric.version}</version>
             <scope>test</scope>
