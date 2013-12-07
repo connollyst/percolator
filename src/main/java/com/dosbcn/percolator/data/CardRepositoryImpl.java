@@ -1,19 +1,21 @@
 package com.dosbcn.percolator.data;
 
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import org.joda.time.LocalDate;
-
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * A repository providing read and write access for {@link Card} objects.
@@ -102,9 +104,7 @@ public class CardRepositoryImpl extends OrmLiteSqliteOpenHelper implements
 			PreparedQuery<Card> query = dao.queryBuilder().setCountOf(true)
 					.where().eq(Card.COLUMN_NAME_NOTIFICATION_DATE, day)
 					.prepare();
-			long count = dao.countOf(query);
-			System.out.println("Counting cards for " + day + ".. " + count);
-			return count;
+			return dao.countOf(query);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

@@ -1,12 +1,5 @@
 package com.dosbcn.percolator.notifications;
 
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.CardRepository;
-import com.dosbcn.percolator.data.CardService;
-import com.dosbcn.percolator.data.CardStage;
-import com.dosbcn.percolator.notifications.time.RandomDayGenerator;
-import com.dosbcn.percolator.notifications.time.RandomTimeGenerator;
-import com.dosbcn.percolator.notifications.time.TimeUtilities;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -14,8 +7,12 @@ import org.joda.time.Period;
 
 import android.util.Log;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
+import com.dosbcn.percolator.data.Card;
+import com.dosbcn.percolator.data.CardRepository;
+import com.dosbcn.percolator.data.CardStage;
+import com.dosbcn.percolator.notifications.time.RandomDayGenerator;
+import com.dosbcn.percolator.notifications.time.RandomTimeGenerator;
+import com.dosbcn.percolator.notifications.time.TimeUtilities;
 
 /**
  * Generates times that notifications should be scheduled for in the future.<br/>

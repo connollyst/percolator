@@ -1,18 +1,15 @@
 package com.dosbcn.percolator.notifications;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
+import com.dosbcn.percolator.data.*;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosbcn.percolator.MainActivity;
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.CardColor;
-import com.dosbcn.percolator.data.CardRepository;
-import com.dosbcn.percolator.data.CardStage;
 
 /**
  * Test cases for the {@link CardNotificationTimer}.
@@ -201,41 +198,50 @@ public class TestCardNotificationTimer {
 	}
 
 	// TODO test missed notifications (ASAP notifications)
-
-	/* Test Maximum Notifications Per Day */
-
-	/**
-	 * Assert that we can schedule multiple notifications on the same day, up to
-	 * the maximum.
-	 */
 	@Test
-	public void testSetMaximumNotificationOnSameDay() {
-		CardStage stage = CardStage.ONE_DAY;
-		DateTime now = MID_DAY;
-		CardNotificationTimer timer = mockTimer(now);
-		DateTime[] times = getNotificationTimes(timer, now, stage, 2);
-		DateTime time1 = times[0];
-		DateTime time2 = times[1];
-		int day1 = time1.getDayOfYear();
-		int day2 = time2.getDayOfYear();
-		assertEquals("notifications should be on same day", day1, day2);
+	public void testScheduleMultipleNotificationsOnTheSameDay() {
+		DateTime now = new DateTime(1985, 8, 6, 12, 29, 59);
+		LocalDate today = now.toLocalDate();
+		LocalDate tomorrow = today.plusDays(1);
+		MainActivity activity = new MainActivity();
+		CardService service = activity.getService();
+		CardRepository repository = service.getCardRepository();
+		Card card1 = new Card("Title1", "Desc1", CardColor.WHITE);
+		card1.setNextNotificationDate(tomorrow);
+		repository.create(card1);
+		Card card2 = new Card("Title2", "Desc2", CardColor.WHITE);
+		card2.setStage(CardStage.ONE_DAY);
+		card2.setStartDate(now);
+		CardNotificationTimer timer = new MockCardNotificationTimer(repository,
+				now);
+		DateTime notificationDateTime = timer.getNextNotificationTime(card2);
+		LocalDate notificationDate = notificationDateTime.toLocalDate();
+		assertEquals(tomorrow, notificationDate);
 	}
 
-	/**
-	 * Assert that excess notifications roll over to another day if we schedule
-	 * more than the maximum for one day.
-	 */
 	@Test
-	public void testSetTooManyNotificationOnSameDay() {
-		CardStage stage = CardStage.ONE_DAY;
-		DateTime now = MID_DAY;
-		CardNotificationTimer timer = mockTimer(now);
-		DateTime[] times = getNotificationTimes(timer, now, stage, 3);
-		DateTime time2 = times[1];
-		DateTime time3 = times[2];
-		int day2 = time2.getDayOfYear();
-		int day3 = time3.getDayOfYear();
-		assertFalse("3rd day should be different than 2nd", day2 == day3);
+	public void testScheduleTooManyNotificationsOnTheSameDay() {
+		DateTime now = new DateTime(1985, 8, 6, 12, 29, 59);
+		LocalDate today = now.toLocalDate();
+		LocalDate tomorrow = today.plusDays(1);
+		LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
+		MainActivity activity = new MainActivity();
+		CardService service = activity.getService();
+		CardRepository repository = service.getCardRepository();
+		Card card1 = new Card("Title1", "Desc1", CardColor.WHITE);
+		Card card2 = new Card("Title2", "Desc2", CardColor.WHITE);
+		card1.setNextNotificationDate(tomorrow);
+		card2.setNextNotificationDate(tomorrow);
+		repository.create(card1);
+		repository.create(card2);
+		Card card3 = new Card("Title3", "Desc3", CardColor.WHITE);
+		card3.setStage(CardStage.ONE_DAY);
+		card3.setStartDate(now);
+		CardNotificationTimer timer = new MockCardNotificationTimer(repository,
+				now);
+		DateTime notificationDateTime = timer.getNextNotificationTime(card3);
+		LocalDate notificationDate = notificationDateTime.toLocalDate();
+		assertEquals(dayAfterTomorrow, notificationDate);
 	}
 
 	/**

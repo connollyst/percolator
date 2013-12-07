@@ -3,6 +3,7 @@ package com.dosbcn.percolator.data;
 import static org.junit.Assert.*;
 
 import com.dosbcn.percolator.RobolectricHelper;
+import com.dosbcn.percolator.notifications.MockCardNotificationTimer;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,8 @@ import com.dosbcn.percolator.notifications.MockCardToaster;
 @RunWith(RobolectricTestRunner.class)
 public class TestCardService {
 
+	private static final DateTime CURRENT_DATETIME = new DateTime(1985, 8, 6,
+			12, 50, 59);
 	private CardRepository cardRepository;
 	private MockCardAlarmQueue cardAlarmQueue;
 	private MockCardToaster cardToaster;
@@ -34,9 +37,10 @@ public class TestCardService {
 		cardRepository = activity.getService().getCardRepository();
 		cardAlarmQueue = new MockCardAlarmQueue();
 		cardToaster = new MockCardToaster();
-		cardService = new CardServiceImpl(cardRepository,
-				new CardNotificationTimerImpl(cardRepository), cardAlarmQueue,
-				cardToaster);
+		cardService = new CardServiceImpl(
+				cardRepository,
+				new MockCardNotificationTimer(cardRepository, CURRENT_DATETIME),
+				cardAlarmQueue, cardToaster);
 	}
 
 	@Test
@@ -59,6 +63,9 @@ public class TestCardService {
 	public void testAlarmSetOnSave() {
 		Card card = mockCard();
 		cardService.save(card);
+		card = refreshCardFromDB(card);
+		card = refreshCardFromDB(card);
+		card = refreshCardFromDB(card);
 		card = refreshCardFromDB(card);
 		DateTime alarm = cardAlarmQueue.getAlarm(card);
 		assertEquals(card.getNextNotificationDateTime(), alarm);
@@ -89,4 +96,5 @@ public class TestCardService {
 	private Card refreshCardFromDB(Card card) {
 		return cardRepository.fetchById(card.getId());
 	}
+
 }

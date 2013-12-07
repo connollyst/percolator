@@ -1,7 +1,6 @@
 package com.dosbcn.percolator.data.ormlite;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import org.joda.time.LocalTime;
 
@@ -37,9 +36,7 @@ public class JodaLocalTimeType extends BaseDataType {
 	@Override
 	public Object resultToSqlArg(FieldType fieldType, DatabaseResults results,
 			int columnPos) throws SQLException {
-		Integer millis = results.getInt(columnPos);
-		System.out.println("Result to SQL: " + results + " -> " + millis);
-		return millis;
+		return results.getInt(columnPos);
 	}
 
 	@Override
@@ -47,12 +44,9 @@ public class JodaLocalTimeType extends BaseDataType {
 			throws SQLException {
 		LocalTime time = (LocalTime) javaObject;
 		if (time == null) {
-			System.out.println("Java to SQL: " + javaObject);
 			return null;
 		} else {
-			int millis = time.getMillisOfDay();
-			System.out.println("Java to SQL: " + javaObject + " -> " + millis);
-			return millis;
+			return time.getMillisOfDay();
 		}
 	}
 
@@ -70,12 +64,11 @@ public class JodaLocalTimeType extends BaseDataType {
 	 */
 	@Override
 	public Object sqlArgToJava(FieldType fieldType, Object sqlArg, int columnPos) {
-		System.out.println("SQL to Java: " + sqlArg);
 		if (sqlArg == null) {
 			return null;
 		} else {
 			int millis = (Integer) sqlArg;
-			return new LocalTime(millis);
+			return LocalTime.fromMillisOfDay(millis);
 		}
 	}
 

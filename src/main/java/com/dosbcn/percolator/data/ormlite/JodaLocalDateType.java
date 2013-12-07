@@ -31,15 +31,13 @@ public class JodaLocalDateType extends BaseDataType {
 	@Override
 	public Object parseDefaultString(FieldType fieldType, String defaultStr)
 			throws SQLException {
-        return Long.parseLong(defaultStr);
+		return Long.parseLong(defaultStr);
 	}
 
 	@Override
 	public Object resultToSqlArg(FieldType fieldType, DatabaseResults results,
 			int columnPos) throws SQLException {
-		Long millis = results.getLong(columnPos);
-		System.out.println("Result to SQL: " + results + " -> " + millis);
-		return millis;
+		return results.getLong(columnPos);
 	}
 
 	@Override
@@ -47,13 +45,10 @@ public class JodaLocalDateType extends BaseDataType {
 			throws SQLException {
 		LocalDate date = (LocalDate) javaObject;
 		if (date == null) {
-			System.out.println("Java to SQL: " + javaObject);
 			return null;
 		} else {
 			DateTime dateTime = date.toDateTimeAtStartOfDay();
-			long millis = dateTime.getMillis();
-			System.out.println("Java to SQL: " + javaObject + " -> " + millis);
-			return millis;
+			return dateTime.getMillis();
 		}
 	}
 
@@ -70,7 +65,6 @@ public class JodaLocalDateType extends BaseDataType {
 	 */
 	@Override
 	public Object sqlArgToJava(FieldType fieldType, Object sqlArg, int columnPos) {
-		System.out.println("SQL to Java: " + sqlArg);
 		if (sqlArg == null) {
 			return null;
 		} else {

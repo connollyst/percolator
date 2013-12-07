@@ -2,17 +2,14 @@ package com.dosbcn.percolator.data;
 
 import static org.junit.Assert.assertEquals;
 
-import com.dosbcn.percolator.MainActivity;
-import com.dosbcn.percolator.RobolectricHelper;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import com.dosbcn.percolator.data.Card;
-import com.dosbcn.percolator.data.CardColor;
-import com.dosbcn.percolator.data.CardRepository;
-import com.dosbcn.percolator.data.CardService;
+import com.dosbcn.percolator.MainActivity;
+import com.dosbcn.percolator.RobolectricHelper;
 
 /**
  * Test cases for the {@link CardRepository}
@@ -115,9 +112,61 @@ public class TestCardRepository {
 	}
 
 	/**
+	 * Assert the custom ORMLite processor,
+	 * {@link com.dosbcn.percolator.data.ormlite.JodaLocalDateType}, marshalls
+	 * and unmarshalls {@link LocalDate} objects correctly.
+	 */
+	@Test
+	public void testNextNotificationDate() {
+		CardRepository repository = getRepository();
+		LocalDate day = new LocalDate(1985, 8, 6);
+		Card card = new Card("Title", "Desc", CardColor.WHITE);
+		card.setNextNotificationDate(day);
+		repository.create(card);
+		card = repository.fetchById(card.getId());
+		assertEquals(card.getNextNotificationDate(), day);
+	}
+
+	/**
+	 * Assert the custom ORMLite processor,
+	 * {@link com.dosbcn.percolator.data.ormlite.JodaLocalTimeType}, marshalls
+	 * and unmarshalls {@link LocalTime} objects correctly.
+	 */
+	@Test
+	public void testNextNotificationTime() {
+		CardRepository repository = getRepository();
+		LocalTime time = new LocalTime(12, 29, 59, 137);
+		Card card = new Card("Title", "Desc", CardColor.WHITE);
+		card.setNextNotificationTime(time);
+		repository.create(card);
+		card = repository.fetchById(card.getId());
+		assertEquals(card.getNextNotificationTime(), time);
+	}
+
+	/**
+	 * Assert that the utility function,
+	 * {@link com.dosbcn.percolator.data.Card#getNextNotificationDateTime()},
+	 * persists and retrieves dates and times correctly.
+	 */
+	@Test
+	public void testNextNotificationDateTime() {
+		CardRepository repository = getRepository();
+		LocalDate day = new LocalDate(1985, 8, 6);
+		LocalTime time = new LocalTime(12, 29, 59, 137);
+		Card card = new Card("Title", "Desc", CardColor.WHITE);
+		card.setNextNotificationDate(day);
+		card.setNextNotificationTime(time);
+		repository.create(card);
+		card = repository.fetchById(card.getId());
+		assertEquals(card.getNextNotificationDate(), day);
+		assertEquals(card.getNextNotificationTime(), time);
+		assertEquals(card.getNextNotificationDateTime(), day.toDateTime(time));
+	}
+
+	/**
 	 * Get a {@link CardRepository} to work with. We go through the
-	 * {@link com.dosbcn.percolator.MainActivity} to let Robolectric create a new SQLite database for
-	 * us.
+	 * {@link com.dosbcn.percolator.MainActivity} to let Robolectric create a
+	 * new SQLite database for us.
 	 *
 	 * @return a card repository
 	 */
