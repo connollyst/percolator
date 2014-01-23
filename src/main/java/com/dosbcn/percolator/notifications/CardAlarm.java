@@ -17,71 +17,66 @@ import com.dosbcn.percolator.data.CardServiceImpl;
  *
  * @author Sean Connolly
  */
-public class CardAlarm
-        extends BroadcastReceiver {
+public class CardAlarm extends BroadcastReceiver {
 
-    protected static final String ERROR_NULL_INTENT = CardAlarm.class
-            .getSimpleName() + " received an alarm with a null intent.";
-    protected static final String ERROR_BAD_INTENT = CardAlarm.class
-            .getSimpleName() + " received an alarm with an invalid intent: ";
-    protected static final String ERROR_ID_MISSING = CardIntent.CARD_ID_EXTRA
-            + " missing from " + CardIntent.class.getSimpleName();
-    private static final String LOG_TAG = CardAlarm.class.getName();
-    private CardService service;
-    private CardNotifier notifier;
+	protected static final String ERROR_ID_MISSING = CardIntent.CARD_ID_EXTRA
+			+ " missing from " + CardIntent.class.getSimpleName();
+	private static final String LOG_TAG = CardAlarm.class.getName();
+	private CardService service;
+	private CardNotifier notifier;
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        initialize(context);
-        handleAlarm(intent);
-    }
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		initialize(context);
+		handleAlarm(intent);
+	}
 
-    protected void initialize(Context context) {
-        Log.i(LOG_TAG, "Preparing notification alarm.");
-        service = new CardServiceImpl(context);
-        notifier = new CardNotifierImpl(context);
-    }
+	protected void initialize(Context context) {
+		Log.i(LOG_TAG, "Preparing notification alarm.");
+		service = new CardServiceImpl(context);
+		notifier = new CardNotifierImpl(context);
+	}
 
-    protected void handleAlarm(Intent intent) {
-        Card card = getCardFromIntent(intent);
-        showNotification(card);
-        updateStage(card);
-    }
+	protected void handleAlarm(Intent intent) {
+		Card card = getCardFromIntent(intent);
+		showNotification(card);
+		updateStage(card);
+	}
 
-    private Card getCardFromIntent(Intent intent) {
-        int cardId = getCardIdFromIntent(intent);
-        return service.get(cardId);
-    }
+	private Card getCardFromIntent(Intent intent) {
+		int cardId = getCardIdFromIntent(intent);
+		return service.get(cardId);
+	}
 
-    private int getCardIdFromIntent(Intent intent) {
-        int id = intent.getIntExtra(CardIntent.CARD_ID_EXTRA, -1);
-        if (id == -1) {
-            throw new RuntimeException(ERROR_ID_MISSING);
-        }
-        return id;
-    }
+	private int getCardIdFromIntent(Intent intent) {
+		int id = intent.getIntExtra(CardIntent.CARD_ID_EXTRA, -1);
+		if (id == -1) {
+			throw new RuntimeException(ERROR_ID_MISSING);
+		}
+		return id;
+	}
 
-    private void showNotification(Card card) {
-        notifier.showNotification(card);
-    }
+	private void showNotification(Card card) {
+		notifier.showNotification(card);
+	}
 
-    private void updateStage(Card card) {
-        service.incrementCardStage(card);
-    }
+	private void updateStage(Card card) {
+		service.incrementCardStage(card);
+	}
 
-    public CardService getService() {
-        return service;
-    }
+	public CardService getService() {
+		return service;
+	}
 
-    protected void setService(CardService service) {
-        this.service = service;
-    }
+	protected void setService(CardService service) {
+		this.service = service;
+	}
 
-    public CardNotifier getNotifier() {
-        return notifier;
-    }
+	public CardNotifier getNotifier() {
+		return notifier;
+	}
 
-    protected void setNotifier(CardNotifier notifier) {
-        this.notifier = notifier;
-    }
+	protected void setNotifier(CardNotifier notifier) {
+		this.notifier = notifier;
+	}
 }

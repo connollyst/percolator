@@ -16,6 +16,11 @@ import com.dosbcn.percolator.data.CardColor;
 import com.dosbcn.percolator.data.CardService;
 import com.dosbcn.percolator.data.CardStage;
 
+/**
+ * Test cases for the {@link CardAlarm}.
+ *
+ * @author Sean Connolly
+ */
 @RunWith(RobolectricTestRunner.class)
 public class TestCardAlarm {
 
@@ -47,6 +52,32 @@ public class TestCardAlarm {
 	}
 
 	@Test
+	public void testCardAlarmUpdatesStageFromOneDay() {
+		assertCardAlarmUpdatesStage(CardStage.ONE_DAY);
+	}
+
+	@Test
+	public void testCardAlarmUpdatesStageFromOneWeek() {
+		assertCardAlarmUpdatesStage(CardStage.ONE_WEEK);
+	}
+
+	@Test
+	public void testCardAlarmUpdatesStageFromOneMonth() {
+		assertCardAlarmUpdatesStage(CardStage.ONE_MONTH);
+	}
+
+	@Test
+	public void testCardAlarmUpdatesStageFromComplete() {
+		assertCardAlarmUpdatesStage(CardStage.COMPLETE);
+	}
+
+	/**
+	 * Test that all stages can be incremented.<br/>
+	 * Note that this is covered in the more explicit tests above, but ensures
+	 * that if we add a new {@link CardStage} without creating a test, we're
+	 * still covered.
+	 */
+	@Test
 	public void testCardAlarmUpdatesStage() {
 		for (CardStage stage : CardStage.values()) {
 			assertCardAlarmUpdatesStage(stage);
@@ -76,6 +107,7 @@ public class TestCardAlarm {
 	private Card mockCard(CardService service, CardStage stage) {
 		Card card = mockCard(service);
 		card.setStage(stage);
+		service.save(card);
 		return card;
 	}
 
