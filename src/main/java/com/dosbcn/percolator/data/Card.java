@@ -38,7 +38,7 @@ public class Card implements Comparable<Card> {
 	@DatabaseField
 	private CardStage stage;
 	@DatabaseField(persisterClass = JodaDateTimeType.class, columnName = COLUMN_NAME_START_DATE)
-	private DateTime startDate;
+	private DateTime startDateTime;
 	@DatabaseField(persisterClass = JodaLocalDateType.class, columnName = COLUMN_NAME_NOTIFICATION_DATE)
 	private LocalDate nextNotificationDate;
 	@DatabaseField(persisterClass = JodaLocalTimeType.class, columnName = COLUMN_NAME_NOTIFICATION_TIME)
@@ -55,7 +55,7 @@ public class Card implements Comparable<Card> {
 		this.description = description;
 		this.color = color;
 		this.stage = CardStage.ONE_DAY;
-		this.startDate = new DateTime();
+		this.startDateTime = new DateTime();
 	}
 
 	public Integer getId() {
@@ -98,37 +98,99 @@ public class Card implements Comparable<Card> {
 		this.stage = stage;
 	}
 
-	public DateTime getStartDate() {
-		return startDate;
+	/**
+	 * Get the date and time this card was started (create or reset).
+	 *
+	 * @return the start date &amp; time
+	 */
+	public DateTime getStartDateTime() {
+		return startDateTime;
 	}
 
-	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
+	/**
+	 * Set the date and time this card was started (create or reset).
+	 *
+	 * @param startDateTime
+	 *            the start date &amp; time
+	 */
+	public void setStartDateTime(DateTime startDateTime) {
+		this.startDateTime = startDateTime;
 	}
 
+	/**
+	 * Get the next notification date.
+	 *
+	 * @return the next notification date
+	 */
 	public LocalDate getNextNotificationDate() {
 		return nextNotificationDate;
 	}
 
+	/**
+	 * Set the next notification time.<br/>
+	 * Note: you may also mean to set the next notification date
+	 *
+	 * @param nextNotificationDate
+	 *            the next notification date
+	 *
+	 * @see #setNextNotificationTime(org.joda.time.LocalTime)
+	 * @see #setNextNotificationDateTime(org.joda.time.DateTime)
+	 */
 	public void setNextNotificationDate(LocalDate nextNotificationDate) {
 		this.nextNotificationDate = nextNotificationDate;
 	}
 
+	/**
+	 * Get the next notification time.
+	 *
+	 * @return the next notification time
+	 */
 	public LocalTime getNextNotificationTime() {
 		return nextNotificationTime;
 	}
 
+	/**
+	 * Set the next notification time.<br/>
+	 * Note: you may also mean to set the next notification date
+	 *
+	 * @param nextNotificationTime
+	 *            the next notification time
+	 *
+	 * @see #setNextNotificationDate(org.joda.time.LocalDate)
+	 * @see #setNextNotificationDateTime(org.joda.time.DateTime)
+	 */
 	public void setNextNotificationTime(LocalTime nextNotificationTime) {
 		this.nextNotificationTime = nextNotificationTime;
 	}
 
+	/**
+	 * Get the next notification date and time.
+	 *
+	 * @return the next notification date &amp; time, or {@code null} if no
+	 *         notification is scheduled
+	 */
 	public DateTime getNextNotificationDateTime() {
-		return nextNotificationDate.toDateTime(nextNotificationTime);
+		if (nextNotificationDate == null) {
+			return null;
+		} else {
+			return nextNotificationDate.toDateTime(nextNotificationTime);
+		}
 	}
 
+	/**
+	 * Set the next notification date and time.
+	 *
+	 * @param nextNotificationDateTime
+	 *            the next notification date &amp; time
+	 */
 	public void setNextNotificationDateTime(DateTime nextNotificationDateTime) {
-		this.nextNotificationDate = nextNotificationDateTime.toLocalDate();
-		this.nextNotificationTime = nextNotificationDateTime.toLocalTime();
+		if (nextNotificationDateTime == null) {
+			this.nextNotificationDate = null;
+			this.nextNotificationTime = null;
+		} else {
+			this.nextNotificationDate = nextNotificationDateTime.toLocalDate();
+			this.nextNotificationTime = nextNotificationDateTime.toLocalTime();
+		}
 	}
 
 	@Override
@@ -142,7 +204,7 @@ public class Card implements Comparable<Card> {
 	@Override
 	public int compareTo(Card that) {
 		// TODO include other values in case the start date is the same?
-		return -this.getStartDate().compareTo(that.getStartDate());
+		return -this.getStartDateTime().compareTo(that.getStartDateTime());
 	}
 
 }

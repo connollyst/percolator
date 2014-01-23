@@ -48,29 +48,31 @@ public class CardAlarmQueueImpl implements CardAlarmQueue {
 	@Override
 	public void setAlarm(Card card) {
 		DateTime notificationTime = card.getNextNotificationDateTime();
-		Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
-				+ DATE_FORMAT.print(notificationTime));
-		setAlarm(card, notificationTime);
+		if (notificationTime != null) {
+			Log.i(LOG_TAG, "Queueing '" + card.getTitle() + "' card for: "
+					+ DATE_FORMAT.print(notificationTime));
+			setAlarm(card, notificationTime);
+		}
 	}
 
 	/**
-	 * Set an Android alarm for the specified {@code alarmDate}. The alarm will
-	 * be handled by the {@link CardAlarm} broadcast receiver who will display a
-	 * notification for the specified {@code card}.
+	 * Set an Android alarm for the specified {@code alarmDateTime}. The alarm
+	 * will be handled by the {@link CardAlarm} broadcast receiver who will
+	 * display a notification for the specified {@code card}.
 	 *
 	 * @param card
 	 *            the card the notification will display
-	 * @param alarmDate
-	 *            the date and time the alarm should go off
+	 * @param alarmDateTime
+	 *            the date &amp; time the alarm should go off
 	 */
-	protected void setAlarm(Card card, DateTime alarmDate) {
+	protected void setAlarm(Card card, DateTime alarmDateTime) {
 		if (card.getId() == null) {
 			throw new NullPointerException("Cannot queue an alarm for a "
 					+ Card.class.getSimpleName() + " without an id.");
 		}
 		AlarmManager alarmManager = getAlarmManager();
 		Intent intent = new CardIntent(context, CardAlarm.class, card);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDate.getMillis(),
+		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmDateTime.getMillis(),
 				PendingIntent.getBroadcast(context, card.getId(), intent,
 						PendingIntent.FLAG_CANCEL_CURRENT));
 	}

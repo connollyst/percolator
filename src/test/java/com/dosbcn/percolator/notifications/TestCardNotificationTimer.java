@@ -211,7 +211,7 @@ public class TestCardNotificationTimer {
 		repository.create(card1);
 		Card card2 = new Card("Title2", "Desc2", CardColor.WHITE);
 		card2.setStage(CardStage.ONE_DAY);
-		card2.setStartDate(now);
+		card2.setStartDateTime(now);
 		CardNotificationTimer timer = new MockCardNotificationTimer(repository,
 				now);
 		DateTime notificationDateTime = timer.getNextNotificationTime(card2);
@@ -236,7 +236,7 @@ public class TestCardNotificationTimer {
 		repository.create(card2);
 		Card card3 = new Card("Title3", "Desc3", CardColor.WHITE);
 		card3.setStage(CardStage.ONE_DAY);
-		card3.setStartDate(now);
+		card3.setStartDateTime(now);
 		CardNotificationTimer timer = new MockCardNotificationTimer(repository,
 				now);
 		DateTime notificationDateTime = timer.getNextNotificationTime(card3);
@@ -288,7 +288,7 @@ public class TestCardNotificationTimer {
 		Card card = new Card("MockCardTitle", "MockCardDescription",
 				CardColor.WHITE);
 		card.setStage(stage);
-		card.setStartDate(startDate);
+		card.setStartDateTime(startDate);
 		return card;
 	}
 

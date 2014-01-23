@@ -68,7 +68,7 @@ public class CardNotificationTimerImpl implements CardNotificationTimer {
 	 */
 	@Override
 	public DateTime getNextNotificationTime(Card card) {
-		return getNotificationTime(card.getStage(), card.getStartDate());
+		return getNotificationTime(card.getStage(), card.getStartDateTime());
 	}
 
 	/**

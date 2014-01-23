@@ -57,7 +57,7 @@ public class CardViewAdapter extends ArrayAdapter<Card> {
 		cardView.getTitleView().setText(card.getTitle());
 		cardView.getDescriptionView().setText(card.getDescription());
 		cardView.getStartDateView().setText(
-				DATE_FORMAT.print(card.getStartDate()));
+				DATE_FORMAT.print(card.getStartDateTime()));
 		cardView.getNotificationDateView().setText(
 				DATE_FORMAT.print(card.getNextNotificationDate()));
 		// Set style

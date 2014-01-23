@@ -42,8 +42,8 @@ public class TestListActivity {
 	public void testListWithTwoCards() {
 		Card card1 = new Card("Card1", "Description1", CardColor.GREEN);
 		Card card2 = new Card("Card2", "Description2", CardColor.GREEN);
-		card1.setStartDate(new DateTime(1984, 8, 6, 12, 0));
-		card2.setStartDate(new DateTime(1984, 8, 6, 12, 30));
+		card1.setStartDateTime(new DateTime(1984, 8, 6, 12, 0));
+		card2.setStartDateTime(new DateTime(1984, 8, 6, 12, 30));
 		ListActivity activity = mockListActivity(card1, card2);
 		assertCardOrder(activity, card2, card1);
 	}
@@ -59,9 +59,9 @@ public class TestListActivity {
 		Card card1 = new Card("Card1", "Description1", CardColor.GREEN);
 		Card card2 = new Card("Card2", "Description2", CardColor.GREEN);
 		Card card3 = new Card("Card3", "Description3", CardColor.GREEN);
-		card1.setStartDate(new DateTime(1984, 8, 6, 12, 0)); // first
-		card2.setStartDate(new DateTime(1984, 8, 6, 12, 59)); // third
-		card3.setStartDate(new DateTime(1984, 8, 6, 12, 30)); // second
+		card1.setStartDateTime(new DateTime(1984, 8, 6, 12, 0)); // first
+		card2.setStartDateTime(new DateTime(1984, 8, 6, 12, 59)); // third
+		card3.setStartDateTime(new DateTime(1984, 8, 6, 12, 30)); // second
 		ListActivity activity = mockListActivity(card1, card2, card3);
 		assertCardOrder(activity, card2, card3, card1);
 	}
